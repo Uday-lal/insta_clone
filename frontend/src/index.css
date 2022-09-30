@@ -21,3 +21,7 @@ div.page {
 body {
   font-family: "Quicksand", sans-serif;
 }
+
+.w-100 {
+  width: 100%;
+}
