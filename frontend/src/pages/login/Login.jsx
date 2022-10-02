@@ -14,6 +14,13 @@ function Login() {
               height: "50vh",
             }}
           >
+            <p
+              style={{
+                margin: "15px 0px",
+              }}
+            >
+              Not have a account? <a href="/create-account">Create One</a>
+            </p>
             <form
               method="POST"
               style={{

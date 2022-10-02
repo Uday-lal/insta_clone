@@ -24,3 +24,14 @@ def login():
     if loginToken is not None:
         return redirect("/")
     return returnTemplate()
+
+
+@views.route("/create-account", methods=["GET", "POST"])
+def createAccount():
+    loginToken = getCookie("token")
+    if loginToken is not None:
+        return redirect("/")
+    
+    if request.method == "POST":
+        pass
+    return returnTemplate()
