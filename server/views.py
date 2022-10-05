@@ -1,7 +1,10 @@
 from flask import Blueprint, render_template, request, redirect
+from . import getApp
+from flask_bcrypt import Bcrypt
 
 views = Blueprint("views", __name__)
-
+app = getApp(registered_app=True)
+bcrypt = Bcrypt(app)
 
 def getCookie(name: str):
     return request.cookies.get(name)
@@ -33,5 +36,9 @@ def createAccount():
         return redirect("/")
     
     if request.method == "POST":
-        pass
+        name = request.form.get("name")
+        email = request.form.get("email")
+        password = request.form.get("password")
+        crypt_password = bcrypt.generate_password_hash(password)
+        hash_password = crypt_password.decode("utf-8")
     return returnTemplate()

@@ -45,6 +45,7 @@ function CreateAccount() {
                 type="text"
                 autoComplete="off"
                 variant="outlined"
+                name="name"
                 sytle={{ margin: "10px 0px" }}
                 className="w-100"
                 required="true"

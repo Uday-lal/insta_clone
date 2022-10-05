@@ -8,3 +8,5 @@ class Config:
         envPath = Path(".") / ".env"
         load_dotenv(dotenv_path=envPath)
         self.prod = os.getenv("prod")
+        self.dbUserName = os.getenv("DB_USERNAME")
+        self.dbPassword = os.getenv("DB_PASSWORD")

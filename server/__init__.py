@@ -1,8 +1,8 @@
 from flask import Flask
-from .views import views
 
-
-def start_server():
+def getApp(registered_app=False):
     app = Flask(__name__)
-    app.register_blueprint(views)
+    if not registered_app:
+        from .views import views
+        app.register_blueprint(views)
     return app

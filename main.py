@@ -1,8 +1,8 @@
-from server import start_server
+from server import getApp 
 from config import Config
 
 
-app = start_server()
+app = getApp()
 config = Config()
 
 if __name__ == "__main__":
