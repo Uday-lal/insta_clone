@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect
 from . import getApp
 from flask_bcrypt import Bcrypt
+from .model.users import UserModel
 
 views = Blueprint("views", __name__)
 app = getApp(registered_app=True)
@@ -36,9 +37,17 @@ def createAccount():
         return redirect("/")
     
     if request.method == "POST":
+        userModel = UserModel()
         name = request.form.get("name")
         email = request.form.get("email")
         password = request.form.get("password")
         crypt_password = bcrypt.generate_password_hash(password)
         hash_password = crypt_password.decode("utf-8")
+        users = {
+            "name": name,
+            "email": email,
+            "password": hash_password
+        }
+        userModel.create(users)
+        return redirect("/login")
     return returnTemplate()

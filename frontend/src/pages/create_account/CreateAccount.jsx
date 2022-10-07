@@ -1,9 +1,22 @@
 import React from "react";
+import { useState } from "react";
 import Card from "../../components/card/Card.jsx";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
 function CreateAccount() {
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const submitData = (e) => {
+    if (password == confirmPassword) {
+      // ...
+    } else {
+      // ...
+    }
+  };
   return (
     <React.Fragment>
       <div className="page">
@@ -23,7 +36,8 @@ function CreateAccount() {
             </p>
             <form
               method="POST"
-              action="/create-account"
+              // action="/create-account"
+              onSubmit={submitData}
               style={{
                 width: "100%",
               }}
@@ -33,6 +47,7 @@ function CreateAccount() {
                 type="email"
                 autoComplete="off"
                 variant="outlined"
+                onChange={(e) => setEmail(e.target.value)}
                 name="email"
                 style={{
                   margin: "10px 0px",
@@ -44,6 +59,7 @@ function CreateAccount() {
                 label="Enter Name"
                 type="text"
                 autoComplete="off"
+                onChange={(e) => setName(e.target.value)}
                 variant="outlined"
                 name="name"
                 sytle={{ margin: "10px 0px" }}
@@ -56,6 +72,7 @@ function CreateAccount() {
                 autoComplete="off"
                 variant="outlined"
                 name="password"
+                onChange={(e) => setPassword(e.target.value)}
                 style={{
                   margin: "10px 0px",
                 }}
@@ -68,6 +85,7 @@ function CreateAccount() {
                 autoComplete="off"
                 variant="outlined"
                 name="confirm_password"
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 style={{
                   margin: "10px 0px",
                 }}
