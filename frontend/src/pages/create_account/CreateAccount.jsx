@@ -11,8 +11,20 @@ function CreateAccount() {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const submitData = (e) => {
+    e.preventDefault();
     if (password == confirmPassword) {
-      // ...
+      const formData = new FormData();
+      const request = new XMLHttpRequest();
+      formData.append("email", email);
+      formData.append("name", name);
+      formData.append("password", password);
+      request.open("POST", "/create-account");
+      request.send(formData);
+      request.onreadystatechange = (e) => {
+        if (e.readyState === 4 && e.status == 200) {
+          window.location.replace("/login");
+        }
+      };
     } else {
       // ...
     }
