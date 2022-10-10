@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect
+from flask import Blueprint, render_template, request, redirect, session
 from . import getApp
 from flask_bcrypt import Bcrypt
 from .model.users import UserModel

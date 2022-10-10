@@ -3,13 +3,23 @@ import { useState } from "react";
 import Card from "../../components/card/Card.jsx";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
 
 function CreateAccount() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [openSnackBar, setOpenSnackBar] = useState(false);
+  const [snackMessage, setSnackMessage] = useState("");
+  const [errorType, setErrorType] = useState("");
 
+  const openAlert = (message, errorType) => {
+    setSnackMessage(message);
+    setOpenSnackBar(true);
+    setErrorType(errorType);
+  };
   const submitData = (e) => {
     e.preventDefault();
     if (password == confirmPassword) {
@@ -20,13 +30,13 @@ function CreateAccount() {
       formData.append("password", password);
       request.open("POST", "/create-account");
       request.send(formData);
-      request.onreadystatechange = (e) => {
-        if (e.readyState === 4 && e.status == 200) {
+      request.onreadystatechange = () => {
+        if (request.readyState === 4 && request.status == 200) {
           window.location.replace("/login");
         }
       };
     } else {
-      // ...
+      openAlert("Password dose not match with confirm password", "error");
     }
   };
   return (
@@ -48,7 +58,6 @@ function CreateAccount() {
             </p>
             <form
               method="POST"
-              // action="/create-account"
               onSubmit={submitData}
               style={{
                 width: "100%",
@@ -115,6 +124,19 @@ function CreateAccount() {
           </Card>
         </div>
       </div>
+      <Snackbar
+        open={openSnackBar}
+        autoHideDuration={6000}
+        onClose={() => setOpenSnackBar(false)}
+      >
+        <Alert
+          onClose={() => setOpenSnackBar(false)}
+          variant="filled"
+          severity={errorType}
+        >
+          {snackMessage}
+        </Alert>
+      </Snackbar>
     </React.Fragment>
   );
 }
