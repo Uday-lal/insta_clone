@@ -23,6 +23,7 @@ function Login() {
             </p>
             <form
               method="POST"
+              action="/login"
               style={{
                 width: "100%",
               }}

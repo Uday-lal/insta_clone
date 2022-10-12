@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, session
+from flask import Blueprint, render_template, request, redirect, session, make_response
 from . import getApp
 from flask_bcrypt import Bcrypt
 from .model.users import UserModel
@@ -27,6 +27,17 @@ def login():
     loginToken = getCookie("token")
     if loginToken is not None:
         return redirect("/")
+    
+    if request.method == "POST":
+        userModel = UserModel()
+        email = request.form.get("email")
+        password = request.form.get("password")
+        userData = userModel.read({"email": email})
+
+        if bcrypt.check_password_hash(userData["password"], password):
+            responce = make_response(redirect("/"))
+            responce.set_cookie("token", str(userData["_id"]))
+            return responce
     return returnTemplate()
 
 
