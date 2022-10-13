@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, session, make_r
 from . import getApp
 from flask_bcrypt import Bcrypt
 from .model.users import UserModel
+import datetime
 
 views = Blueprint("views", __name__)
 app = getApp(registered_app=True)
@@ -36,7 +37,9 @@ def login():
 
         if bcrypt.check_password_hash(userData["password"], password):
             responce = make_response(redirect("/"))
-            responce.set_cookie("token", str(userData["_id"]))
+            currentDate = datetime.datetime.now()
+            expireDate = currentDate + datetime.timedelta(days=4)
+            responce.set_cookie("token", str(userData["_id"]), expires=expireDate)
             return responce
     return returnTemplate()
 
