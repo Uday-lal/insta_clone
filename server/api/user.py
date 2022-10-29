@@ -9,7 +9,12 @@ class User(UserResource):
         token = self.readUserToken()
         if token is not None:
             query = {"_id": ObjectId(token)}
-            data = self.userModel.read(query)
+            userData = self.userModel.read(query)
+            data = {
+                "name": userData["name"],
+                "email": userData["email"]
+            }
+            return data
     
     def delete(self):
         pass
