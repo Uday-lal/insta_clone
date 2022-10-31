@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
+import ResponsiveAppBar from "../../components/appBar/appBar.jsx";
 
 function HomePage() {
   const [username, setUsername] = useState("");
@@ -24,7 +25,7 @@ function HomePage() {
   return (
     <React.Fragment>
       <div className="page">
-        <h1>Hi, {username}</h1>
+        <ResponsiveAppBar />
       </div>
     </React.Fragment>
   );

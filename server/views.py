@@ -1,8 +1,9 @@
-from flask import Blueprint, render_template, request, redirect, session, make_response
+from flask import Blueprint, render_template, request, redirect, make_response, abort
 from . import getApp
 from flask_bcrypt import Bcrypt
 from .model.users import UserModel
 import datetime
+import random
 
 views = Blueprint("views", __name__)
 app = getApp(registered_app=True)
@@ -55,13 +56,28 @@ def createAccount():
         name = request.form.get("name")
         email = request.form.get("email")
         password = request.form.get("password")
-        crypt_password = bcrypt.generate_password_hash(password)
-        hash_password = crypt_password.decode("utf-8")
-        users = {
-            "name": name,
-            "email": email,
-            "password": hash_password
-        }
-        userModel.create(users)
-        return redirect("/login")
+        if (name != "" and email != "" and password != ""):
+            crypt_password = bcrypt.generate_password_hash(password)
+            hash_password = crypt_password.decode("utf-8")
+            colors = [i for i in range(1, 7)]
+            users = {
+                "name": removeWhiteSpace(name),
+                "email": email,
+                "profile_img": None,
+                "password": hash_password,
+                "color": random.choice(colors)
+            }
+            userModel.create(users)
+            return redirect("/login")
+        else:
+            return abort(400)
     return returnTemplate()
+
+
+def removeWhiteSpace(words):
+    index = 0
+    for word in words:
+        if word != " ":
+            break
+        index += 1
+    return words[index:]
