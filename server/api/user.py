@@ -1,4 +1,5 @@
 from .resource.usersResource import UserResource
+from flask import abort
 from bson.objectid import ObjectId
 
 class User(UserResource):
@@ -12,9 +13,13 @@ class User(UserResource):
             userData = self.userModel.read(query)
             data = {
                 "name": userData["name"],
-                "email": userData["email"]
+                "email": userData["email"],
+                "profile_img": userData["profile_img"],
+                "profile_color": userData["color"]
             }
             return data
+        else:
+            pass
     
     def delete(self):
         pass

@@ -16,7 +16,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
-function ResponsiveAppBar() {
+function ResponsiveAppBar(props) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -33,6 +33,14 @@ function ResponsiveAppBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const returnAvatar = () => {
+    if (props.profileImg) {
+      return <Avatar src={props.profileImg} alt="Profile Img" />;
+    } else {
+      return <Avatar sx={{ bgcolor: props.color }}>{props.userName[0]}</Avatar>;
+    }
   };
 
   return (
@@ -128,7 +136,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                {returnAvatar()}
               </IconButton>
             </Tooltip>
             <Menu

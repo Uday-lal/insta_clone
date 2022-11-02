@@ -59,7 +59,7 @@ def createAccount():
         if (name != "" and email != "" and password != ""):
             crypt_password = bcrypt.generate_password_hash(password)
             hash_password = crypt_password.decode("utf-8")
-            colors = [i for i in range(1, 7)]
+            colors = ["red", "blue", "green", "yellow", "orange", "purple"]
             users = {
                 "name": removeWhiteSpace(name),
                 "email": email,
