@@ -1,7 +1,7 @@
 import React from "react";
 
-function HomePage() {
+function AccountSetting() {
   return <React.Fragment></React.Fragment>;
 }
 
-export default HomePage;
+export default AccountSetting;

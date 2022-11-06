@@ -13,8 +13,27 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import InstagramIcon from "@mui/icons-material/Instagram";
 
-const pages = ["Search", "Followers", "Followings"];
-const settings = ["Profile", "Account Settings", "Logout"];
+const pages = ["Search", "Followers", "Followings", "Post"];
+const settings = [
+  {
+    name: "Profile",
+    handleFunction: function () {
+      console.log("profile");
+    },
+  },
+  {
+    name: "Account Settings",
+    handleFunction: function () {
+      window.location.replace("/setting");
+    },
+  },
+  {
+    name: "Logout",
+    handleFunction: function () {
+      console.log("logout");
+    },
+  },
+];
 
 function ResponsiveAppBar(props) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -156,8 +175,8 @@ function ResponsiveAppBar(props) {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                <MenuItem key={setting.name} onClick={setting.handleFunction}>
+                  <Typography textAlign="center">{setting.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>

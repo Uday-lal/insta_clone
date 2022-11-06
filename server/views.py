@@ -24,6 +24,14 @@ def index():
     return returnTemplate()
 
 
+@views.route("/setting", methods=["GET"])
+def setting():
+    loginToken = getCookie("token")
+    if loginToken is None:
+        return redirect("login")
+    return returnTemplate()
+
+
 @views.route("/login", methods=["GET", "POST"])
 def login():
     loginToken = getCookie("token")
