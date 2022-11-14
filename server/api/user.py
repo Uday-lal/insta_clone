@@ -15,11 +15,12 @@ class User(UserResource):
                 "name": userData["name"],
                 "email": userData["email"],
                 "profile_img": userData["profile_img"],
-                "profile_color": userData["color"]
+                "profile_color": userData["color"],
+                "about": userData["about"]
             }
             return data
         else:
-            pass
+            return abort(401, "Unauthenticated")
     
     def delete(self):
         pass

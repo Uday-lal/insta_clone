@@ -73,7 +73,8 @@ def createAccount():
                 "email": email,
                 "profile_img": None,
                 "password": hash_password,
-                "color": random.choice(colors)
+                "color": random.choice(colors),
+                "about": ""
             }
             userModel.create(users)
             return redirect("/login")

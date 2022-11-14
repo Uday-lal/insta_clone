@@ -11,6 +11,8 @@ function App() {
   const [username, setUsername] = useState("");
   const [profileImg, setProfileImg] = useState(null);
   const [profileColor, setProfileColor] = useState("");
+  const [about, setAbout] = useState("");
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
     const url = "/api/user";
@@ -25,6 +27,8 @@ function App() {
           setUsername(data.name);
           setProfileImg(data.profile_img);
           setProfileColor(data.profile_color);
+          setAbout(data.about);
+          setEmail(data.email);
         });
       } else {
         // ...
@@ -54,7 +58,14 @@ function App() {
                   profileImg={profileImg}
                   color={profileColor}
                 />
-                <AccountSetting />
+                <AccountSetting
+                  userName={username}
+                  profileImg={profileImg}
+                  color={profileColor}
+                  name={username}
+                  email={email}
+                  about={about}
+                />
               </div>
             </Route>
             <Route path="/login">

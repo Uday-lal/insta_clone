@@ -16,6 +16,12 @@ div.center {
 div.page {
   width: 100vw;
   height: 100vh;
+  background-color: rgba(128, 128, 128, 0.39);
+  color: #1f2338;
+}
+
+div.container {
+  padding: 30px;
 }
 
 body {
@@ -28,4 +34,17 @@ body {
 
 a {
   text-decoration: none;
+}
+
+div.left {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+div.right {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  /* justify-content: flex-end; */
 }
