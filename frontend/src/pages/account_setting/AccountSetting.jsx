@@ -3,8 +3,38 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import { useEffect, useState } from "react";
 
 function AccountSetting(props) {
+  const [userName, setUserName] = useState();
+  const [email, setEmail] = useState();
+  const [about, setAbout] = useState();
+  const url = "/api/user";
+  const reset = function () {
+    setAbout("");
+    setUserName("");
+  };
+
+  useEffect(() => {
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+      },
+    })
+      .then((responce) => {
+        if (responce.ok) {
+          return responce.json();
+        }
+      })
+      .then((data) => {
+        setUserName(data.name);
+        setEmail(data.email);
+        setAbout(data.about);
+      });
+  }, []);
+
   const returnAvatar = () => {
     if (props.profileImg) {
       return (
@@ -23,6 +53,24 @@ function AccountSetting(props) {
     }
   };
 
+  const handleSubmit = function (e) {
+    e.preventDefault();
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+      },
+      body: JSON.stringify({
+        username: userName,
+        about: about,
+      }),
+    }).then((responce) => {
+      if (responce.ok) {
+        window.location.reload();
+      }
+    });
+  };
+
   return (
     <React.Fragment>
       <Container maxWidth="xl">
@@ -38,32 +86,69 @@ function AccountSetting(props) {
         <h2 style={{ fontWeight: "bold" }}>General Info</h2>
         <div className="center">{returnAvatar()}</div>
         <Container maxWidth="lg">
-          <form class="w-100 " action="#">
-            <TextField
-              label="Email"
-              name="email"
-              type="email"
-              value={props.email}
-              readonly
-            />
-            <TextField
-              label="Name"
-              name="name"
-              type="text"
-              value={props.name}
-            />
-            <TextField
-              label="About"
-              name="about"
-              type="text"
-              multiline
-              value={props.about}
-            />
+          <form class="w-100" onSubmit={(e) => handleSubmit(e)}>
+            <Grid
+              container
+              className="w-100 center"
+              style={{
+                margin: "20px",
+              }}
+              spacing={2}
+            >
+              <Grid item xs={10}>
+                <TextField
+                  label="Email"
+                  name="email"
+                  style={{ width: "100%" }}
+                  type="email"
+                  value={email}
+                  variant="filled"
+                  autoFocus={true}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={10}>
+                <TextField
+                  label="Name"
+                  style={{ width: "100%" }}
+                  name="name"
+                  type="text"
+                  variant="filled"
+                  autoFocus={true}
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={10}>
+                <TextField
+                  label="About"
+                  style={{ width: "100%" }}
+                  name="about"
+                  rows={4}
+                  type="text"
+                  multiline
+                  variant="filled"
+                  onChange={(e) => setAbout(e.target.value)}
+                  value={about}
+                />
+              </Grid>
+            </Grid>
             <div className="left">
-              <Button variant="outlined" type="button">
+              <Button
+                variant="outlined"
+                style={{ margin: "10px" }}
+                onClick={reset}
+                type="button"
+              >
                 Reset
               </Button>
-              <Button variant="contained" type="submit">
+              <Button
+                style={{ margin: "10px" }}
+                variant="contained"
+                type="submit"
+              >
                 Submit
               </Button>
             </div>

@@ -44,7 +44,7 @@ def login():
         password = request.form.get("password")
         userData = userModel.read({"email": email})
 
-        if bcrypt.check_password_hash(userData["password"], password):
+        if userData is not None and bcrypt.check_password_hash(userData["password"], password):
             responce = make_response(redirect("/"))
             currentDate = datetime.datetime.now()
             expireDate = currentDate + datetime.timedelta(days=4)
