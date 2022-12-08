@@ -4,12 +4,14 @@ import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
+import FilterRoundedIcon from "@mui/icons-material/FilterRounded";
 import { useEffect, useState } from "react";
 
 function AccountSetting(props) {
   const [userName, setUserName] = useState();
   const [email, setEmail] = useState();
   const [about, setAbout] = useState();
+  const [profileImg, setProfileImg] = useState();
   const url = "/api/user";
   const reset = function () {
     setAbout("");
@@ -38,17 +40,21 @@ function AccountSetting(props) {
   const returnAvatar = () => {
     if (props.profileImg) {
       return (
-        <Avatar
-          src={props.profileImg}
-          sx={{ width: 50, height: 50 }}
-          alt="Profile Img"
-        />
+        <div className="avatar_container">
+          <Avatar
+            src={props.profileImg}
+            sx={{ width: 50, height: 50 }}
+            alt="Profile Img"
+          />
+        </div>
       );
     } else {
       return (
-        <Avatar sx={{ bgcolor: props.color, width: 50, height: 50 }}>
-          {props.userName[0]}
-        </Avatar>
+        <div className="avatar_container">
+          <Avatar sx={{ bgcolor: props.color, width: 50, height: 50 }}>
+            {props.userName[0]}
+          </Avatar>
+        </div>
       );
     }
   };
@@ -63,6 +69,7 @@ function AccountSetting(props) {
       body: JSON.stringify({
         username: userName,
         about: about,
+        profileImg: profileImg,
       }),
     }).then((responce) => {
       if (responce.ok) {
@@ -133,6 +140,19 @@ function AccountSetting(props) {
                   onChange={(e) => setAbout(e.target.value)}
                   value={about}
                 />
+              </Grid>
+              <Grid item xs={10}>
+                <Button variant="contained" component="label">
+                  <FilterRoundedIcon />
+                  Profile Image
+                  <input
+                    type="file"
+                    name="profile_img"
+                    hidden
+                    onChange={(e) => setProfileImg(e.target.value)}
+                    accept="image/*"
+                  />
+                </Button>
               </Grid>
             </Grid>
             <div className="left">

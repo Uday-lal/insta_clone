@@ -25,6 +25,7 @@ class User(UserResource):
     def put(self):
         self.parser.add_argument("username", type=str, help="username is required", required=True)
         self.parser.add_argument("about", type=str)
+        self.parser.add_argument("profileImg")
         args = self.parser.parse_args()
         username = args["username"]
         about = args["about"]
