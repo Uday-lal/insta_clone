@@ -56,7 +56,12 @@ function ResponsiveAppBar(props) {
 
   const returnAvatar = () => {
     if (props.profileImg) {
-      return <Avatar src={props.profileImg} alt="Profile Img" />;
+      return (
+        <Avatar
+          src={`/static/profile_imgs/${props.profileImg}`}
+          alt="Profile Img"
+        />
+      );
     } else {
       return <Avatar sx={{ bgcolor: props.color }}>{props.userName[0]}</Avatar>;
     }

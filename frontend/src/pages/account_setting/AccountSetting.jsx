@@ -42,8 +42,8 @@ function AccountSetting(props) {
       return (
         <div className="avatar_container">
           <Avatar
-            src={props.profileImg}
-            sx={{ width: 50, height: 50 }}
+            src={`/static/profile_imgs/${props.profileImg}`}
+            sx={{ width: 100, height: 100 }}
             alt="Profile Img"
           />
         </div>
@@ -61,16 +61,13 @@ function AccountSetting(props) {
 
   const handleSubmit = function (e) {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append("username", userName);
+    formData.append("about", about);
+    formData.append("profileImg", profileImg);
     fetch(url, {
       method: "PUT",
-      headers: {
-        "content-type": "application/json;charset=UTF-8",
-      },
-      body: JSON.stringify({
-        username: userName,
-        about: about,
-        profileImg: profileImg,
-      }),
+      body: formData,
     }).then((responce) => {
       if (responce.ok) {
         window.location.reload();
@@ -93,7 +90,11 @@ function AccountSetting(props) {
         <h2 style={{ fontWeight: "bold" }}>General Info</h2>
         <div className="center">{returnAvatar()}</div>
         <Container maxWidth="lg">
-          <form class="w-100" onSubmit={(e) => handleSubmit(e)}>
+          <form
+            class="w-100"
+            enctype="multipart/form-data"
+            onSubmit={(e) => handleSubmit(e)}
+          >
             <Grid
               container
               className="w-100 center"
@@ -149,7 +150,7 @@ function AccountSetting(props) {
                     type="file"
                     name="profile_img"
                     hidden
-                    onChange={(e) => setProfileImg(e.target.value)}
+                    onChange={(e) => setProfileImg(e.target.files[0])}
                     accept="image/*"
                   />
                 </Button>
