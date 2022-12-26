@@ -10,8 +10,7 @@ import { useEffect, useState } from "react";
 function AccountSetting(props) {
   const [userName, setUserName] = useState();
   const [email, setEmail] = useState();
-  const [about, setAbout] = useState();
-  const [profileImg, setProfileImg] = useState();
+  const [about, setAbout] = useState();  const [profileImg, setProfileImg] = useState();
   const url = "/api/user";
   const reset = function () {
     setAbout("");

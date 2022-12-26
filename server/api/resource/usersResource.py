@@ -13,7 +13,7 @@ class UserResource(Resource):
         token = self.readUserToken()
         if token is None:
             return abort(401, "Unauthenticated")
-        self.token = token;
+        self.token = token
 
     @staticmethod
     def readUserToken():
