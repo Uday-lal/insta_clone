@@ -4,7 +4,11 @@ import CreateAccount from "./pages/create_account/CreateAccount.jsx";
 import HomePage from "./pages/home_page/HomePage.jsx";
 import React from "react";
 import ResponsiveAppBar from "./components/appBar/appBar.jsx";
+import Button from "@mui/material/Button";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import AccountSetting from "./pages/account_setting/AccountSetting.jsx";
+import Tooltip from "@mui/material/Tooltip";
+import Zoom from "@mui/material/Zoom";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -48,7 +52,11 @@ function App() {
                   profileImg={profileImg}
                   color={profileColor}
                 />
-                <HomePage />
+                <HomePage
+                  userName={username}
+                  profileImg={profileImg}
+                  color={profileColor}
+                />
               </div>
             </Route>
             <Route path="/setting">

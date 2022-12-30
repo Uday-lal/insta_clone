@@ -47,3 +47,7 @@ div.right {
   display: flex;
   align-items: flex-start;
 }
+
+div.page {
+  position: relative;
+}
