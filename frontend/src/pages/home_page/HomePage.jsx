@@ -9,18 +9,18 @@ import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateR
 import Grid from "@mui/material/Grid";
 
 function HomePage(props) {
-  const returnAvatar = () => {
+  const returnAvatar = (width, height) => {
     if (props.profileImg) {
       return (
         <Avatar
           src={`/static/profile_imgs/${props.profileImg}`}
           alt="Profile Img"
-          sx={{ width: 80, height: 80 }}
+          sx={{ width: width, height: height }}
         />
       );
     } else {
       return (
-        <Avatar sx={{ bgcolor: props.color, width: 56, height: 56 }}>
+        <Avatar sx={{ bgcolor: props.color, width: width, height: height }}>
           {props.userName[0]}
         </Avatar>
       );
@@ -55,7 +55,7 @@ function HomePage(props) {
                   }}
                   className="flex flex-column center"
                 >
-                  {returnAvatar()}
+                  {returnAvatar(80, 80)}
                   <div className="para-section flex flex-column center">
                     <h3 style={{ margin: "10px 0px" }}>{props.userName}</h3>
                     <p className="text-secondary">{props.about}</p>
@@ -108,6 +108,7 @@ function HomePage(props) {
                   width: "100%",
                 }}
               >
+                {returnAvatar(40, 40)}
                 <InputBase
                   sx={{ ml: 1, flex: 1 }}
                   placeholder="What's on your mind?"
