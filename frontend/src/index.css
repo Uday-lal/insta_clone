@@ -51,3 +51,26 @@ div.right {
 div.page {
   position: relative;
 }
+
+.flex {
+  display: flex;
+}
+
+.none {
+  display: none;
+}
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.text-secondary {
+  color: #525252;
+}
+
+.text-primary {
+  color: #1976d2;
+}
