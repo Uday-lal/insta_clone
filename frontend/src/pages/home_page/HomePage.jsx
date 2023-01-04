@@ -85,7 +85,6 @@ function HomePage(props) {
               labelId="visibility-label"
               id="visibility"
               label="Visibility"
-              // onChange={handleChange}
             >
               <MenuItem value={0}>Anyone</MenuItem>
               <MenuItem value={1}>Only Followers</MenuItem>
