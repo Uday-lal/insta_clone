@@ -3,7 +3,8 @@ from bson.objectid import ObjectId
 
 
 class Modal:
-    def __init__(self, collectionName: str):
+    def __init__(self, *args, **kwargs):
+        collectionName = kwargs.get('collectionName')
         self.collection = DB[collectionName]
 
     def read(self, query: dict) -> dict:

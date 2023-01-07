@@ -51,54 +51,58 @@ function HomePage(props) {
         onClose={handleClose}
       >
         <DialogTitle>Post</DialogTitle>
-        <DialogContent>
-          <Box
-            sx={{
-              display: "flex",
-              marginBottom: "10px",
-            }}
-          >
-            {returnAvatar(40, 40)}
-            <Box>
-              <h3 style={{ marginLeft: "10px" }}>{props.userName}</h3>
+        <form action="/api/post" method="POST">
+          <DialogContent>
+            <Box
+              sx={{
+                display: "flex",
+                marginBottom: "10px",
+              }}
+            >
+              {returnAvatar(40, 40)}
+              <Box>
+                <h3 style={{ marginLeft: "10px" }}>{props.userName}</h3>
+              </Box>
             </Box>
-          </Box>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="post"
-            label="What you want to say?"
-            multiline
-            variant="filled"
-            rows={6}
-            fullWidth
-            sx={{ margin: "20px 0px" }}
-          />
-          <FormControl fullWidth>
-            <InputLabel
-              id="visibility-label"
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              Visibility
-            </InputLabel>
-            <Select
-              labelId="visibility-label"
-              id="visibility"
-              label="Visibility"
-            >
-              <MenuItem value={0}>Anyone</MenuItem>
-              <MenuItem value={1}>Only Followers</MenuItem>
-            </Select>
-          </FormControl>
-        </DialogContent>
-        <DialogActions>
-          <Button variant="outlined" color="error" onClick={handleClose}>
-            Cancel
-          </Button>
-          <Button variant="outlined" onClick={handleClose}>
-            Post
-          </Button>
-        </DialogActions>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="post"
+              name="post"
+              label="What you want to say?"
+              multiline
+              variant="filled"
+              rows={6}
+              fullWidth
+              sx={{ margin: "20px 0px" }}
+            />
+            <FormControl fullWidth>
+              <InputLabel
+                id="visibility-label"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                Visibility
+              </InputLabel>
+              <Select
+                labelId="visibility-label"
+                id="visibility"
+                name="visibility"
+                label="Visibility"
+              >
+                <MenuItem value={0}>Anyone</MenuItem>
+                <MenuItem value={1}>Only Followers</MenuItem>
+              </Select>
+            </FormControl>
+          </DialogContent>
+          <DialogActions>
+            <Button variant="outlined" color="error" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button variant="outlined" type="submit" onClick={handleClose}>
+              Post
+            </Button>
+          </DialogActions>
+        </form>
       </Dialog>
 
       <Container maxWidth="xl">

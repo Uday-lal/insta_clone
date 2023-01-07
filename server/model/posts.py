@@ -4,14 +4,13 @@ from .modal import Modal
 
 class PostModel(Modal):
     def __init__(self) -> None:
-        super(Modal, self).__init__("posts")
+        super().__init__(collectionName="posts")
     
     def read(self, query: dict):
         data = self.collection.find_one(query)
         return data
 
     def create(self, data: dict):
-        self.collection.create_index('user_id', unique=True)
         self.collection.insert_one(data)
 
     def update(self, data: dict, id: ObjectId):
