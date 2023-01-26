@@ -1,5 +1,4 @@
 from .resource.usersResource import UserResource
-from flask import abort
 from bson.objectid import ObjectId
 from PIL import Image
 import werkzeug

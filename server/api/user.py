@@ -1,7 +1,6 @@
 from .resource.usersResource import UserResource
 from flask import abort
 from bson.objectid import ObjectId
-from PIL import Image
 
 class User(UserResource):
     def __init__(self, *args, **kwargs):
