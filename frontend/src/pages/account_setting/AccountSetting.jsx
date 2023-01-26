@@ -8,6 +8,19 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import { useEffect, useState } from "react";
+import { styled } from "@mui/system";
+
+const AddImageIconButton = styled(IconButton)({
+  position: "absolute",
+  bottom: "1px",
+  right: "1px",
+  backgroundColor: "rgb(25, 118, 210)",
+  width: "30px",
+  height: "30px",
+  "&:hover": {
+    backgroundColor: "rgb(25, 118, 210)",
+  },
+});
 
 function AccountSetting(props) {
   const [userName, setUserName] = useState();
@@ -48,26 +61,18 @@ function AccountSetting(props) {
             sx={{ width: 100, height: 100 }}
             alt="Profile Img"
           />
-          <IconButton
-            sx={{
-              position: "absolute",
-              bottom: "1px",
-              right: "1px",
-              backgroundColor: "rgb(25, 118, 210)",
-			  width: "100px",
-			  height: "100px"
-            }}
-            component="label"
-          >
-            <AddPhotoAlternateRoundedIcon />
+          <AddImageIconButton component="label">
+            <AddPhotoAlternateRoundedIcon
+              sx={{ width: "19px", height: "19px", color: "white" }}
+            />
             <input
               type="file"
               name="profile_img"
               hidden
-              onChange={(e) => setProfileImg(e.target.files[0])}
+              onChange={(e) => postProfileImg(e.target.files[0])}
               accept="image/*"
             />
-          </IconButton>
+          </AddImageIconButton>
         </div>
       );
     } else {
@@ -76,24 +81,18 @@ function AccountSetting(props) {
           <Avatar sx={{ bgcolor: props.color, width: 50, height: 50 }}>
             {props.userName[0]}
           </Avatar>
-          <IconButton
-            sx={{
-              position: "absolute",
-              bottom: "1px",
-              right: "1px",
-              backgroundColor: "rgb(25, 118, 210)",
-            }}
-            component="label"
-          >
-            <AddPhotoAlternateRoundedIcon />
+          <AddImageIconButton component="label">
+            <AddPhotoAlternateRoundedIcon
+              sx={{ width: "19px", height: "19px", color: "white" }}
+            />
             <input
               type="file"
               name="profile_img"
               hidden
-              onChange={(e) => setProfileImg(e.target.files[0])}
+              onChange={(e) => postProfileImg(e.target.files[0])}
               accept="image/*"
             />
-          </IconButton>
+          </AddImageIconButton>
         </div>
       );
     }
@@ -115,20 +114,21 @@ function AccountSetting(props) {
     });
   };
 
+  const postProfileImg = (file) => {
+    const formData = new FormData();
+    formData.append("profileImg", file);
+    fetch("/api/userProfileImg", {
+      method: "PUT",
+      body: formData,
+    }).then((responce) => {
+      if (responce.ok) {
+        window.location.reload();
+      }
+    });
+  };
+
   return (
     <React.Fragment>
-      <Container
-        maxWidth="xl"
-        sx={{
-          height: "40%",
-          backgroundImage: "url('/static/img/default_b.jpg')",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          marginTop: "20px",
-          boxShadow: "4px 6px 13px rgba(0, 0, 0, 0.65);",
-        }}
-      />
       <Container
         sx={{
           backgroundColor: "white",
@@ -221,4 +221,3 @@ function AccountSetting(props) {
 }
 
 export default AccountSetting;
-
