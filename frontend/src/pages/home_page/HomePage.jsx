@@ -74,6 +74,7 @@ function HomePage(props) {
               variant="filled"
               rows={6}
               fullWidth
+              required={true}
               sx={{ margin: "20px 0px" }}
             />
             <FormControl fullWidth>
@@ -87,6 +88,7 @@ function HomePage(props) {
                 labelId="visibility-label"
                 id="visibility"
                 name="visibility"
+                required={true}
                 label="Visibility"
               >
                 <MenuItem value={0}>Anyone</MenuItem>
@@ -98,7 +100,7 @@ function HomePage(props) {
             <Button variant="outlined" color="error" onClick={handleClose}>
               Cancel
             </Button>
-            <Button variant="outlined" type="submit" onClick={handleClose}>
+            <Button variant="outlined" type="submit">
               Post
             </Button>
           </DialogActions>

@@ -4,13 +4,16 @@ import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import FilterRoundedIcon from "@mui/icons-material/FilterRounded";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import { useEffect, useState } from "react";
 
 function AccountSetting(props) {
   const [userName, setUserName] = useState();
   const [email, setEmail] = useState();
-  const [about, setAbout] = useState();  const [profileImg, setProfileImg] = useState();
+  const [about, setAbout] = useState();
+  const [profileImg, setProfileImg] = useState();
   const url = "/api/user";
   const reset = function () {
     setAbout("");
@@ -39,20 +42,58 @@ function AccountSetting(props) {
   const returnAvatar = () => {
     if (props.profileImg) {
       return (
-        <div className="avatar_container">
+        <div style={{ position: "relative" }} className="avatar_container">
           <Avatar
             src={`/static/profile_imgs/${props.profileImg}`}
             sx={{ width: 100, height: 100 }}
             alt="Profile Img"
           />
+          <IconButton
+            sx={{
+              position: "absolute",
+              bottom: "1px",
+              right: "1px",
+              backgroundColor: "rgb(25, 118, 210)",
+			  width: "100px",
+			  height: "100px"
+            }}
+            component="label"
+          >
+            <AddPhotoAlternateRoundedIcon />
+            <input
+              type="file"
+              name="profile_img"
+              hidden
+              onChange={(e) => setProfileImg(e.target.files[0])}
+              accept="image/*"
+            />
+          </IconButton>
         </div>
       );
     } else {
       return (
-        <div className="avatar_container">
+        <div style={{ position: "relative" }} className="avatar_container">
           <Avatar sx={{ bgcolor: props.color, width: 50, height: 50 }}>
             {props.userName[0]}
           </Avatar>
+          <IconButton
+            sx={{
+              position: "absolute",
+              bottom: "1px",
+              right: "1px",
+              backgroundColor: "rgb(25, 118, 210)",
+            }}
+            component="label"
+          >
+            <AddPhotoAlternateRoundedIcon />
+            <input
+              type="file"
+              name="profile_img"
+              hidden
+              onChange={(e) => setProfileImg(e.target.files[0])}
+              accept="image/*"
+            />
+          </IconButton>
         </div>
       );
     }
@@ -76,18 +117,31 @@ function AccountSetting(props) {
 
   return (
     <React.Fragment>
-      <Container maxWidth="xl">
-        <div className="head" style={{ marginTop: "25px" }}>
-          <h1 style={{ fontWeight: "bold" }}>Account Settings</h1>
-          <p style={{ color: "grey" }}>Change your profile settings</p>
-        </div>
-      </Container>
       <Container
-        style={{ backgroundColor: "white", marginTop: "25px" }}
+        maxWidth="xl"
+        sx={{
+          height: "40%",
+          backgroundImage: "url('/static/img/default_b.jpg')",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          marginTop: "20px",
+          boxShadow: "4px 6px 13px rgba(0, 0, 0, 0.65);",
+        }}
+      />
+      <Container
+        sx={{
+          backgroundColor: "white",
+          marginTop: "25px",
+          marginBottom: "25px",
+        }}
         maxWidth="xl"
       >
-        <h2 style={{ fontWeight: "bold" }}>General Info</h2>
-        <div className="center">{returnAvatar()}</div>
+        <Box sx={{ padding: "20px" }}>
+          <h2 style={{ fontWeight: "bold" }}>Account Settings</h2>
+          <p style={{ color: "grey" }}>Change your profile settings</p>
+          <div className="center">{returnAvatar()}</div>
+        </Box>
         <Container maxWidth="lg">
           <form
             class="w-100"
@@ -141,19 +195,6 @@ function AccountSetting(props) {
                   value={about}
                 />
               </Grid>
-              <Grid item xs={10}>
-                <Button variant="contained" component="label">
-                  <FilterRoundedIcon />
-                  Profile Image
-                  <input
-                    type="file"
-                    name="profile_img"
-                    hidden
-                    onChange={(e) => setProfileImg(e.target.files[0])}
-                    accept="image/*"
-                  />
-                </Button>
-              </Grid>
             </Grid>
             <div className="left">
               <Button
@@ -180,3 +221,4 @@ function AccountSetting(props) {
 }
 
 export default AccountSetting;
+

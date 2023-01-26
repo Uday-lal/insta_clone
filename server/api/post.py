@@ -8,7 +8,7 @@ class Post(PostResource):
         super(Post, self).__init__(*args, **kwargs)
     
     def get(self):
-        pass
+        token = self.readUserToken()
 
     def post(self):
         self.parser.add_argument('post', type=str, help="post is required", required=True, location="form")

@@ -5,6 +5,10 @@
   padding: 0px;
 }
 
+body {
+  background-color: rgba(128, 128, 128, 0.39);
+}
+
 div.center {
   display: flex;
   align-items: center;
@@ -16,8 +20,8 @@ div.center {
 div.page {
   width: 100vw;
   height: 100vh;
-  background-color: rgba(128, 128, 128, 0.39);
   color: #1f2338;
+  overflow-x: hidden;
 }
 
 div.container {
