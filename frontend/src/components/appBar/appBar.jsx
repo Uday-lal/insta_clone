@@ -10,6 +10,7 @@ import Search from "../serarch/Search.jsx";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
+import Link from "@mui/material/Link";
 import MenuItem from "@mui/material/MenuItem";
 import InstagramIcon from "@mui/icons-material/Instagram";
 
@@ -17,18 +18,21 @@ const pages = ["Search", "Followers", "Followings", "Post"];
 const settings = [
   {
     name: "Profile",
+    href: "/profile",
     handleFunction: function () {
       console.log("profile");
     },
   },
   {
     name: "Account Settings",
+    href: "/setting",
     handleFunction: function () {
       window.location.replace("/setting");
     },
   },
   {
     name: "Logout",
+    href: "#",
     handleFunction: function () {
       console.log("logout");
     },
@@ -177,9 +181,21 @@ function ResponsiveAppBar(props) {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting.name} onClick={setting.handleFunction}>
-                  <Typography textAlign="center">{setting.name}</Typography>
-                </MenuItem>
+                <MenuItem
+                  key={setting.name}
+                  component={() => (
+                    <Link underline="none" href={setting.href}>
+                      <Typography
+                        sx={{ padding: "5px 10px" }}
+                        style={{ color: "grey" }}
+                        textAlign="center"
+                      >
+                        {setting.name}
+                      </Typography>
+                    </Link>
+                  )}
+                  onClick={setting.handleFunction}
+                ></MenuItem>
               ))}
             </Menu>
           </Box>
