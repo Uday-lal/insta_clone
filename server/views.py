@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, make_response, 
 from . import getApp
 from flask_bcrypt import Bcrypt
 from .model.users import UserModel
+from .functions import *
 import datetime
 import random
 
@@ -9,26 +10,22 @@ views = Blueprint("views", __name__)
 app = getApp(registered_app=True)
 bcrypt = Bcrypt(app)
 
-def getCookie(name: str):
-    return request.cookies.get(name)
 
-def returnTemplate():
-    return render_template("index.html")
-
-
+@varifyLogin
 @views.route("/", methods=["GET"])
 def index():
-    loginToken = getCookie("token")
-    if loginToken is None:
-        return redirect("login")
     return returnTemplate()
 
 
+@varifyLogin
 @views.route("/setting", methods=["GET"])
 def setting():
-    loginToken = getCookie("token")
-    if loginToken is None:
-        return redirect("login")
+    return returnTemplate()
+
+
+@varifyLogin
+@views.route("/profile", methods=["GET"])
+def profile():
     return returnTemplate()
 
 
@@ -81,12 +78,3 @@ def createAccount():
         else:
             return abort(400)
     return returnTemplate()
-
-
-def removeWhiteSpace(words):
-    index = 0
-    for word in words:
-        if word != " ":
-            break
-        index += 1
-    return words[index:]

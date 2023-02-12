@@ -17,10 +17,10 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
-import ProfileCard from "../../components/card/ProfileCard.jsx";
+import ProfileCard from "../components/card/ProfileCard.jsx";
 import { useState } from "react";
 
-function HomePage(props) {
+function ProfilePage(props) {
   const [openModal, setOpenModal] = useState(false);
   const returnAvatar = (width, height) => {
     if (props.profileImg) {
@@ -168,4 +168,4 @@ function HomePage(props) {
   );
 }
 
-export default HomePage;
+export default ProfilePage;

@@ -4,7 +4,12 @@ import CreateAccount from "./pages/create_account/CreateAccount.jsx";
 import HomePage from "./pages/home_page/HomePage.jsx";
 import React from "react";
 import ResponsiveAppBar from "./components/appBar/appBar.jsx";
+import Collapse from "@mui/material/Collapse";
 import AccountSetting from "./pages/account_setting/AccountSetting.jsx";
+import Alert from "@mui/material/Alert";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import ProfilePage from "./pages/ProfilePage.jsx";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -13,6 +18,9 @@ function App() {
   const [profileColor, setProfileColor] = useState("");
   const [about, setAbout] = useState("");
   const [email, setEmail] = useState("");
+  const [openAlert, setOpenAlert] = useState(false);
+  const [alertStatus, setAlertStatus] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
 
   useEffect(() => {
     const url = "/api/user";
@@ -31,7 +39,9 @@ function App() {
           setEmail(data.email);
         });
       } else {
-        // ...
+        setOpenAlert(true);
+        setAlertStatus("error");
+        setAlertMessage("Something went wrong!! Please try again :(");
       }
     });
   }, []);
@@ -73,6 +83,23 @@ function App() {
                 />
               </div>
             </Route>
+            <Route path="/profile">
+              <div className="page">
+                <ResponsiveAppBar
+                  userName={username}
+                  profileImg={profileImg}
+                  color={profileColor}
+                />
+                <ProfilePage
+                  userName={username}
+                  profileImg={profileImg}
+                  color={profileColor}
+                  name={username}
+                  email={email}
+                  about={about}
+                />
+              </div>
+            </Route>
             <Route path="/login">
               <Login />
             </Route>
@@ -82,6 +109,26 @@ function App() {
           </Switch>
         </Router>
       </div>
+      <Collapse in={openAlert}>
+        <Alert
+          variant="filled"
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setOpenAlert(false);
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+          severity={alertStatus}
+        >
+          {alertMessage}
+        </Alert>
+      </Collapse>
     </React.Fragment>
   );
 }
