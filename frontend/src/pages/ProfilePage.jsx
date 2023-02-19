@@ -42,6 +42,11 @@ function ProfilePage(props) {
   const handleClose = () => {
     setOpenModal(false);
   };
+
+  const postContentImg = (img) => {
+    // ...
+  };
+
   return (
     <React.Fragment>
       <Dialog
@@ -156,7 +161,14 @@ function ProfilePage(props) {
                   onClick={() => setOpenModal(true)}
                   inputProps={{ "aria-label": "what's on your mind" }}
                 />
-                <IconButton aria-label="add photos">
+                <IconButton aria-label="add photos" component="label">
+                  <input
+                    type="file"
+                    name="contentImg"
+                    hidden
+                    // onChange={(e) => postProfileImg(e.target.files[0])}
+                    accept="image/*"
+                  />
                   <AddPhotoAlternateRoundedIcon />
                 </IconButton>
               </Paper>
