@@ -12,6 +12,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import { useEffect, useState } from "react";
 
+
 function App() {
   const [username, setUsername] = useState("");
   const [profileImg, setProfileImg] = useState(null);

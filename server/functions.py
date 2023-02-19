@@ -14,7 +14,7 @@ def varifyLogin(function):
         loginToken = getCookie("token")
         if loginToken is None:
             return redirect("login")
-        function()
+        return function()
 
     return decorator
 

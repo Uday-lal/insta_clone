@@ -11,25 +11,25 @@ app = getApp(registered_app=True)
 bcrypt = Bcrypt(app)
 
 
+@views.route("/", methods=["GET"], endpoint='index')
 @varifyLogin
-@views.route("/", methods=["GET"])
 def index():
     return returnTemplate()
 
 
+@views.route("/setting", methods=["GET"], endpoint='setting')
 @varifyLogin
-@views.route("/setting", methods=["GET"])
 def setting():
     return returnTemplate()
 
 
+@views.route("/profile", methods=["GET"], endpoint='profile')
 @varifyLogin
-@views.route("/profile", methods=["GET"])
 def profile():
     return returnTemplate()
 
 
-@views.route("/login", methods=["GET", "POST"])
+@views.route("/login", methods=["GET", "POST"], endpoint='login')
 def login():
     loginToken = getCookie("token")
     if loginToken is not None:
@@ -42,7 +42,7 @@ def login():
         userData = userModel.read({"email": email})
 
         if userData is not None and bcrypt.check_password_hash(userData["password"], password):
-            responce = make_response(redirect("/"))
+            responce = make_response(redirect("/profile"))
             currentDate = datetime.datetime.now()
             expireDate = currentDate + datetime.timedelta(days=4)
             responce.set_cookie("token", str(userData["_id"]), expires=expireDate)
@@ -50,7 +50,7 @@ def login():
     return returnTemplate()
 
 
-@views.route("/create-account", methods=["GET", "POST"])
+@views.route("/create-account", methods=["GET", "POST"], endpoint='createAccount')
 def createAccount():
     loginToken = getCookie("token")
     if loginToken is not None:
