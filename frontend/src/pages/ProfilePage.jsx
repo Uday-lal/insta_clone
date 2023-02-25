@@ -22,6 +22,12 @@ import { useState } from "react";
 
 function ProfilePage(props) {
   const [openModal, setOpenModal] = useState(false);
+  const [postImage, setPostImage] = useState(null);
+  const [showPostImg, setShowPostImg] = useState(false);
+  const [postImgData, setPostImgData] = useState();
+  const [postText, setPostText] = useState("");
+  const [visiblty, setVisiblty] = useState();
+  const url = "/api/post";
   const returnAvatar = (width, height) => {
     if (props.profileImg) {
       return (
@@ -44,7 +50,30 @@ function ProfilePage(props) {
   };
 
   const postContentImg = (img) => {
-    // ...
+    const reader = new FileReader();
+    reader.readAsDataURL(img);
+    setPostImgData(img);
+    reader.onload = () => {
+      setPostImage(reader.result);
+      setShowPostImg(true);
+      setOpenModal(true);
+    };
+  };
+
+  const handlePostSubmit = function (e) {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("post", postText);
+    formData.append("visibility", visiblty);
+    formData.append("img_content", postImgData);
+    fetch(url, {
+      method: "POST",
+      body: formData,
+    }).then((responce) => {
+      if (responce.ok) {
+        window.location.reload();
+      }
+    });
   };
 
   return (
@@ -56,7 +85,7 @@ function ProfilePage(props) {
         onClose={handleClose}
       >
         <DialogTitle>Post</DialogTitle>
-        <form action="/api/post" method="POST">
+        <form onSubmit={handlePostSubmit} method="POST">
           <DialogContent>
             <Box
               sx={{
@@ -69,6 +98,17 @@ function ProfilePage(props) {
                 <h3 style={{ marginLeft: "10px" }}>{props.userName}</h3>
               </Box>
             </Box>
+            <div
+              src={postImage}
+              style={{
+                backgroundImage: `url(${postImage})`,
+                width: "100%",
+                height: "250px",
+                display: !showPostImg ? "none" : "block",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            ></div>
             <TextField
               autoFocus
               margin="dense"
@@ -77,6 +117,7 @@ function ProfilePage(props) {
               label="What you want to say?"
               multiline
               variant="filled"
+              onChange={(e) => setPostText(e.target.value)}
               rows={6}
               fullWidth
               required={true}
@@ -93,6 +134,7 @@ function ProfilePage(props) {
                 labelId="visibility-label"
                 id="visibility"
                 name="visibility"
+                onChange={(e) => setVisiblty(e.target.value)}
                 required={true}
                 label="Visibility"
               >
@@ -158,7 +200,11 @@ function ProfilePage(props) {
                   sx={{ ml: 1, flex: 1 }}
                   placeholder="What's on your mind?"
                   readOnly
-                  onClick={() => setOpenModal(true)}
+                  onClick={() => {
+                    setPostImage("");
+                    setShowPostImg(false);
+                    setOpenModal(true);
+                  }}
                   inputProps={{ "aria-label": "what's on your mind" }}
                 />
                 <IconButton aria-label="add photos" component="label">
@@ -166,7 +212,9 @@ function ProfilePage(props) {
                     type="file"
                     name="contentImg"
                     hidden
-                    // onChange={(e) => postProfileImg(e.target.files[0])}
+                    onChange={(e) => {
+                      postContentImg(e.target.files[0]);
+                    }}
                     accept="image/*"
                   />
                   <AddPhotoAlternateRoundedIcon />

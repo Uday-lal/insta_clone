@@ -31,5 +31,8 @@ server/static/js
 # profile image
 server/static/profile_imgs
 
+# Uploads
+server/uploads
+
 # env 
 .env
