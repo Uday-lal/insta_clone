@@ -32,7 +32,7 @@ class UserProfileImg(UserResource):
         _, fileExt = os.path.splitext(profileImg.filename)
         size = (250, 250)
         imageName = secrets.token_hex(8) + fileExt
-        filePath = os.path.join(os.getcwd(), 'server', 'uploads', 'profile_imgs', imageName)
+        filePath = os.path.join(os.getcwd(), 'server', 'static', 'uploads', 'profile_imgs', imageName)
         image = Image.open(profileImg)
         image.thumbnail(size)
         image.save(filePath)

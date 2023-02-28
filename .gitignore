@@ -28,11 +28,8 @@ __pycache__
 # development build
 server/static/js
 
-# profile image
-server/static/profile_imgs
-
-# Uploads
-server/uploads
+# uploads
+server/static/uploads
 
 # env 
 .env

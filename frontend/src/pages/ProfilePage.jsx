@@ -28,11 +28,12 @@ function ProfilePage(props) {
   const [postText, setPostText] = useState("");
   const [visiblty, setVisiblty] = useState();
   const url = "/api/post";
+
   const returnAvatar = (width, height) => {
     if (props.profileImg) {
       return (
         <Avatar
-          src={`/static/profile_imgs/${props.profileImg}`}
+          src={`/static/uploads/profile_imgs/${props.profileImg}`}
           alt="Profile Img"
           sx={{ width: width, height: height }}
         />
@@ -45,6 +46,7 @@ function ProfilePage(props) {
       );
     }
   };
+
   const handleClose = () => {
     setOpenModal(false);
   };
@@ -99,7 +101,6 @@ function ProfilePage(props) {
               </Box>
             </Box>
             <div
-              src={postImage}
               style={{
                 backgroundImage: `url(${postImage})`,
                 width: "100%",

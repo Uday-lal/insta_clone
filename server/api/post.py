@@ -27,7 +27,7 @@ class Post(PostResource):
         post = args['post']
         visibility = args['visibility']
         img_content = args['img_content']
-        img_name = self._saveProfileImg(img_content)
+        img_name = self._savePostImg(img_content)
         token = self.readUserToken()
         data = {
             "user_id": token,
@@ -38,10 +38,10 @@ class Post(PostResource):
         self.postModal.create(data)
         return {'message': 'Post created successfully'}, 200
     
-    def _saveProfileImg(self, postImg):
+    def _savePostImg(self, postImg):
         _, fileExt = os.path.splitext(postImg.filename)
         imageName = secrets.token_hex(8) + fileExt
-        filePath = os.path.join(os.getcwd(), 'server', 'uploads', 'posts', imageName)
+        filePath = os.path.join(os.getcwd(), 'server', 'static', 'uploads', 'posts', imageName)
         image = Image.open(postImg)
         image.save(filePath)
         return imageName

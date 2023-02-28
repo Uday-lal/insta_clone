@@ -8,7 +8,7 @@ function ProfileCard(props) {
     if (props.profileImg) {
       return (
         <Avatar
-          src={`/static/profile_imgs/${props.profileImg}`}
+          src={`/static/uploads/profile_imgs/${props.profileImg}`}
           alt="Profile Img"
           sx={{ width: width, height: height }}
         />
