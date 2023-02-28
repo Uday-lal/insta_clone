@@ -18,6 +18,7 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import ProfileCard from "../components/card/ProfileCard.jsx";
 import useAvatar from "../hooks/useAvatar.jsx";
+import Post from "../components/Post.jsx";
 import { useState } from "react";
 
 function ProfilePage(props) {
@@ -199,6 +200,18 @@ function ProfilePage(props) {
                   <AddPhotoAlternateRoundedIcon />
                 </IconButton>
               </Paper>
+              <div className="post-container">
+                <Post
+                  id="test"
+                  userName={props.userName}
+                  timepass="4h"
+                  profileImg={props.profileImg}
+                  color={props.color}
+                  style={{
+                    marginTop: "20px",
+                  }}
+                />
+              </div>
             </Grid>
             <Grid xs={3} item>
               <Paper

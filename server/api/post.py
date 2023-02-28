@@ -4,6 +4,7 @@ from bson.objectid import ObjectId
 from PIL import Image
 import secrets
 import os
+import time
 import werkzeug
 
 
@@ -29,11 +30,13 @@ class Post(PostResource):
         img_content = args['img_content']
         img_name = self._savePostImg(img_content)
         token = self.readUserToken()
+        createdTime = time.time()
         data = {
             "user_id": token,
             "post": post,
             "visibility": visibility,
-            "img_content": img_name
+            "img_content": img_name,
+            "created_time": createdTime
         }
         self.postModal.create(data)
         return {'message': 'Post created successfully'}, 200

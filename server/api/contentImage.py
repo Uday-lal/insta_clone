@@ -33,6 +33,5 @@ class ContentImage(PostResource):
         imageName = secrets.token_hex(8) + fileExt
         filePath = os.path.join(os.getcwd(), 'server', 'static', 'profile_imgs', imageName)
         image = Image.open(image)
-        # image.thumbnail(size)
         image.save(filePath)
         return imageName

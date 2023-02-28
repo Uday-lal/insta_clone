@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300&family=Space+Grotesk:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
 
 * {
   margin: 0px;
@@ -77,4 +77,31 @@ div.page {
 
 .text-primary {
   color: #1976d2;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.justify-content-space-between {
+  justify-content: space-between;
+}
+
+p {
+  font-weight: 500;
+}
+
+div.post-content > * {
+  margin-top: 20px;
+}
+
+div.post-reactions {
+  margin-top: 20px;
+}
+
+div.post-comments {
+  background-color: #52525243;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 18px;
 }
