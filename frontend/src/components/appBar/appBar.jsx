@@ -12,6 +12,7 @@ import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import Link from "@mui/material/Link";
 import MenuItem from "@mui/material/MenuItem";
+import useAvatar from "../../hooks/useAvatar.jsx";
 import InstagramIcon from "@mui/icons-material/Instagram";
 
 const pages = ["Search", "Followers", "Followings", "Post"];
@@ -161,7 +162,13 @@ function ResponsiveAppBar(props) {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {returnAvatar()}
+                {useAvatar(
+                  props.profileImg,
+                  40,
+                  40,
+                  props.userName,
+                  props.color
+                )}
               </IconButton>
             </Tooltip>
             <Menu

@@ -2,7 +2,6 @@ import React from "react";
 import Paper from "@mui/material/Paper";
 import Container from "@mui/material/Container";
 import InputBase from "@mui/material/InputBase";
-import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import Dialog from "@mui/material/Dialog";
@@ -18,6 +17,7 @@ import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import ProfileCard from "../components/card/ProfileCard.jsx";
+import useAvatar from "../hooks/useAvatar.jsx";
 import { useState } from "react";
 
 function ProfilePage(props) {
@@ -28,24 +28,6 @@ function ProfilePage(props) {
   const [postText, setPostText] = useState("");
   const [visiblty, setVisiblty] = useState();
   const url = "/api/post";
-
-  const returnAvatar = (width, height) => {
-    if (props.profileImg) {
-      return (
-        <Avatar
-          src={`/static/uploads/profile_imgs/${props.profileImg}`}
-          alt="Profile Img"
-          sx={{ width: width, height: height }}
-        />
-      );
-    } else {
-      return (
-        <Avatar sx={{ bgcolor: props.color, width: width, height: height }}>
-          {props.userName[0]}
-        </Avatar>
-      );
-    }
-  };
 
   const handleClose = () => {
     setOpenModal(false);
@@ -95,7 +77,7 @@ function ProfilePage(props) {
                 marginBottom: "10px",
               }}
             >
-              {returnAvatar(40, 40)}
+              {useAvatar(props.profileImg, 40, 40, props.userName, props.color)}
               <Box>
                 <h3 style={{ marginLeft: "10px" }}>{props.userName}</h3>
               </Box>
@@ -167,26 +149,16 @@ function ProfilePage(props) {
               width: "100%",
             }}
             container
-            spacing={2}
+            spacing={5}
           >
-            <Grid
-              style={{
-                width: "25%",
-              }}
-              item
-            >
+            <Grid xs={3} item>
               <ProfileCard
                 profileImg={props.profileImg}
                 userName={props.userName}
                 about={props.about}
               />
             </Grid>
-            <Grid
-              style={{
-                width: "75%",
-              }}
-              item
-            >
+            <Grid xs={6} item>
               <Paper
                 component="form"
                 sx={{
@@ -196,7 +168,13 @@ function ProfilePage(props) {
                   width: "100%",
                 }}
               >
-                {returnAvatar(40, 40)}
+                {useAvatar(
+                  props.profileImg,
+                  40,
+                  40,
+                  props.userName,
+                  props.color
+                )}
                 <InputBase
                   sx={{ ml: 1, flex: 1 }}
                   placeholder="What's on your mind?"
@@ -221,6 +199,14 @@ function ProfilePage(props) {
                   <AddPhotoAlternateRoundedIcon />
                 </IconButton>
               </Paper>
+            </Grid>
+            <Grid xs={3} item>
+              <Paper
+                sx={{
+                  width: "100%",
+                  p: "10px",
+                }}
+              ></Paper>
             </Grid>
           </Grid>
         </Container>
