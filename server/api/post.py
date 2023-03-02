@@ -14,6 +14,13 @@ class Post(PostResource):
     
     def get(self):
         token = self.readUserToken()
+        posts_cursor = self.postModal.readAll(token)
+        posts = []
+        for post in posts_cursor:
+            post["_id"] = str(post['_id'])
+            posts.append(post)
+
+        return posts
 
     def post(self):
         self.parser.add_argument('post', type=str, help="post is required", required=True, location="form")
@@ -21,14 +28,16 @@ class Post(PostResource):
         self.parser.add_argument(
             "img_content", 
             type=werkzeug.datastructures.FileStorage,
-            location="files",
-            required=True
+            location="files"
         )
         args = self.parser.parse_args()
         post = args['post']
         visibility = args['visibility']
         img_content = args['img_content']
-        img_name = self._savePostImg(img_content)
+        if img_content is not None:
+            img_name = self._savePostImg(img_content)
+        else:
+            img_name = None
         token = self.readUserToken()
         createdTime = time.time()
         data = {
@@ -36,7 +45,7 @@ class Post(PostResource):
             "post": post,
             "visibility": visibility,
             "img_content": img_name,
-            "created_time": createdTime
+            "created_at": createdTime
         }
         self.postModal.create(data)
         return {'message': 'Post created successfully'}, 200

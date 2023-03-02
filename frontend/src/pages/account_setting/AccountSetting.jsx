@@ -57,7 +57,7 @@ function AccountSetting(props) {
       return (
         <div style={{ position: "relative" }} className="avatar_container">
           <Avatar
-            src={`/static/profile_imgs/${props.profileImg}`}
+            src={`/static/uploads/profile_imgs/${props.profileImg}`}
             sx={{ width: 100, height: 100 }}
             alt="Profile Img"
           />

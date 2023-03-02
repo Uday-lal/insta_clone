@@ -22,3 +22,7 @@ class PostModel(Modal):
 
     def delete(self, id: ObjectId):
         self.collection.delete_one({"_id": id})
+
+    def readAll(self, userId: str):
+        data = self.collection.find({'user_id': userId})
+        return data

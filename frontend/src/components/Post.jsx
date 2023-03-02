@@ -17,11 +17,11 @@ import Tooltip from "@mui/material/Tooltip";
 
 function Post(props) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
   const handleClose = () => {
     setMenuOpen(false);
     setAnchorEl(null);
   };
-  const [anchorEl, setAnchorEl] = useState(null);
 
   return (
     <React.Fragment>
@@ -144,11 +144,11 @@ function Post(props) {
           },
         }}
       >
-        <MenuItem>
+        <MenuItem style={{ color: "#1976d2" }}>
           <EditRoundedIcon />
           &nbsp; Edit
         </MenuItem>
-        <MenuItem>
+        <MenuItem style={{ color: "red" }}>
           <DeleteRoundedIcon /> &nbsp; Delete
         </MenuItem>
       </Menu>
