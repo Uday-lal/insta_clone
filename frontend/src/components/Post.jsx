@@ -79,12 +79,14 @@ function Post(props) {
         </div>
         <div className="post-content">
           <p style={{ marginTop: "20px" }}>{props.textContent}</p>
-          <img
-            src={props.imageContent}
-            style={{
-              width: "100%",
-            }}
-          />
+          {props.imageContent && (
+            <img
+              src={`/static/uploads/posts/${props.imageContent}`}
+              style={{
+                width: "100%",
+              }}
+            />
+          )}
         </div>
         <div className="post-reactions flex justify-content-space-between w-100">
           <Button

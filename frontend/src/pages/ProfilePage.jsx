@@ -225,10 +225,10 @@ function ProfilePage(props) {
                       id={post._id}
                       key={post._id}
                       userName={props.userName}
-                      timepass={post.timespan}
+                      timespan={post.timespan}
                       profileImg={props.profileImg}
                       color={props.color}
-                      imageContent={`/static/uploads/posts/${post.img_content}`}
+                      imageContent={post.img_content}
                       textContent={post.post}
                       style={{
                         marginTop: "20px",
@@ -244,7 +244,9 @@ function ProfilePage(props) {
                   width: "100%",
                   p: "10px",
                 }}
-              ></Paper>
+              >
+                <h3>People you follow</h3>
+              </Paper>
             </Grid>
           </Grid>
         </Container>

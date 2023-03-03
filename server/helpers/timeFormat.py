@@ -28,7 +28,7 @@ class TimeFormat:
         if minutesPass < 1:
             timespan = "Less than a minute"
         else:
-            timespan = f"{minutesPass}minutes"
+            timespan = f"{minutesPass} minutes"
         
         if hourPass != 0:
             timespan = f"{hourPass}h"
