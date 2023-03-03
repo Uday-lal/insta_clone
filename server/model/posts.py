@@ -21,7 +21,11 @@ class PostModel(Modal):
             return False
 
     def delete(self, id: ObjectId):
-        self.collection.delete_one({"_id": id})
+        try:
+            self.collection.delete_one({"_id": id})
+            return True
+        except Exception as e:
+            return False
 
     def readAll(self, userId: str):
         data = self.collection.find({'user_id': userId})

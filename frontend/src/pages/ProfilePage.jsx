@@ -44,7 +44,7 @@ function ProfilePage(props) {
         }
       })
       .then((data) => {
-        console.log(data);
+        setPostData(data);
       });
   }, []);
 
@@ -219,16 +219,23 @@ function ProfilePage(props) {
                 </IconButton>
               </Paper>
               <div className="post-container">
-                <Post
-                  id="test"
-                  userName={props.userName}
-                  timepass="4h"
-                  profileImg={props.profileImg}
-                  color={props.color}
-                  style={{
-                    marginTop: "20px",
-                  }}
-                />
+                {postData.map((post) => {
+                  return (
+                    <Post
+                      id={post._id}
+                      key={post._id}
+                      userName={props.userName}
+                      timepass={post.timespan}
+                      profileImg={props.profileImg}
+                      color={props.color}
+                      imageContent={`/static/uploads/posts/${post.img_content}`}
+                      textContent={post.post}
+                      style={{
+                        marginTop: "20px",
+                      }}
+                    />
+                  );
+                })}
               </div>
             </Grid>
             <Grid xs={3} item>

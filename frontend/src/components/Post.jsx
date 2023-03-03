@@ -57,7 +57,7 @@ function Post(props) {
               >
                 <AccessTimeRoundedIcon sx={{ width: "15px", height: "15px" }} />
                 &nbsp;
-                {props.timepass} ago
+                {props.timespan} ago
               </p>
             </div>
           </div>
@@ -78,16 +78,9 @@ function Post(props) {
           </Tooltip>
         </div>
         <div className="post-content">
-          <p style={{ marginTop: "20px" }}>
-            Lorem ipsum dolor sit amet consectetur. Semper facilisis egestas
-            suspendisse velit erat nisl lorem. Sed parturient at et nisl elit
-            metus et ac tincidunt. Laoreet consectetur scelerisque erat egestas
-            in consectetur sem neque urna. Porttitor risus quam pellentesque
-            consequat risus tincidunt mauris cursus. Massa odio parturient id
-            viverra natoque.
-          </p>
+          <p style={{ marginTop: "20px" }}>{props.textContent}</p>
           <img
-            src="https://images.pexels.com/photos/1140923/pexels-photo-1140923.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            src={props.imageContent}
             style={{
               width: "100%",
             }}

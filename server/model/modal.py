@@ -16,5 +16,5 @@ class Modal:
     def update(self, data: dict, id: ObjectId) -> bool:
         pass
 
-    def delete(self, id: ObjectId) -> None:
+    def delete(self, id: ObjectId) -> bool:
         pass
