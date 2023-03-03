@@ -1,17 +1,16 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Login from "./pages/login/Login.jsx";
-import CreateAccount from "./pages/create_account/CreateAccount.jsx";
-import HomePage from "./pages/home_page/HomePage.jsx";
+import Login from "./pages/Login.jsx";
+import CreateAccount from "./pages/CreateAccount.jsx";
+import HomePage from "./pages/HomePage.jsx";
 import React from "react";
-import ResponsiveAppBar from "./components/appBar/appBar.jsx";
+import ResponsiveAppBar from "./components/appBar.jsx";
 import Collapse from "@mui/material/Collapse";
-import AccountSetting from "./pages/account_setting/AccountSetting.jsx";
+import AccountSetting from "./pages/AccountSetting.jsx";
 import Alert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import { useEffect, useState } from "react";
-
 
 function App() {
   const [username, setUsername] = useState("");

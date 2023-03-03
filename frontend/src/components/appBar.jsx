@@ -6,13 +6,13 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
-import Search from "../serarch/Search.jsx";
+import Search from "./Search.jsx";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import Link from "@mui/material/Link";
 import MenuItem from "@mui/material/MenuItem";
-import useAvatar from "../../hooks/useAvatar.jsx";
+import useAvatar from "../hooks/useAvatar.jsx";
 import InstagramIcon from "@mui/icons-material/Instagram";
 
 const pages = ["Search", "Followers", "Followings", "Post"];
