@@ -59,19 +59,6 @@ function ResponsiveAppBar(props) {
     setAnchorElUser(null);
   };
 
-  const returnAvatar = () => {
-    if (props.profileImg) {
-      return (
-        <Avatar
-          src={`/static/uploads/profile_imgs/${props.profileImg}`}
-          alt="Profile Img"
-        />
-      );
-    } else {
-      return <Avatar sx={{ bgcolor: props.color }}>{props.userName[0]}</Avatar>;
-    }
-  };
-
   return (
     <AppBar position="static">
       <Container maxWidth="xl">

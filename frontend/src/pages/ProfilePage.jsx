@@ -19,7 +19,7 @@ import FormControl from "@mui/material/FormControl";
 import ProfileCard from "../components/card/ProfileCard.jsx";
 import useAvatar from "../hooks/useAvatar.jsx";
 import Post from "../components/Post.jsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function ProfilePage(props) {
   const [openModal, setOpenModal] = useState(false);
@@ -28,7 +28,25 @@ function ProfilePage(props) {
   const [postImgData, setPostImgData] = useState();
   const [postText, setPostText] = useState("");
   const [visiblty, setVisiblty] = useState();
+  const [postData, setPostData] = useState([]);
   const url = "/api/post";
+
+  useEffect(() => {
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+      },
+    })
+      .then((responce) => {
+        if (responce.ok) {
+          return responce.json();
+        }
+      })
+      .then((data) => {
+        console.log(data);
+      });
+  }, []);
 
   const handleClose = () => {
     setOpenModal(false);

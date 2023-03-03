@@ -2,6 +2,7 @@ from .resource.postResource import PostResource
 from flask import abort, redirect
 from bson.objectid import ObjectId
 from PIL import Image
+from ..helpers.timeFormat import TimeFormat
 import secrets
 import os
 import time
@@ -11,13 +12,22 @@ import werkzeug
 class Post(PostResource):
     def __init__(self, *args, **kwargs):
         super(Post, self).__init__(*args, **kwargs)
-    
+
     def get(self):
         token = self.readUserToken()
         posts_cursor = self.postModal.readAll(token)
         posts = []
         for post in posts_cursor:
+            timeFormat = TimeFormat(post["created_at"])
+            timeDifference = timeFormat.getTimeDifference()
             post["_id"] = str(post['_id'])
+            # post['hour_pass'] = timeDifference["hour_pass"]
+            # post['minutes_pass'] = timeDifference["minutes_pass"]
+            # post['created_date'] = timeDifference["created_date"]
+            # post["days_pass"] = timeDifference["days_pass"]
+            # post["months_pass"] = timeDifference["months_pass"]
+            # post["years_pass"] = timeDifference["years_pass"]
+            post['timestamp'] = timeDifference
             posts.append(post)
 
         return posts
