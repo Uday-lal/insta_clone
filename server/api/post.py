@@ -19,15 +19,9 @@ class Post(PostResource):
         posts = []
         for post in posts_cursor:
             timeFormat = TimeFormat(post["created_at"])
-            timeDifference = timeFormat.getTimeDifference()
+            timespan = timeFormat.getTimeSpan()
             post["_id"] = str(post['_id'])
-            # post['hour_pass'] = timeDifference["hour_pass"]
-            # post['minutes_pass'] = timeDifference["minutes_pass"]
-            # post['created_date'] = timeDifference["created_date"]
-            # post["days_pass"] = timeDifference["days_pass"]
-            # post["months_pass"] = timeDifference["months_pass"]
-            # post["years_pass"] = timeDifference["years_pass"]
-            post['timestamp'] = timeDifference
+            post['timestamp'] = timespan
             posts.append(post)
 
         return posts

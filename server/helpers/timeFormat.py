@@ -7,7 +7,7 @@ class TimeFormat:
         self.timestamp = timestamp
         self.currentTimeStamp = time.time()
     
-    def getTimeDifference(self) -> str:
+    def getTimeSpan(self) -> str:
         """
         Return the number of hour pass
         :return: int
