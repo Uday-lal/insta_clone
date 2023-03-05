@@ -8,6 +8,7 @@ class PostModel(Modal):
     
     def read(self, query: dict):
         data = self.collection.find_one(query)
+        data["_id"] = str(data["_id"])
         return data
 
     def create(self, data: dict):

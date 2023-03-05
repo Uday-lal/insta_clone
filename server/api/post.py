@@ -1,5 +1,5 @@
 from .resource.postResource import PostResource
-from flask import abort, redirect
+from flask import abort, request
 from bson.objectid import ObjectId
 from PIL import Image
 from ..helpers.timeFormat import TimeFormat
@@ -12,8 +12,16 @@ import werkzeug
 class Post(PostResource):
     def __init__(self, *args, **kwargs):
         super(Post, self).__init__(*args, **kwargs)
+        self.token = self.readUserToken()
 
     def get(self):
+        postId = request.args.get('id')
+        if postId is not None:
+            postData = self.postModal.read({'_id': ObjectId(str(postId))})
+            return postData, 200
+        return self._getAllTheUserPost(), 200
+
+    def _getAllTheUserPost(self):
         token = self.readUserToken()
         posts_cursor = self.postModal.readAll(token)
         posts = []
@@ -85,11 +93,11 @@ class Post(PostResource):
         visibility = args['visibility']
         img_content = args['img_content']
         if img_content is not None:
-            self._deleteOldPostImgContent(postId)
+            self._deleteOldPostImg(postId)
             img_name = self._savePostImg(img_content)
         else:
             img_name = None
-        self._deleteOldPostImg(postId)
+
         updateData = {
             'post': post, 
             'visibility': visibility, 

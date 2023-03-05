@@ -14,17 +14,136 @@ import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded
 import CommentRoundedIcon from "@mui/icons-material/CommentRounded";
 import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
 import Tooltip from "@mui/material/Tooltip";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
 
 function Post(props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [postText, setPostText] = useState();
+  const [visiblty, setVisiblty] = useState();
+  const [postImg, setPostImg] = useState();
+  const [openModal, setOpenModal] = useState(false);
   const handleClose = () => {
     setMenuOpen(false);
     setAnchorEl(null);
   };
+  const handlePutSubmit = () => {};
+
+  const getPostData = (id) => {
+    setMenuOpen(false);
+    fetch(`/api/post?id=${id}`, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          console.error("Something went worng :(");
+        }
+      })
+      .then((data) => {
+        setPostText(data.post);
+        setVisiblty(data.visibility);
+        setPostImg(data.img_content);
+        setOpenModal(true);
+      });
+  };
 
   return (
     <React.Fragment>
+      <Dialog
+        fullWidth={true}
+        maxWidth="sm"
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+      >
+        <DialogTitle>Post</DialogTitle>
+        <form onSubmit={handlePutSubmit} method="PUT">
+          <DialogContent>
+            <Box
+              sx={{
+                display: "flex",
+                marginBottom: "10px",
+              }}
+            >
+              {useAvatar(props.profileImg, 40, 40, props.userName, props.color)}
+              <Box>
+                <h3 style={{ marginLeft: "10px" }}>{props.userName}</h3>
+              </Box>
+            </Box>
+            {postImg && (
+              <div
+                style={{
+                  backgroundImage: `url(/static/uploads/posts/${postImg})`,
+                  width: "100%",
+                  height: "250px",
+                  // display: !showPostImg ? "none" : "block",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              ></div>
+            )}
+            <TextField
+              autoFocus
+              margin="dense"
+              id="post"
+              name="post"
+              label="What you want to say?"
+              multiline
+              variant="filled"
+              onChange={(e) => setPostText(e.target.value)}
+              rows={6}
+              value={postText}
+              fullWidth
+              required={true}
+              sx={{ margin: "20px 0px" }}
+            />
+            <FormControl fullWidth>
+              <InputLabel
+                id="visibility-label"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                Visibility
+              </InputLabel>
+              <Select
+                labelId="visibility-label"
+                id="visibility"
+                name="visibility"
+                onChange={(e) => setVisiblty(e.target.value)}
+                required={true}
+                value={visiblty}
+                label="Visibility"
+              >
+                <MenuItem value={0}>Anyone</MenuItem>
+                <MenuItem value={1}>Only Followers</MenuItem>
+              </Select>
+            </FormControl>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              variant="outlined"
+              color="error"
+              onClick={() => setOpenModal(false)}
+            >
+              Cancel
+            </Button>
+            <Button variant="outlined" type="submit">
+              Update
+            </Button>
+          </DialogActions>
+        </form>
+      </Dialog>
       <Card
         sx={{
           width: "100%",
@@ -139,7 +258,10 @@ function Post(props) {
           },
         }}
       >
-        <MenuItem style={{ color: "#1976d2" }}>
+        <MenuItem
+          style={{ color: "#1976d2" }}
+          onClick={() => getPostData(props.id)}
+        >
           <EditRoundedIcon />
           &nbsp; Edit
         </MenuItem>
