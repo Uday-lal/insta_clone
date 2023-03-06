@@ -80,16 +80,17 @@ class Post(PostResource):
 
     def put(self):
         self.parser.add_argument('post', type=str, help="post is required", location="form")
-        self.parser.add_argument('id', type=str, help="post id is required", location="form")
         self.parser.add_argument('visibility', type=str, help="visibility is required", location="form")
         self.parser.add_argument(
             "img_content", 
             type=werkzeug.datastructures.FileStorage,
             location="files"
         )
+        postId = request.args.get('id')
+        if postId is None:
+            return abort(400, "Post id is required")
         args = self.parser.parse_args()
         post = args['post']
-        postId = args['id']
         visibility = args['visibility']
         img_content = args['img_content']
         if img_content is not None:
@@ -104,7 +105,7 @@ class Post(PostResource):
             'img_content': img_name} if img_name is not None else {
             'post': post, 
             'visibility': visibility}
-        isUpdateDone = self.postModal.update(postId, updateData)
+        isUpdateDone = self.postModal.update(updateData, ObjectId(postId))
         if isUpdateDone:
             return {'message': "Post updated successfully"}, 200
         return {'message': "Something went wrong :("}, 500

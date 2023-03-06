@@ -23,6 +23,7 @@ import TextField from "@mui/material/TextField";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
+import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 
 function Post(props) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -30,12 +31,31 @@ function Post(props) {
   const [postText, setPostText] = useState();
   const [visiblty, setVisiblty] = useState();
   const [postImg, setPostImg] = useState();
+  const [postImgData, setPostImgData] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+
   const handleClose = () => {
     setMenuOpen(false);
     setAnchorEl(null);
   };
-  const handlePutSubmit = () => {};
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("post", postText);
+    formData.append("visibility", visiblty);
+    formData.append("img_content", postImgData);
+    fetch(`/api/post?id=${props.id}`, {
+      method: "PUT",
+      body: formData,
+    }).then((response) => {
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        alert("Something went wrong. Please try again!");
+      }
+    });
+  };
 
   const getPostData = (id) => {
     setMenuOpen(false);
@@ -55,9 +75,16 @@ function Post(props) {
       .then((data) => {
         setPostText(data.post);
         setVisiblty(data.visibility);
-        setPostImg(data.img_content);
+        setPostImg(`/static/uploads/posts/${data.img_content}`);
         setOpenModal(true);
       });
+  };
+
+  const updatePostImg = (img) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(img);
+    setPostImgData(img);
+    reader.onload = () => setPostImg(reader.result);
   };
 
   return (
@@ -68,8 +95,8 @@ function Post(props) {
         open={openModal}
         onClose={() => setOpenModal(false)}
       >
-        <DialogTitle>Post</DialogTitle>
-        <form onSubmit={handlePutSubmit} method="PUT">
+        <DialogTitle>Update Post</DialogTitle>
+        <form onSubmit={handleUpdate}>
           <DialogContent>
             <Box
               sx={{
@@ -85,14 +112,38 @@ function Post(props) {
             {postImg && (
               <div
                 style={{
-                  backgroundImage: `url(/static/uploads/posts/${postImg})`,
+                  backgroundImage: `url(${postImg})`,
                   width: "100%",
                   height: "250px",
-                  // display: !showPostImg ? "none" : "block",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
+                  position: "relative",
                 }}
-              ></div>
+              >
+                <IconButton
+                  sx={{
+                    position: "absolute",
+                    top: "1px",
+                    right: "1px",
+                  }}
+                  component="label"
+                >
+                  <input
+                    type="file"
+                    accept="image/*"
+                    hidden
+                    onChange={(e) => updatePostImg(e.target.files[0])}
+                  />
+                  <AddPhotoAlternateRoundedIcon
+                    className="background-primary"
+                    style={{
+                      padding: "10px",
+                      color: "white",
+                      borderRadius: "100px",
+                    }}
+                  />
+                </IconButton>
+              </div>
             )}
             <TextField
               autoFocus
