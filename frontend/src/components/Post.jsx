@@ -24,6 +24,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
+import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 
 function Post(props) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -57,6 +58,11 @@ function Post(props) {
     });
   };
 
+  const removePhoto = () => {
+    setPostImg(null);
+    setPostImgData(null);
+  };
+
   const getPostData = (id) => {
     setMenuOpen(false);
     fetch(`/api/post?id=${id}`, {
@@ -75,7 +81,9 @@ function Post(props) {
       .then((data) => {
         setPostText(data.post);
         setVisiblty(data.visibility);
-        setPostImg(`/static/uploads/posts/${data.img_content}`);
+        if (data.img_content) {
+          setPostImg(`/static/uploads/posts/${data.img_content}`);
+        }
         setOpenModal(true);
       });
   };
@@ -120,29 +128,45 @@ function Post(props) {
                   position: "relative",
                 }}
               >
-                <IconButton
-                  sx={{
+                <div
+                  style={{
                     position: "absolute",
                     top: "1px",
                     right: "1px",
+                    display: "flex",
                   }}
-                  component="label"
                 >
-                  <input
-                    type="file"
-                    accept="image/*"
-                    hidden
-                    onChange={(e) => updatePostImg(e.target.files[0])}
-                  />
-                  <AddPhotoAlternateRoundedIcon
-                    className="background-primary"
-                    style={{
-                      padding: "10px",
-                      color: "white",
-                      borderRadius: "100px",
-                    }}
-                  />
-                </IconButton>
+                  <Tooltip title="Update Photo">
+                    <IconButton component="label">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        hidden
+                        onChange={(e) => updatePostImg(e.target.files[0])}
+                      />
+                      <AddPhotoAlternateRoundedIcon
+                        className="background-primary"
+                        style={{
+                          padding: "10px",
+                          color: "white",
+                          borderRadius: "100px",
+                        }}
+                      />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Remove Photo">
+                    <IconButton onClick={removePhoto}>
+                      <ClearRoundedIcon
+                        style={{
+                          padding: "10px",
+                          color: "white",
+                          borderRadius: "100px",
+                          backgroundColor: "red",
+                        }}
+                      />
+                    </IconButton>
+                  </Tooltip>
+                </div>
               </div>
             )}
             <TextField
@@ -180,6 +204,23 @@ function Post(props) {
                 <MenuItem value={1}>Only Followers</MenuItem>
               </Select>
             </FormControl>
+            {!postImg && (
+              <Button
+                startIcon={<AddPhotoAlternateRoundedIcon />}
+                component="label"
+                style={{ margin: "10px 0px" }}
+                color="primary"
+                variant="contained"
+              >
+                Upload Photo
+                <input
+                  type="file"
+                  accept="image/*"
+                  hidden
+                  onChange={(e) => updatePostImg(e.target.files[0])}
+                />
+              </Button>
+            )}
           </DialogContent>
           <DialogActions>
             <Button
