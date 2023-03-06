@@ -112,9 +112,10 @@ class Post(PostResource):
         return {'message': "Something went wrong :("}, 500
     
     def delete(self):
-        self.parser.add_argument('id', type=str, help="post id is required", required=True)
-        args = self.parser.parse_args()
-        postId = ObjectId(args['id'])
+        postId = request.args.get('id')
+        if not postId:
+            return abort(400, "Bad Request")
+        postId = ObjectId(postId)
         isDeleted = self.postModal.delete(postId)
         if isDeleted:
             return {'message': "Post deleted successfully"}, 200

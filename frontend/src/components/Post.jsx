@@ -88,6 +88,20 @@ function Post(props) {
       });
   };
 
+  const sendDeleteRequest = () => {
+    if (confirm("Are you sure you want to delete the post?")) {
+      fetch(`/api/post?id=${props.id}`, {
+        method: "DELETE",
+      }).then((response) => {
+        if (response.ok) {
+          window.location.reload();
+        } else {
+          alert("Something went wrong :(");
+        }
+      });
+    }
+  };
+
   const updatePostImg = (img) => {
     const reader = new FileReader();
     reader.readAsDataURL(img);
@@ -357,7 +371,7 @@ function Post(props) {
           <EditRoundedIcon />
           &nbsp; Edit
         </MenuItem>
-        <MenuItem style={{ color: "red" }}>
+        <MenuItem style={{ color: "red" }} onClick={sendDeleteRequest}>
           <DeleteRoundedIcon /> &nbsp; Delete
         </MenuItem>
       </Menu>
