@@ -89,7 +89,8 @@ function Post(props) {
   };
 
   const sendDeleteRequest = () => {
-    if (confirm("Are you sure you want to delete the post?")) {
+    const isConfirmed = confirm("Are you sure you want to delete the post?");
+    if (isConfirmed) {
       fetch(`/api/post?id=${props.id}`, {
         method: "DELETE",
       }).then((response) => {

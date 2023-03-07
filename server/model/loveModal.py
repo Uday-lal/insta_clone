@@ -21,32 +21,10 @@ class LoveModal(Modal):
                 }
             }
         })
-    
-    def read(self, query: dict):
-        data = self.collection.find_one(query)
-        data["_id"] = str(data["_id"])
-        return data
-    
-    def create(self, data: dict):
-        self.collection.insert_one(data)
-
-    def update(self, data: dict, id: ObjectId):
-        try:
-            self.collection.update_one({"_id": id}, {"$set": data}, upsert=True)
-            return True
-        except Exception as e:
-            return False
-
-    def delete(self, id: ObjectId):
-        try:
-            self.collection.delete_one({"_id": id})
-            return True
-        except Exception as e:
-            return False
 
     def readAll(self, userId: str):
         """
-        Return all the loves that a paticular user
+        Return all the loves that a paticular user did
         :userId str: The id of the user
         :return: list
         """
