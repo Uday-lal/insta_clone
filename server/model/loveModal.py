@@ -2,34 +2,22 @@ from bson.objectid import ObjectId
 from .modal import Modal
 
 
-class PostModel(Modal):
+class LoveModal(Modal):
     def __init__(self) -> None:
-        super().__init__(collectionName="posts", validator={
+        super().__init__(collectionName="reaction", validator={
             '$jsonSchema': {
                 'bsonType': 'object',
-                'title': "Post Object Validation",
-                'required': ['user_id', 'post', 'visibility', 'img_content', 'created_at'],
+                'title': "Reaction Object Validation",
+                'required': ['user_id', 'post_id'],
                 'properties': {
                     'user_id': {
                         'bsonType': 'string',
                         'description': "'user_id' must be a string and is required"
                     },
-                    'post': {
+                    'post_id': {
                         'bsonType': 'string',
-                        'description': "'post' must be a string and is required"
+                        'description': "'post_id' must be a string and is required"
                     },
-                    'visibility': {
-                        'bsonType': 'string',
-                        'description': "'visibility' must be a string and is required"
-                    },
-                    'img_content': {
-                        'bsonType': ['string', 'null'],
-                        'description': "'img_content' must be a string and is required"
-                    },
-                    'created_at': {
-                        'bsonType': 'double',
-                        'description': "'img_content' must be a double and is required"
-                    }
                 }
             }
         })
@@ -38,7 +26,7 @@ class PostModel(Modal):
         data = self.collection.find_one(query)
         data["_id"] = str(data["_id"])
         return data
-
+    
     def create(self, data: dict):
         self.collection.insert_one(data)
 
@@ -57,5 +45,23 @@ class PostModel(Modal):
             return False
 
     def readAll(self, userId: str):
+        """
+        Return all the loves that a paticular user
+        :userId str: The id of the user
+        :return: list
+        """
         data = self.collection.find({'user_id': userId})
         return data
+
+    def readAllLoves(self, postId: str):
+        """
+        Return all the loves on a paticular post
+        :postId: The id of the post
+        :return: list
+        """
+        data = self.collection.find({'user_id': postId})
+        return data
+    
+    def countLove(self, postId: str):
+        loveCount = self.collection.find({'post_id': postId}).count()
+        return loveCount
