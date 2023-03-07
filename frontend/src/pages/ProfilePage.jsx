@@ -230,6 +230,7 @@ function ProfilePage(props) {
                       color={props.color}
                       imageContent={post.img_content}
                       textContent={post.post}
+                      loves={post.loves}
                       style={{
                         marginTop: "20px",
                       }}

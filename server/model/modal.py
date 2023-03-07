@@ -6,7 +6,11 @@ class Modal:
     def __init__(self, *args, **kwargs):
         collectionName = kwargs.get('collectionName')
         validator = kwargs.get('validator')
-        self.collection = DB[collectionName]
+        try:
+            DB.create_collection(collectionName)
+            self.collection = DB[collectionName]
+        except Exception:
+            self.collection = DB[collectionName]
         DB.command('collMod', collectionName, validator=validator)
 
     def read(self, query: dict) -> dict:

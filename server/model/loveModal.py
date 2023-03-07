@@ -4,10 +4,10 @@ from .modal import Modal
 
 class LoveModal(Modal):
     def __init__(self) -> None:
-        super().__init__(collectionName="reaction", validator={
+        super().__init__(collectionName="loves", validator={
             '$jsonSchema': {
                 'bsonType': 'object',
-                'title': "Reaction Object Validation",
+                'title': "Loves Object Validation",
                 'required': ['user_id', 'post_id'],
                 'properties': {
                     'user_id': {
@@ -39,7 +39,3 @@ class LoveModal(Modal):
         """
         data = self.collection.find({'user_id': postId})
         return data
-    
-    def countLove(self, postId: str):
-        loveCount = self.collection.find({'post_id': postId}).count()
-        return loveCount

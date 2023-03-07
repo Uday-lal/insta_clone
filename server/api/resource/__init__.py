@@ -1,6 +1,7 @@
 from flask_restful import Resource
 from flask_restful import reqparse
 from flask import request
+from ...model.users import UserModel
 from flask import abort
 
 
@@ -13,7 +14,17 @@ class AppResource(Resource):
             return abort(401, "Unauthenticated")
         self.token = token
     
-    @staticmethod    
-    def readUserToken():
+    def readUserToken(self):
         token = request.cookies.get('token')
+        isTokenValid = self.__varifyToken(token)
+        if isTokenValid:
+            return None
         return token
+
+    @staticmethod
+    def __varifyToken(token):
+        userModal = UserModel()
+        userData = userModal.read(token)
+        if userData is not None:
+            return True
+        return False

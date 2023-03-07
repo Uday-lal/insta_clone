@@ -320,7 +320,7 @@ function Post(props) {
             color="error"
             startIcon={<FavoriteBorderRoundedIcon />}
           >
-            Love 1.6L
+            Love {props.loves}
           </Button>
           <Button
             style={{ textTransform: "none" }}
