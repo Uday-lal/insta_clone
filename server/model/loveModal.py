@@ -26,7 +26,7 @@ class LoveModal(Modal):
         """
         Return all the loves that a paticular user did
         :userId str: The id of the user
-        :return: list
+        :return: object
         """
         data = self.collection.find({'user_id': userId})
         return data
@@ -35,7 +35,7 @@ class LoveModal(Modal):
         """
         Return all the loves on a paticular post
         :postId: The id of the post
-        :return: list
+        :return: object
         """
         data = self.collection.find({'user_id': postId})
         return data
