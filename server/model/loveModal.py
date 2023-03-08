@@ -39,3 +39,9 @@ class LoveModal(Modal):
         """
         data = self.collection.find({'user_id': postId})
         return data
+
+    def isUserLovedPost(self, userId: str, postId: str) -> bool:
+        loveData = self.read({'user_id': userId, 'post_id': postId})
+        if loveData is not None:
+            return True
+        return False

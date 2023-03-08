@@ -231,6 +231,7 @@ function ProfilePage(props) {
                       imageContent={post.img_content}
                       textContent={post.post}
                       loves={post.loves}
+                      isLoved={post.is_loved}
                       style={{
                         marginTop: "20px",
                       }}

@@ -13,10 +13,12 @@ class Modal:
             self.collection = DB[collectionName]
         DB.command('collMod', collectionName, validator=validator)
 
-    def read(self, query: dict) -> dict:
+    def read(self, query: dict):
         data = self.collection.find_one(query)
-        data["_id"] = str(data["_id"])
-        return data
+        if data is not None:
+            data["_id"] = str(data["_id"])
+            return data
+        return None
     
     def create(self, data: dict) -> None:
         self.collection.insert_one(data)

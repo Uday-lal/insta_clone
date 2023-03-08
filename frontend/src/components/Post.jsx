@@ -24,6 +24,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
+import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 
 function Post(props) {
@@ -34,6 +35,11 @@ function Post(props) {
   const [postImg, setPostImg] = useState();
   const [postImgData, setPostImgData] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const [loveCount, setLoveCount] = useState(props.loves);
+  const [isLoved, setIsLoved] = useState(props.isLoved);
+  const [loveIcon, setLoveIcon] = isLoved
+    ? useState(<FavoriteRoundedIcon />)
+    : useState(<FavoriteBorderRoundedIcon />);
 
   const handleClose = () => {
     setMenuOpen(false);
@@ -108,6 +114,26 @@ function Post(props) {
     reader.readAsDataURL(img);
     setPostImgData(img);
     reader.onload = () => setPostImg(reader.result);
+  };
+
+  const sendLoveRequest = () => {
+    fetch("/api/love", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+      },
+      body: JSON.stringify({ post_id: props.id }),
+    }).then((res) => {
+      if (res.ok) {
+        isLoved ? setLoveCount(loveCount - 1) : setLoveCount(loveCount + 1);
+        setIsLoved(!isLoved);
+        isLoved
+          ? setLoveIcon(<FavoriteBorderRoundedIcon />)
+          : setLoveIcon(<FavoriteRoundedIcon />);
+      } else {
+        alert("Something went wrong :(");
+      }
+    });
   };
 
   return (
@@ -318,9 +344,10 @@ function Post(props) {
           <Button
             style={{ textTransform: "none" }}
             color="error"
-            startIcon={<FavoriteBorderRoundedIcon />}
+            startIcon={loveIcon}
+            onClick={sendLoveRequest}
           >
-            Love {props.loves}
+            Love {loveCount}
           </Button>
           <Button
             style={{ textTransform: "none" }}

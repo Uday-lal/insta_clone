@@ -31,9 +31,11 @@ class Post(PostResource):
             timeFormat = TimeFormat(post["created_at"])
             timespan = timeFormat.getTimeSpan()
             loveCount = loveModal.getDataCount({'post_id': str(post['_id'])})
+            isLoved = loveModal.isUserLovedPost(self.token, str(post['_id']))
             post["_id"] = str(post['_id'])
             post['timespan'] = timespan
             post['loves'] = loveCount
+            post['is_loved'] = isLoved
             posts.append(post)
 
         return posts
