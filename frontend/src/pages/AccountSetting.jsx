@@ -78,7 +78,9 @@ function AccountSetting(props) {
     } else {
       return (
         <div style={{ position: "relative" }} className="avatar_container">
-          <Avatar sx={{ bgcolor: props.color, width: 50, height: 50 }}>
+          <Avatar
+            sx={{ bgcolor: props.color, width: 70, height: 70, fontSize: 30 }}
+          >
             {props.userName[0]}
           </Avatar>
           <AddImageIconButton component="label">

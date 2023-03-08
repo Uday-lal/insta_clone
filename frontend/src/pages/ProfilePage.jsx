@@ -175,6 +175,7 @@ function ProfilePage(props) {
                 profileImg={props.profileImg}
                 userName={props.userName}
                 about={props.about}
+                color={props.color}
               />
             </Grid>
             <Grid xs={6} item>

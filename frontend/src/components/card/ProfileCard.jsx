@@ -15,7 +15,14 @@ function ProfileCard(props) {
       );
     } else {
       return (
-        <Avatar sx={{ bgcolor: props.color, width: width, height: height }}>
+        <Avatar
+          sx={{
+            bgcolor: props.color,
+            width: width,
+            height: height,
+            fontSize: 30,
+          }}
+        >
           {props.userName[0]}
         </Avatar>
       );
