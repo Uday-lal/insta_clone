@@ -20,23 +20,14 @@ const settings = [
   {
     name: "Profile",
     href: "/profile",
-    handleFunction: function () {
-      console.log("profile");
-    },
   },
   {
     name: "Account Settings",
     href: "/setting",
-    handleFunction: function () {
-      window.location.replace("/setting");
-    },
   },
   {
     name: "Logout",
-    href: "#",
-    handleFunction: function () {
-      console.log("logout");
-    },
+    href: "/logout",
   },
 ];
 
@@ -188,7 +179,6 @@ function ResponsiveAppBar(props) {
                       </Typography>
                     </Link>
                   )}
-                  onClick={setting.handleFunction}
                 ></MenuItem>
               ))}
             </Menu>

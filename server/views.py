@@ -71,10 +71,18 @@ def createAccount():
                 "profile_img": None,
                 "password": hash_password,
                 "color": random.choice(colors),
-                "about": ""
+                "about": "",
+                'tag_name': email[0:email.find('@')]
             }
             userModel.create(users)
             return redirect("/login")
         else:
             return abort(400)
     return returnTemplate()
+
+
+@views.route('/logout')
+def logout():
+    responce = make_response(redirect('/login'))
+    responce.set_cookie("token", '', expires=0)
+    return responce
