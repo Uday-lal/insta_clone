@@ -19,7 +19,7 @@ class UserProfileImg(UserResource):
         )
         args = self.parser.parse_args()
         profileImg = args["profileImg"]
-        imageName = self._saveProfileImg(profileImg)
+        imageName = self.__saveProfileImg(profileImg)
         updateData = {
             "profile_img": imageName 
         }
@@ -28,7 +28,7 @@ class UserProfileImg(UserResource):
             return {'message': 'User updated successfully'}, 200
         return {"message": "Something went wrong :("}, 500
 
-    def _saveProfileImg(self, profileImg):
+    def __saveProfileImg(self, profileImg):
         _, fileExt = os.path.splitext(profileImg.filename)
         size = (250, 250)
         imageName = secrets.token_hex(8) + fileExt

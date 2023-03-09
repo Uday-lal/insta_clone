@@ -3,7 +3,6 @@ import Paper from "@mui/material/Paper";
 import Container from "@mui/material/Container";
 import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
-import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -16,7 +15,9 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
-import ProfileCard from "../components/card/ProfileCard.jsx";
+import PersonAddAltRoundedIcon from "@mui/icons-material/PersonAddAltRounded";
+import Card from "@mui/material/Card";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import useAvatar from "../hooks/useAvatar.jsx";
 import Post from "../components/Post.jsx";
 import { useState, useEffect } from "react";
@@ -171,15 +172,96 @@ function ProfilePage(props) {
             spacing={5}
           >
             <Grid xs={3} item>
-              <ProfileCard
-                profileImg={props.profileImg}
-                userName={props.userName}
-                about={props.about}
-                color={props.color}
-              />
+              <Card
+                sx={{
+                  padding: "30px 14px",
+                }}
+              >
+                <div className="upper-postion flex">
+                  <Box>
+                    {useAvatar(
+                      props.profileImg,
+                      80,
+                      80,
+                      props.userName,
+                      props.color
+                    )}
+                  </Box>
+                  <Box>
+                    <Box className="flex" style={{ marginLeft: 10 }}>
+                      <Box>
+                        <h3 style={{ fontWeight: "revert" }}>
+                          {props.userName}
+                        </h3>
+                        <p
+                          className="text-secondary"
+                          style={{ fontSize: 14, marginTop: 3 }}
+                        >
+                          {props.tagName}
+                        </p>
+                      </Box>
+                      <Box>
+                        {props.isNotCurrentUserProfile && (
+                          <Button
+                            variant="outlined"
+                            sx={{ textTransform: "none" }}
+                            style={{ marginLeft: 20 }}
+                            startIcon={<PersonAddAltRoundedIcon />}
+                          >
+                            Follow
+                          </Button>
+                        )}
+                      </Box>
+                    </Box>
+                    <Box
+                      className="flex"
+                      style={{ marginLeft: 10, marginTop: 10 }}
+                    >
+                      <Box className="flex center">
+                        <h4>100</h4>
+                        &nbsp;
+                        <span
+                          style={{ fontSize: 12 }}
+                          className="text-secondary"
+                        >
+                          Followers
+                        </span>
+                      </Box>
+                      <Box className="flex center" style={{ marginLeft: 10 }}>
+                        <h4>100</h4>
+                        &nbsp;
+                        <span
+                          style={{ fontSize: 12 }}
+                          className="text-secondary"
+                        >
+                          Following
+                        </span>
+                      </Box>
+                      <Box className="flex center" style={{ marginLeft: 10 }}>
+                        <h4>{postData.length}</h4>
+                        &nbsp;
+                        <span
+                          style={{ fontSize: 12 }}
+                          className="text-secondary"
+                        >
+                          Post
+                        </span>
+                      </Box>
+                    </Box>
+                    <Box style={{ marginTop: 10, marginLeft: 10 }}>
+                      <p
+                        className="text-secondary"
+                        style={{ fontSize: 15, fontWeight: "600" }}
+                      >
+                        {props.about}
+                      </p>
+                    </Box>
+                  </Box>
+                </div>
+              </Card>
             </Grid>
             <Grid xs={6} item>
-              <Paper
+              {/* <Paper
                 component="form"
                 sx={{
                   p: "10px",
@@ -218,7 +300,7 @@ function ProfilePage(props) {
                   />
                   <AddPhotoAlternateRoundedIcon />
                 </IconButton>
-              </Paper>
+              </Paper> */}
               <div className="post-container">
                 {postData.map((post) => {
                   return (
@@ -234,7 +316,7 @@ function ProfilePage(props) {
                       loves={post.loves}
                       isLoved={post.is_loved}
                       style={{
-                        marginTop: "20px",
+                        marginBottom: "20px",
                       }}
                     />
                   );

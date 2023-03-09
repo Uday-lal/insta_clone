@@ -72,7 +72,7 @@ def createAccount():
                 "password": hash_password,
                 "color": random.choice(colors),
                 "about": "",
-                'tag_name': email[0:email.find('@')]
+                'tag_name': f"@{email[0:email.find('@')]}"
             }
             userModel.create(users)
             return redirect("/login")

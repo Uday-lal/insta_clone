@@ -21,6 +21,7 @@ function App() {
   const [openAlert, setOpenAlert] = useState(false);
   const [alertStatus, setAlertStatus] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
+  const [tagName, setTagName] = useState("");
 
   useEffect(() => {
     const url = "/api/user";
@@ -37,6 +38,7 @@ function App() {
           setProfileColor(data.profile_color);
           setAbout(data.about);
           setEmail(data.email);
+          setTagName(data.tag_name);
         });
       } else {
         setOpenAlert(true);
@@ -63,6 +65,7 @@ function App() {
                   profileImg={profileImg}
                   color={profileColor}
                   about={about}
+                  tagName={tagName}
                 />
               </div>
             </Route>
@@ -80,6 +83,7 @@ function App() {
                   name={username}
                   email={email}
                   about={about}
+                  tagName={tagName}
                 />
               </div>
             </Route>
@@ -97,6 +101,8 @@ function App() {
                   name={username}
                   email={email}
                   about={about}
+                  isNotCurrentUserProfile={true}
+                  tagName={tagName}
                 />
               </div>
             </Route>

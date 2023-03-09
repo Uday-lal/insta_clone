@@ -16,7 +16,8 @@ class User(UserResource):
                 "email": userData["email"],
                 "profile_img": userData["profile_img"],
                 "profile_color": userData["color"],
-                "about": userData["about"]
+                "about": userData["about"],
+                "tag_name": userData["tag_name"]
             }
             return data
         else:
