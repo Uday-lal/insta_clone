@@ -12,6 +12,7 @@ class User(UserResource):
             query = {"_id": ObjectId(token)}
             userData = self.userModel.read(query)
             data = {
+                "id": str(userData["_id"]),
                 "name": userData["name"],
                 "email": userData["email"],
                 "profile_img": userData["profile_img"],

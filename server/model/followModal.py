@@ -92,3 +92,10 @@ class FollowModal(Modal):
             { "$unwind": "$tag_name" }
         ])
         return list(followings)
+
+    def delete(self, qurey: dict) -> bool:
+        try:
+            self.collection.delete_one(qurey)
+            return True
+        except Exception:
+            return False

@@ -21,7 +21,11 @@ function App() {
   const [openAlert, setOpenAlert] = useState(false);
   const [alertStatus, setAlertStatus] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
+  const [userId, setUserId] = useState();
   const [tagName, setTagName] = useState("");
+  const [followersCount, setFollowersCount] = useState();
+  const [followingsCount, setFollowingsCount] = useState();
+  const [connectionData, setConnectionData] = useState();
 
   useEffect(() => {
     const url = "/api/user";
@@ -33,12 +37,14 @@ function App() {
     }).then((responce) => {
       if (responce.ok) {
         responce.json().then((data) => {
+          setUserId(data.id);
           setUsername(data.name);
           setProfileImg(data.profile_img);
           setProfileColor(data.profile_color);
           setAbout(data.about);
           setEmail(data.email);
           setTagName(data.tag_name);
+          getFollowData(data.id);
         });
       } else {
         setOpenAlert(true);
@@ -47,6 +53,26 @@ function App() {
       }
     });
   }, []);
+
+  const getFollowData = (id) => {
+    const fellowUrl = "/api/follow";
+    fetch(`${fellowUrl}?user_id=${id}`, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+      })
+      .then((data) => {
+        setConnectionData(data);
+        setFollowersCount(data.followers_count);
+        setFollowingsCount(data.followings_count);
+      });
+  };
 
   return (
     <React.Fragment>
@@ -103,6 +129,8 @@ function App() {
                   about={about}
                   isNotCurrentUserProfile={true}
                   tagName={tagName}
+                  followersCount={followersCount}
+                  followingsCount={followingsCount}
                 />
               </div>
             </Route>

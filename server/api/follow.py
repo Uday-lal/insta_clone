@@ -17,7 +17,7 @@ class Follow(FollowResource):
             followings = self.followModal.getFollowings(ObjectId(userId))
             data = {
                 "followers_count": followersCount,
-                "following_count": followingCount,
+                "followings_count": followingCount,
                 "followers": followers,
                 "followings": followings
             }
@@ -30,6 +30,17 @@ class Follow(FollowResource):
         following_id = args['following_id']
         self.followModal.create({'user_id': ObjectId(self.token), 'following_id': ObjectId(following_id)})
         return {'message': 'Following is successfully created'}, 200
+
+    def delete(self):
+        self.parser.add_argument('following_id', type=str, required=True, help="following_id is required")
+        args = self.parser.parse_args()
+        following_id = args['following_id']
+        deleteData = {
+            'user_id': self.token,
+            'following_id': following_id
+        }
+        isDeleted = self.followModal.delete(deleteData)
+        return {'message': 'Deleted successfully'}, 200 if isDeleted else {'message': 'Delete failed'}, 500
     
     @staticmethod
     def varifyUserId(userId):

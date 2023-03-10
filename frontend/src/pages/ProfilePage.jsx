@@ -30,6 +30,7 @@ function ProfilePage(props) {
   const [postText, setPostText] = useState("");
   const [visiblty, setVisiblty] = useState();
   const [postData, setPostData] = useState([]);
+  const [connectionData, setConnectionData] = useState();
   const url = "/api/post";
 
   useEffect(() => {
@@ -218,7 +219,7 @@ function ProfilePage(props) {
                       style={{ marginLeft: 10, marginTop: 10 }}
                     >
                       <Box className="flex center">
-                        <h4>100</h4>
+                        <h4>{props.followersCount}</h4>
                         &nbsp;
                         <span
                           style={{ fontSize: 12 }}
@@ -228,7 +229,7 @@ function ProfilePage(props) {
                         </span>
                       </Box>
                       <Box className="flex center" style={{ marginLeft: 10 }}>
-                        <h4>100</h4>
+                        <h4>{props.followingsCount}</h4>
                         &nbsp;
                         <span
                           style={{ fontSize: 12 }}
