@@ -1,25 +1,41 @@
 from . import DB
 from bson.objectid import ObjectId
+from .modal import Modal
 
 
-class UserModel:
+class UserModel(Modal):
     def __init__(self) -> None:
-        self.users = DB["users"]
-    
-    def read(self, query):
-        data = self.users.find_one(query)
-        return data
-
-    def create(self, data: dict):
-        self.users.create_index("email", unique=True)
-        self.users.insert_one(data) 
-
-    def update(self, data: dict, id: ObjectId):
-        try:
-            self.users.update_one({"_id": id}, {"$set": data}, upsert=True)
-            return True
-        except Exception as e:
-            return False
-
-    def delete(self, id: ObjectId):
-        self.users.delete_one({"_id": id})
+        super(UserModel, self).__init__(collectionName='users', validator={
+            '$jsonSchema': {
+                'bsonType': 'object',
+                'title': "Users Object Validation",
+                'required': ['name', 'email', 'password', 'color', 'about', 'tag_name'],
+                'properties': {
+                    'name': {
+                        'bsonType': 'string',
+                        'description': "'name' must be a string and is required"
+                    },
+                    'email': {
+                        'bsonType': 'string',
+                        'description': "'email' must be a string and is required"
+                    },
+                    'password': {
+                        'bsonType': 'string',
+                        'description': "'password' must be a string and is required"
+                    },
+                    'color': {
+                        'bsonType': 'string',
+                        'description': "'color' must be a string and is required"
+                    },
+                    'about': {
+                        'bsonType': 'string',
+                        'description': "'about' must be a string and is required"
+                    },
+                    'tag_name': {
+                        'bsonType': 'string',
+                        'description': "'tag_name' must be a string and is required"
+                    },
+                }
+            }
+        })
+        self.collection.create_index("email", unique=True)

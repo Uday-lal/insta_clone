@@ -201,7 +201,7 @@ function ProfilePage(props) {
                         </p>
                       </Box>
                       <Box>
-                        {props.isNotCurrentUserProfile && (
+                        {!props.isNotCurrentUserProfile && (
                           <Button
                             variant="outlined"
                             sx={{ textTransform: "none" }}
