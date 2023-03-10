@@ -15,8 +15,6 @@ class Follow(FollowResource):
             followingCount = self.followModal.getDataCount({'user_id': ObjectId(userId)})
             followers = self.followModal.getFollowers(ObjectId(userId))
             followings = self.followModal.getFollowings(ObjectId(userId))
-            print(followers) 
-            print(followings)
             data = {
                 "followers_count": followersCount,
                 "following_count": followingCount,
