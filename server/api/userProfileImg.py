@@ -29,6 +29,7 @@ class UserProfileImg(UserResource):
         return {"message": "Something went wrong :("}, 500
 
     def __saveProfileImg(self, profileImg):
+        self.__deleteUserOldProfileImg()
         _, fileExt = os.path.splitext(profileImg.filename)
         size = (250, 250)
         imageName = secrets.token_hex(8) + fileExt
@@ -37,3 +38,11 @@ class UserProfileImg(UserResource):
         image.thumbnail(size)
         image.save(filePath)
         return imageName
+
+    def __deleteUserOldProfileImg(self):
+        userData = self.userModel.read({'_id': ObjectId(self.token)})
+        profileImg = userData['profile_img']
+        if profileImg:
+            filePath = os.path.join(os.getcwd(), 'server', 'static', 'uploads', 'profile_imgs', profileImg)
+            if os.path.exists(filePath):
+                os.remove(filePath)

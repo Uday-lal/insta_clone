@@ -185,7 +185,8 @@ function ProfilePage(props) {
                       80,
                       80,
                       props.userName,
-                      props.color
+                      props.color,
+                      25
                     )}
                   </Box>
                   <Box>

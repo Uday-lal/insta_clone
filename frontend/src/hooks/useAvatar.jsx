@@ -1,6 +1,6 @@
 import Avatar from "@mui/material/Avatar";
 
-function useAvatar(profileImg, width, height, userName, color) {
+function useAvatar(profileImg, width, height, userName, color, fontSize) {
   if (profileImg) {
     return (
       <Avatar
@@ -11,7 +11,14 @@ function useAvatar(profileImg, width, height, userName, color) {
     );
   } else {
     return (
-      <Avatar sx={{ bgcolor: color, width: width, height: height }}>
+      <Avatar
+        sx={{
+          bgcolor: color,
+          width: width,
+          height: height,
+          fontSize: fontSize,
+        }}
+      >
         {userName[0]}
       </Avatar>
     );

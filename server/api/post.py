@@ -53,7 +53,7 @@ class Post(PostResource):
         visibility = args['visibility']
         img_content = args['img_content']
         if img_content is not None:
-            img_name = self._savePostImg(img_content)
+            img_name = self.__savePostImg(img_content)
         else:
             img_name = None
         token = self.readUserToken()
@@ -68,7 +68,7 @@ class Post(PostResource):
         self.postModal.create(data)
         return {'message': 'Post created successfully'}, 200
     
-    def _savePostImg(self, postImg):
+    def __savePostImg(self, postImg):
         _, fileExt = os.path.splitext(postImg.filename)
         imageName = secrets.token_hex(8) + fileExt
         filePath = os.path.join(os.getcwd(), 'server', 'static', 'uploads', 'posts', imageName)
@@ -76,7 +76,7 @@ class Post(PostResource):
         image.save(filePath)
         return imageName
 
-    def _deleteOldPostImg(self, postId : str) -> None:
+    def __deleteOldPostImg(self, postId : str) -> None:
         postData = self.postModal.read({"_id": ObjectId(postId)})
         imgContent = postData['img_content']
         if imgContent:
@@ -101,10 +101,10 @@ class Post(PostResource):
         visibility = args['visibility']
         img_content = args['img_content']
         if img_content is not None:
-            self._deleteOldPostImg(postId)
-            img_name = self._savePostImg(img_content)
+            self.__deleteOldPostImg(postId)
+            img_name = self.__savePostImg(img_content)
         else:
-            self._deleteOldPostImg(postId)
+            self.__deleteOldPostImg(postId)
             img_name = None
 
         updateData = {

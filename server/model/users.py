@@ -35,6 +35,10 @@ class UserModel(Modal):
                         'bsonType': 'string',
                         'description': "'tag_name' must be a string and is required"
                     },
+                    "keywords": {
+                        'bsonType': 'array',
+                        'description': "'keywords' must be a array and is required"
+                    }
                 }
             }
         })

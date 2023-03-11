@@ -11,16 +11,18 @@ class User(UserResource):
         if token is not None:
             query = {"_id": ObjectId(token)}
             userData = self.userModel.read(query)
-            data = {
-                "id": str(userData["_id"]),
-                "name": userData["name"],
-                "email": userData["email"],
-                "profile_img": userData["profile_img"],
-                "profile_color": userData["color"],
-                "about": userData["about"],
-                "tag_name": userData["tag_name"]
-            }
-            return data
+            if userData is not None:
+                data = {
+                    "id": str(userData["_id"]),
+                    "name": userData["name"],
+                    "email": userData["email"],
+                    "profile_img": userData["profile_img"],
+                    "profile_color": userData["color"],
+                    "about": userData["about"],
+                    "tag_name": userData["tag_name"]
+                }
+                return data, 200
+            return {"message": "User not found"}, 404
         else:
             return abort(401, "Unauthenticated")
     

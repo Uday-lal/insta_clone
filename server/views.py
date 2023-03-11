@@ -64,7 +64,8 @@ def createAccount():
         if (name != "" and email != "" and password != ""):
             crypt_password = bcrypt.generate_password_hash(password)
             hash_password = crypt_password.decode("utf-8")
-            colors = ["red", "blue", "green", "yellow", "orange", "purple"]
+            colors = ["red", "blue", "green", "violet", "orange", "purple"]
+            keywords = getKeywords(name)
             users = {
                 "name": removeWhiteSpace(name),
                 "email": email,
@@ -72,13 +73,28 @@ def createAccount():
                 "password": hash_password,
                 "color": random.choice(colors),
                 "about": "",
-                'tag_name': f"@{email[0:email.find('@')]}"
+                'tag_name': f"@{email[0:email.find('@')]}",
+                'keywords': keywords
             }
             userModel.create(users)
             return redirect("/login")
         else:
             return abort(400)
     return returnTemplate()
+
+
+def getKeywords(userName: str):
+    keywords = [userName]
+    keywords.append(userName.upper())
+    keywords.append(userName.lower())
+    if " " in userName:
+        whiteSpaceIndex = userName.find(" ")
+        keywords.append(userName[0:whiteSpaceIndex])
+        keywords.append(userName[whiteSpaceIndex+1:])
+    for char in userName:
+        if char != " ":
+            keywords.append(char)
+    return keywords
 
 
 @views.route('/logout')
