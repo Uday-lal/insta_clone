@@ -34,6 +34,7 @@ const settings = [
 function ResponsiveAppBar(props) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [options, setOptions] = React.useState([]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -70,7 +71,7 @@ function ResponsiveAppBar(props) {
               textDecoration: "none",
             }}
           >
-            Insta
+            UR's Net
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -134,7 +135,7 @@ function ResponsiveAppBar(props) {
               paddingRight: "25px",
             }}
           >
-            <Search />
+            <Search options={options} />
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
