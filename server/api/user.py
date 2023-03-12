@@ -1,30 +1,35 @@
 from .resource.usersResource import UserResource
-from flask import abort
+from flask import abort, request
 from bson.objectid import ObjectId
+from ..model.followModal import FollowModal
 
 class User(UserResource):
     def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
 
     def get(self):
-        token = self.readUserToken()
-        if token is not None:
-            query = {"_id": ObjectId(token)}
-            userData = self.userModel.read(query)
-            if userData is not None:
-                data = {
-                    "id": str(userData["_id"]),
-                    "name": userData["name"],
-                    "email": userData["email"],
-                    "profile_img": userData["profile_img"],
-                    "profile_color": userData["color"],
-                    "about": userData["about"],
-                    "tag_name": userData["tag_name"]
-                }
-                return data, 200
-            return {"message": "User not found"}, 404
-        else:
-            return abort(401, "Unauthenticated")
+        tag_name = request.args.get('tag_name')
+        token = self.token
+        query = {"_id": ObjectId(token)} if tag_name is None else {"tag_name": tag_name}
+        userData = self.userModel.read(query)
+        if userData is not None:
+            followModal = FollowModal()
+            followData = followModal.read({
+                'user_id': ObjectId(token), 
+                'following_id': ObjectId(userData["_id"])
+            })
+            data = {
+                "id": userData["_id"],
+                "name": userData["name"],
+                "email": userData["email"],
+                "profile_img": userData["profile_img"],
+                "profile_color": userData["color"],
+                "about": userData["about"],
+                "tag_name": userData["tag_name"],
+                'is_you_following': followData is not None,
+            }
+            return data, 200
+        return {'message': 'User not found'}, 404
     
     def put(self):
         self.parser.add_argument("username", type=str, help="username is required", required=True, location="form")

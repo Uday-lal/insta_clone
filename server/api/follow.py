@@ -36,11 +36,13 @@ class Follow(FollowResource):
         args = self.parser.parse_args()
         following_id = args['following_id']
         deleteData = {
-            'user_id': self.token,
-            'following_id': following_id
+            'user_id': ObjectId(self.token),
+            'following_id': ObjectId(following_id)
         }
         isDeleted = self.followModal.delete(deleteData)
-        return {'message': 'Deleted successfully'}, 200 if isDeleted else {'message': 'Delete failed'}, 500
+        if isDeleted:
+            return {'message': 'Deleted successfully'}, 200
+        return {'message': 'Delete failed'}, 500
     
     @staticmethod
     def varifyUserId(userId):

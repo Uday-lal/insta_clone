@@ -26,7 +26,6 @@ const Input = styled("input")(({ theme }) => ({
 
 const Listbox = styled("ul")(({ theme }) => ({
   margin: 0,
-  // padding: 10,
   zIndex: 1,
   position: "absolute",
   listStyle: "none",
@@ -88,7 +87,11 @@ function Search(props) {
             >
               {groupedOptions.map((option, index) => (
                 <>
-                  <ListItemButton>
+                  <ListItemButton
+                    onClick={() =>
+                      window.location.replace(`/profile/${option.tag_name}`)
+                    }
+                  >
                     <ListItem>
                       <ListItemAvatar>
                         {useAvatar(

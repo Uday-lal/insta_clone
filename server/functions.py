@@ -10,11 +10,11 @@ def returnTemplate():
 
 
 def varifyLogin(function):
-    def decorator():
+    def decorator(*args, **kwargs):
         loginToken = getCookie("token")
         if loginToken is None:
             return redirect("login")
-        return function()
+        return function(*args, **kwargs)
 
     return decorator
 

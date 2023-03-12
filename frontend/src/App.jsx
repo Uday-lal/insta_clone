@@ -10,6 +10,7 @@ import Alert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import ProfilePage from "./pages/ProfilePage.jsx";
+import SearchPage from "./pages/SearchPage.jsx";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -113,6 +114,16 @@ function App() {
                 />
               </div>
             </Route>
+            <Route path="/profile/:tag_name">
+              <div className="page">
+                <ResponsiveAppBar
+                  userName={username}
+                  profileImg={profileImg}
+                  color={profileColor}
+                />
+                <SearchPage />
+              </div>
+            </Route>
             <Route path="/profile">
               <div className="page">
                 <ResponsiveAppBar
@@ -127,6 +138,7 @@ function App() {
                   name={username}
                   email={email}
                   about={about}
+                  userId={userId}
                   isNotCurrentUserProfile={true}
                   tagName={tagName}
                   followersCount={followersCount}

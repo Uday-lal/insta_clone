@@ -16,6 +16,7 @@ import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import PersonAddAltRoundedIcon from "@mui/icons-material/PersonAddAltRounded";
+import PersonRemoveAlt1RoundedIcon from "@mui/icons-material/PersonRemoveAlt1Rounded";
 import Card from "@mui/material/Card";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import useAvatar from "../hooks/useAvatar.jsx";
@@ -203,16 +204,28 @@ function ProfilePage(props) {
                         </p>
                       </Box>
                       <Box>
-                        {!props.isNotCurrentUserProfile && (
-                          <Button
-                            variant="outlined"
-                            sx={{ textTransform: "none" }}
-                            style={{ marginLeft: 20 }}
-                            startIcon={<PersonAddAltRoundedIcon />}
-                          >
-                            Follow
-                          </Button>
-                        )}
+                        {!props.isNotCurrentUserProfile &&
+                          (!props.isYouFollowing ? (
+                            <Button
+                              variant="outlined"
+                              sx={{ textTransform: "none" }}
+                              style={{ marginLeft: 20 }}
+                              startIcon={<PersonAddAltRoundedIcon />}
+                              onClick={props.handleFollowRequest}
+                            >
+                              Follow
+                            </Button>
+                          ) : (
+                            <Button
+                              variant="outlined"
+                              sx={{ textTransform: "none" }}
+                              style={{ marginLeft: 20 }}
+                              startIcon={<PersonRemoveAlt1RoundedIcon />}
+                              onClick={props.handleUnfollowRequet}
+                            >
+                              Following
+                            </Button>
+                          ))}
                       </Box>
                     </Box>
                     <Box

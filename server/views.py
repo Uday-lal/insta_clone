@@ -28,6 +28,17 @@ def setting():
 def profile():
     return returnTemplate()
 
+@views.route("/profile/<tag_name>", methods=['GET'])
+@varifyLogin
+def searchProfile(tag_name):
+    userModal = UserModel()
+    userData = userModal.read({'tag_name': tag_name})
+    if userData is None:
+        return abort(404, 'Not Found')
+    userId = getCookie("token")
+    if str(userData['_id']) == userId:
+        return redirect('/profile')
+    return returnTemplate()
 
 @views.route("/login", methods=["GET", "POST"], endpoint='login')
 def login():
