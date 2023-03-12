@@ -35,9 +35,14 @@ def getKeywords(userName: str):
     upperCase = userName.upper()
     lowerCase = userName.lower()
     if " " in userName:
-        whiteSpaceIndex = userName.find(" ")
-        keywords.append(userName[0:whiteSpaceIndex])
-        keywords.append(userName[whiteSpaceIndex+1:])
+        userNameSplit = userName.split(" ")
+        for word in userNameSplit:
+            if word not in keywords:
+                keywords.append(word)
+            if word.upper() not in keywords:
+                keywords.append(word.upper())
+            if word.lower() not in keywords:
+                keywords.append(word.lower())
     
     for upper in upperCase:
         if upper != " ":
