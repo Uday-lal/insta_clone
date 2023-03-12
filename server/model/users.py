@@ -9,7 +9,7 @@ class UserModel(Modal):
             '$jsonSchema': {
                 'bsonType': 'object',
                 'title': "Users Object Validation",
-                'required': ['name', 'email', 'password', 'color', 'about', 'tag_name'],
+                'required': ['name', 'email', 'password', 'profile_img', 'color', 'about', 'tag_name'],
                 'properties': {
                     'name': {
                         'bsonType': 'string',
@@ -22,6 +22,10 @@ class UserModel(Modal):
                     'password': {
                         'bsonType': 'string',
                         'description': "'password' must be a string and is required"
+                    },
+                    'profile_img': {
+                        'bsonType': ['string', 'null'],
+                        'description': "'profile_img' could be a string or null and is required"
                     },
                     'color': {
                         'bsonType': 'string',
@@ -43,3 +47,4 @@ class UserModel(Modal):
             }
         })
         self.collection.create_index("email", unique=True)
+        self.collection.create_index("tag_name", unique=True)

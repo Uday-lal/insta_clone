@@ -1,5 +1,12 @@
 import * as React from "react";
 import useAutocomplete from "@mui/material/useAutocomplete";
+import { useRef } from "react";
+import useAvatar from "../hooks/useAvatar.jsx";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItem from "@mui/material/ListItem";
+import Divider from "@mui/material/Divider";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
 import { styled } from "@mui/system";
 
 const Input = styled("input")(({ theme }) => ({
@@ -19,7 +26,7 @@ const Input = styled("input")(({ theme }) => ({
 
 const Listbox = styled("ul")(({ theme }) => ({
   margin: 0,
-  padding: 10,
+  // padding: 10,
   zIndex: 1,
   position: "absolute",
   listStyle: "none",
@@ -29,15 +36,6 @@ const Listbox = styled("ul")(({ theme }) => ({
   borderRadius: "10px",
   maxHeight: 200,
   border: "1px solid rgba(0,0,0,.25)",
-  "& li.Mui-focused": {
-    backgroundColor: "#4a8df6",
-    color: "black",
-    cursor: "pointer",
-  },
-  "& li:active": {
-    backgroundColor: "#2977f5",
-    color: "black",
-  },
   "::-webkit-scrollbar": {
     width: "10px",
   },
@@ -68,29 +66,59 @@ function Search(props) {
   } = useAutocomplete({
     id: "use-autocomplete-demo",
     options: props.options,
-    getOptionLabel: (option) => option.title,
+    getOptionLabel: (option) => option.name,
   });
+  const ref = useRef();
   return (
-    <React.Fragment>
+    <>
       <div
+        ref={ref}
+        onChange={props.onChange}
+        onBlur={props.onBlur}
         style={{
           width: "100%",
         }}
       >
         <div {...getRootProps()}>
           <Input placeholder="Search" {...getInputProps()} />
+          {groupedOptions.length > 0 ? (
+            <Listbox
+              style={{ width: ref.current.offsetWidth }}
+              {...getListboxProps()}
+            >
+              {groupedOptions.map((option, index) => (
+                // <li
+                //   style={{ padding: 5 }}
+                //   {...getOptionProps({ option, index })}
+                // >
+                //   {option.name}
+                // </li>
+                <>
+                  <ListItemButton>
+                    <ListItem>
+                      <ListItemAvatar>
+                        {useAvatar(
+                          option.profile_img,
+                          null,
+                          null,
+                          option.name,
+                          option.color
+                        )}
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={option.name}
+                        secondary={option.tag_name}
+                      />
+                    </ListItem>
+                  </ListItemButton>
+                  <Divider variant="inset" component="li" />
+                </>
+              ))}
+            </Listbox>
+          ) : null}
         </div>
-        {groupedOptions.length > 0 ? (
-          <Listbox {...getListboxProps()}>
-            {groupedOptions.map((option, index) => (
-              <li style={{ padding: 5 }} {...getOptionProps({ option, index })}>
-                {option.title}
-              </li>
-            ))}
-          </Listbox>
-        ) : null}
       </div>
-    </React.Fragment>
+    </>
   );
 }
 

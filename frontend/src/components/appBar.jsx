@@ -51,6 +51,28 @@ function ResponsiveAppBar(props) {
     setAnchorElUser(null);
   };
 
+  const handleSearchChange = (e) => {
+    fetch(`/api/search?q=${e.target.value}`, {
+      headers: {
+        "content-type": "application/json&charset=utf-8",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+      })
+      .then((data) => {
+        if (data !== []) {
+          setOptions(data);
+        }
+      });
+  };
+
+  const handleSearchBlur = () => {
+    // ...
+  };
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -135,7 +157,11 @@ function ResponsiveAppBar(props) {
               paddingRight: "25px",
             }}
           >
-            <Search options={options} />
+            <Search
+              onChange={handleSearchChange}
+              onBlur={handleSearchBlur}
+              options={options}
+            />
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
