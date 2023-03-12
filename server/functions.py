@@ -26,3 +26,29 @@ def removeWhiteSpace(words):
             break
         index += 1
     return words[index:]
+
+
+def getKeywords(userName: str):
+    keywords = [userName]
+    keywords.append(userName.upper())
+    keywords.append(userName.lower())
+    upperCase = userName.upper()
+    lowerCase = userName.lower()
+    if " " in userName:
+        whiteSpaceIndex = userName.find(" ")
+        keywords.append(userName[0:whiteSpaceIndex])
+        keywords.append(userName[whiteSpaceIndex+1:])
+    
+    for upper in upperCase:
+        if upper != " ":
+            keywords.append(upper)
+    
+    for lower in lowerCase:
+        if lower != " ":
+            keywords.append(lower)
+    
+    for char in userName:
+        if char != " ":
+            keywords.append(char)
+    
+    return keywords

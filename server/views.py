@@ -83,20 +83,6 @@ def createAccount():
     return returnTemplate()
 
 
-def getKeywords(userName: str):
-    keywords = [userName]
-    keywords.append(userName.upper())
-    keywords.append(userName.lower())
-    if " " in userName:
-        whiteSpaceIndex = userName.find(" ")
-        keywords.append(userName[0:whiteSpaceIndex])
-        keywords.append(userName[whiteSpaceIndex+1:])
-    for char in userName:
-        if char != " ":
-            keywords.append(char)
-    return keywords
-
-
 @views.route('/logout')
 def logout():
     responce = make_response(redirect('/login'))
