@@ -87,12 +87,6 @@ function Search(props) {
               {...getListboxProps()}
             >
               {groupedOptions.map((option, index) => (
-                // <li
-                //   style={{ padding: 5 }}
-                //   {...getOptionProps({ option, index })}
-                // >
-                //   {option.name}
-                // </li>
                 <>
                   <ListItemButton>
                     <ListItem>
