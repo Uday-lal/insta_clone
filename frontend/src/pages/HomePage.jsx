@@ -16,28 +16,34 @@ import TextField from "@mui/material/TextField";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
+import useAvatar from "../hooks/useAvatar.jsx";
 import FormControl from "@mui/material/FormControl";
 import ProfileCard from "../components/card/ProfileCard.jsx";
 import { useState } from "react";
 
 function HomePage(props) {
   const [openModal, setOpenModal] = useState(false);
-  const returnAvatar = (width, height) => {
-    if (props.profileImg) {
-      return (
-        <Avatar
-          src={`/static/profile_imgs/${props.profileImg}`}
-          alt="Profile Img"
-          sx={{ width: width, height: height }}
-        />
-      );
-    } else {
-      return (
-        <Avatar sx={{ bgcolor: props.color, width: width, height: height }}>
-          {props.userName[0]}
-        </Avatar>
-      );
-    }
+  const [postImage, setPostImage] = useState(null);
+  const [showPostImg, setShowPostImg] = useState(false);
+  const [postImgData, setPostImgData] = useState();
+  const [postText, setPostText] = useState("");
+  const [visiblty, setVisiblty] = useState();
+  const [postData, setPostData] = useState([]);
+
+  const handlePostSubmit = function (e) {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("post", postText);
+    formData.append("visibility", visiblty);
+    formData.append("img_content", postImgData);
+    fetch(url, {
+      method: "POST",
+      body: formData,
+    }).then((responce) => {
+      if (responce.ok) {
+        window.location.reload();
+      }
+    });
   };
   const handleClose = () => {
     setOpenModal(false);
@@ -51,7 +57,7 @@ function HomePage(props) {
         onClose={handleClose}
       >
         <DialogTitle>Post</DialogTitle>
-        <form action="/api/post" method="POST">
+        <form onSubmit={handlePostSubmit} method="POST">
           <DialogContent>
             <Box
               sx={{
@@ -59,11 +65,21 @@ function HomePage(props) {
                 marginBottom: "10px",
               }}
             >
-              {returnAvatar(40, 40)}
+              {useAvatar(props.profileImg, 40, 40, props.userName, props.color)}
               <Box>
                 <h3 style={{ marginLeft: "10px" }}>{props.userName}</h3>
               </Box>
             </Box>
+            <div
+              style={{
+                backgroundImage: `url(${postImage})`,
+                width: "100%",
+                height: "250px",
+                display: !showPostImg ? "none" : "block",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            ></div>
             <TextField
               autoFocus
               margin="dense"
@@ -72,6 +88,7 @@ function HomePage(props) {
               label="What you want to say?"
               multiline
               variant="filled"
+              onChange={(e) => setPostText(e.target.value)}
               rows={6}
               fullWidth
               required={true}
@@ -88,6 +105,7 @@ function HomePage(props) {
                 labelId="visibility-label"
                 id="visibility"
                 name="visibility"
+                onChange={(e) => setVisiblty(e.target.value)}
                 required={true}
                 label="Visibility"
               >
@@ -146,17 +164,37 @@ function HomePage(props) {
                   display: "flex",
                   alignItems: "center",
                   width: "100%",
+                  marginBottom: "20px",
                 }}
               >
-                {returnAvatar(40, 40)}
+                {useAvatar(
+                  props.profileImg,
+                  40,
+                  40,
+                  props.userName,
+                  props.color
+                )}
                 <InputBase
                   sx={{ ml: 1, flex: 1 }}
                   placeholder="What's on your mind?"
                   readOnly
-                  onClick={() => setOpenModal(true)}
+                  onClick={() => {
+                    setPostImage("");
+                    setShowPostImg(false);
+                    setOpenModal(true);
+                  }}
                   inputProps={{ "aria-label": "what's on your mind" }}
                 />
-                <IconButton aria-label="add photos">
+                <IconButton aria-label="add photos" component="label">
+                  <input
+                    type="file"
+                    name="contentImg"
+                    hidden
+                    onChange={(e) => {
+                      postContentImg(e.target.files[0]);
+                    }}
+                    accept="image/*"
+                  />
                   <AddPhotoAlternateRoundedIcon />
                 </IconButton>
               </Paper>
