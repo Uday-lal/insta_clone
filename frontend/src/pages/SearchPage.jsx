@@ -121,7 +121,7 @@ function SearchPage(props) {
         name={username}
         email={email}
         about={about}
-        isNotCurrentUserProfile={false}
+        isNotCurrentUserProfile={true}
         tagName={tagName}
         followersCount={followersCount}
         isYouFollowing={isYouFollowing}

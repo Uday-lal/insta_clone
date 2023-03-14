@@ -139,7 +139,7 @@ function App() {
                   email={email}
                   about={about}
                   userId={userId}
-                  isNotCurrentUserProfile={true}
+                  isNotCurrentUserProfile={false}
                   tagName={tagName}
                   followersCount={followersCount}
                   followingsCount={followingsCount}

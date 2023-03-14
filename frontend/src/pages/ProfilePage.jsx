@@ -19,6 +19,7 @@ import PersonAddAltRoundedIcon from "@mui/icons-material/PersonAddAltRounded";
 import PersonRemoveAlt1RoundedIcon from "@mui/icons-material/PersonRemoveAlt1Rounded";
 import Card from "@mui/material/Card";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
+import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import useAvatar from "../hooks/useAvatar.jsx";
 import Post from "../components/Post.jsx";
 import { useState, useEffect } from "react";
@@ -204,7 +205,7 @@ function ProfilePage(props) {
                         </p>
                       </Box>
                       <Box>
-                        {!props.isNotCurrentUserProfile &&
+                        {props.isNotCurrentUserProfile &&
                           (!props.isYouFollowing ? (
                             <Button
                               variant="outlined"
@@ -276,46 +277,49 @@ function ProfilePage(props) {
               </Card>
             </Grid>
             <Grid xs={6} item>
-              {/* <Paper
-                component="form"
-                sx={{
-                  p: "10px",
-                  display: "flex",
-                  alignItems: "center",
-                  width: "100%",
-                }}
-              >
-                {useAvatar(
-                  props.profileImg,
-                  40,
-                  40,
-                  props.userName,
-                  props.color
-                )}
-                <InputBase
-                  sx={{ ml: 1, flex: 1 }}
-                  placeholder="What's on your mind?"
-                  readOnly
-                  onClick={() => {
-                    setPostImage("");
-                    setShowPostImg(false);
-                    setOpenModal(true);
+              {!props.isNotCurrentUserProfile && (
+                <Paper
+                  component="form"
+                  sx={{
+                    p: "10px",
+                    display: "flex",
+                    alignItems: "center",
+                    width: "100%",
+                    marginBottom: "20px",
                   }}
-                  inputProps={{ "aria-label": "what's on your mind" }}
-                />
-                <IconButton aria-label="add photos" component="label">
-                  <input
-                    type="file"
-                    name="contentImg"
-                    hidden
-                    onChange={(e) => {
-                      postContentImg(e.target.files[0]);
+                >
+                  {useAvatar(
+                    props.profileImg,
+                    40,
+                    40,
+                    props.userName,
+                    props.color
+                  )}
+                  <InputBase
+                    sx={{ ml: 1, flex: 1 }}
+                    placeholder="What's on your mind?"
+                    readOnly
+                    onClick={() => {
+                      setPostImage("");
+                      setShowPostImg(false);
+                      setOpenModal(true);
                     }}
-                    accept="image/*"
+                    inputProps={{ "aria-label": "what's on your mind" }}
                   />
-                  <AddPhotoAlternateRoundedIcon />
-                </IconButton>
-              </Paper> */}
+                  <IconButton aria-label="add photos" component="label">
+                    <input
+                      type="file"
+                      name="contentImg"
+                      hidden
+                      onChange={(e) => {
+                        postContentImg(e.target.files[0]);
+                      }}
+                      accept="image/*"
+                    />
+                    <AddPhotoAlternateRoundedIcon />
+                  </IconButton>
+                </Paper>
+              )}
               <div className="post-container">
                 {postData.map((post) => {
                   return (
