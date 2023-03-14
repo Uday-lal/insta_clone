@@ -143,6 +143,7 @@ function App() {
                   tagName={tagName}
                   followersCount={followersCount}
                   followingsCount={followingsCount}
+                  postUrl={"/api/post"}
                 />
               </div>
             </Route>

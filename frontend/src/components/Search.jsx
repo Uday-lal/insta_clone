@@ -33,7 +33,7 @@ const Listbox = styled("ul")(({ theme }) => ({
   overflow: "auto",
   color: "black",
   borderRadius: "10px",
-  maxHeight: 200,
+  maxHeight: "30vh",
   border: "1px solid rgba(0,0,0,.25)",
   "::-webkit-scrollbar": {
     width: "10px",

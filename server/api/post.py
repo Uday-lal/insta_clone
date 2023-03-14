@@ -23,7 +23,8 @@ class Post(PostResource):
         return self.__getAllTheUserPost(), 200
 
     def __getAllTheUserPost(self):
-        token = self.readUserToken()
+        userId = request.args.get('user_id')
+        token = self.readUserToken() if userId is None else userId
         posts_cursor = self.postModal.readAll(token)
         loveModal = LoveModal()
         posts = []

@@ -33,7 +33,9 @@ function ProfilePage(props) {
   const [visiblty, setVisiblty] = useState();
   const [postData, setPostData] = useState([]);
   const [connectionData, setConnectionData] = useState();
-  const url = "/api/post";
+  const url = props.isNotCurrentUserProfile
+    ? `/api/post?user_id=${props.userId}`
+    : "/api/post";
 
   useEffect(() => {
     fetch(url, {
@@ -50,7 +52,7 @@ function ProfilePage(props) {
       .then((data) => {
         setPostData(data);
       });
-  }, []);
+  }, [props.userId]);
 
   const handleClose = () => {
     setOpenModal(false);
