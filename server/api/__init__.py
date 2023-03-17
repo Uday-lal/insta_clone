@@ -5,6 +5,7 @@ from .userProfileImg import UserProfileImg
 from .contentImage import ContentImage
 from .follow import Follow
 from .love import Love
+from .comments import Comments
 from .search import Search
 
 def initializeApis(api: Api):
@@ -15,3 +16,4 @@ def initializeApis(api: Api):
     api.add_resource(Love, "/api/love")
     api.add_resource(Follow, "/api/follow")
     api.add_resource(Search, "/api/search")
+    api.add_resource(Comments, "/api/comments")

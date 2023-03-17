@@ -24,9 +24,14 @@ class CommentModal(Modal):
                         'description': "comment' must be a string and is required"
                     },
                     'created_at': {
-                        'bsonType': 'double',
-                        'description': "created_at' must be a double and is required"
+                        'bsonType': 'Date',
+                        'description': "created_at' must be a date and is required",
+                        'default': 'Date.now()'
                     },
+                    'is_edited': {
+                        'bsonType': 'boolean',
+                        'description': "'is_edited' must be a boolean and is required"
+                    }
                 }
             }
         })

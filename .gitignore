@@ -33,3 +33,6 @@ server/static/uploads
 
 # env 
 .env
+
+# .vscode
+.vscode
