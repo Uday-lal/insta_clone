@@ -9,7 +9,7 @@ class CommentModal(Modal):
             '$jsonSchema': {
                 'bsonType': 'object',
                 'title': "Comment Object Validation",
-                'required': ['user_id', 'post_id', 'comment', 'created_at'],
+                'required': ['user_id', 'post_id', 'comment', 'created_at', 'is_edited'],
                 'properties': {
                     'user_id': {
                         'bsonType': 'string',
@@ -24,14 +24,69 @@ class CommentModal(Modal):
                         'description': "comment' must be a string and is required"
                     },
                     'created_at': {
-                        'bsonType': 'Date',
-                        'description': "created_at' must be a date and is required",
-                        'default': 'Date.now()'
+                        'bsonType': 'double',
+                        'description': "created_at' must be a double and is required"
                     },
                     'is_edited': {
-                        'bsonType': 'boolean',
+                        'bsonType': 'bool',
                         'description': "'is_edited' must be a boolean and is required"
                     }
                 }
             }
         })
+    
+    def read(self, commentId: ObjectId):
+        data = self.collection.aggregate([
+            {'$match': {'_id': commentId}},
+            {
+                '$lookup': {
+                    'from': 'users',
+                    'localField': 'user_id',
+                    'foreignField': '_id',
+                    'as': 'data'
+                }
+            },
+            {
+                '$project': {
+                    '_id': {
+                        '$toString': '$_id'
+                    },
+                    'user_id': '$user_id',
+                    'post_id': '$post_id',
+                    'comment': '$comment',
+                    'created_at': '$created_at',
+                    'is_edited': '$is_edited',
+                    'user_name': '$data.name',
+                    'profile_img': '$data.profile_img'
+                }
+            }
+        ])
+        return data
+
+    def readAll(self, postId: str):
+        data = self.collection.aggregate([
+            {'$match': {'post_id': postId}},
+            {
+                '$lookup': {
+                    'from': 'users',
+                    'localField': 'user_id',
+                    'foreignField': "_id",
+                    'as': 'data'   
+                }
+            },
+            {
+                '$project': {
+                    '_id': {
+                        '$toString': '$_id'
+                    },
+                    'user_id': '$user_id',
+                    'post_id': '$post_id',
+                    'comment': '$comment',
+                    'created_at': '$created_at',
+                    'is_edited': '$is_edited',
+                    'user_name': '$data.name',
+                    'profile_img': '$data.profile_img'
+                }
+            }
+        ])
+        return data

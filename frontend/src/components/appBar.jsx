@@ -74,7 +74,7 @@ function ResponsiveAppBar(props) {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar sx={{ position: "sticky", top: 0 }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <InstagramIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />

@@ -180,6 +180,8 @@ function ProfilePage(props) {
               <Card
                 sx={{
                   padding: "30px 14px",
+                  position: "sticky",
+                  top: 90,
                 }}
               >
                 <div className="upper-postion flex">
@@ -349,6 +351,8 @@ function ProfilePage(props) {
                 sx={{
                   width: "100%",
                   p: "10px",
+                  position: "sticky",
+                  top: 90,
                 }}
               >
                 <h3>People you follow</h3>

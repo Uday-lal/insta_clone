@@ -362,7 +362,7 @@ function Post(props) {
             Share 200
           </Button>
         </div>
-        <div className="post-comments flex">
+        {/* <div className="post-comments flex">
           {useAvatar(props.profileImg, 39, 39, props.userName, props.color)}
           <input
             type="text"
@@ -376,7 +376,7 @@ function Post(props) {
             }}
             placeholder="What's your comment"
           />
-        </div>
+        </div> */}
       </Card>
       <Menu
         id="edit-post"
