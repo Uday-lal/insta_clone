@@ -24,8 +24,25 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
+import SendIcon from "@mui/icons-material/Send";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
+import { makeStyles } from "@mui/styles";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import Divider from "@mui/material/Divider";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Avatar from "@mui/material/Avatar";
+
+const useStyles = makeStyles({
+  topScrollPaper: {
+    alignItems: "flex-start",
+  },
+  topPaperScrollBody: {
+    verticalAlign: "top",
+  },
+});
 
 function Post(props) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -35,7 +52,9 @@ function Post(props) {
   const [postImg, setPostImg] = useState();
   const [postImgData, setPostImgData] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const [openComments, setOpenComments] = useState(false);
   const [loveCount, setLoveCount] = useState(props.loves);
+  const classes = useStyles();
   const [isLoved, setIsLoved] = useState(props.isLoved);
   const [loveIcon, setLoveIcon] = isLoved
     ? useState(<FavoriteRoundedIcon />)
@@ -277,6 +296,260 @@ function Post(props) {
           </DialogActions>
         </form>
       </Dialog>
+      <Dialog
+        fullWidth={true}
+        open={openComments}
+        maxWidth="lg"
+        onClose={() => setOpenComments(false)}
+        sx={{
+          maxHeight: "60vh",
+        }}
+        scroll="paper"
+        classes={{
+          scrollPaper: classes.topScrollPaper,
+          paperScrollBody: classes.topPaperScrollBody,
+        }}
+      >
+        <DialogTitle>Comments</DialogTitle>
+        <DialogContent dividers={scroll === "paper"}>
+          <div className="comments">
+            <List sx={{ width: "100%" }}>
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  <Avatar
+                    alt="Remy Sharp"
+                    src="https://cdn.pixabay.com/photo/2015/07/09/00/29/woman-837156__180.jpg"
+                  />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <Tooltip title="View Profile">
+                      <a
+                        href="#"
+                        style={{
+                          fontWeight: "bold",
+                          color: "black",
+                          fontSize: 16,
+                        }}
+                      >
+                        User Name
+                      </a>
+                    </Tooltip>
+                  }
+                  secondary={
+                    <p style={{ color: "black" }}>This is a test comment</p>
+                  }
+                />
+              </ListItem>
+              <Divider variant="inset" component="li" />
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  <Avatar
+                    alt="Remy Sharp"
+                    src="https://cdn.pixabay.com/photo/2015/07/09/00/29/woman-837156__180.jpg"
+                  />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <Tooltip title="View Profile">
+                      <a
+                        href="#"
+                        style={{
+                          fontWeight: "bold",
+                          color: "black",
+                          fontSize: 16,
+                        }}
+                      >
+                        User Name
+                      </a>
+                    </Tooltip>
+                  }
+                  secondary={
+                    <p style={{ color: "black" }}>This is a test comment</p>
+                  }
+                />
+              </ListItem>
+              <Divider variant="inset" component="li" />
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  <Avatar
+                    alt="Remy Sharp"
+                    src="https://cdn.pixabay.com/photo/2015/07/09/00/29/woman-837156__180.jpg"
+                  />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <Tooltip title="View Profile">
+                      <a
+                        href="#"
+                        style={{
+                          fontWeight: "bold",
+                          color: "black",
+                          fontSize: 16,
+                        }}
+                      >
+                        User Name
+                      </a>
+                    </Tooltip>
+                  }
+                  secondary={
+                    <p style={{ color: "black" }}>This is a test comment</p>
+                  }
+                />
+              </ListItem>
+              <Divider variant="inset" component="li" />
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  <Avatar
+                    alt="Remy Sharp"
+                    src="https://cdn.pixabay.com/photo/2015/07/09/00/29/woman-837156__180.jpg"
+                  />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <Tooltip title="View Profile">
+                      <a
+                        href="#"
+                        style={{
+                          fontWeight: "bold",
+                          color: "black",
+                          fontSize: 16,
+                        }}
+                      >
+                        User Name
+                      </a>
+                    </Tooltip>
+                  }
+                  secondary={
+                    <p style={{ color: "black" }}>This is a test comment</p>
+                  }
+                />
+              </ListItem>
+              <Divider variant="inset" component="li" />
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  <Avatar
+                    alt="Remy Sharp"
+                    src="https://cdn.pixabay.com/photo/2015/07/09/00/29/woman-837156__180.jpg"
+                  />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <Tooltip title="View Profile">
+                      <a
+                        href="#"
+                        style={{
+                          fontWeight: "bold",
+                          color: "black",
+                          fontSize: 16,
+                        }}
+                      >
+                        User Name
+                      </a>
+                    </Tooltip>
+                  }
+                  secondary={
+                    <p style={{ color: "black" }}>This is a test comment</p>
+                  }
+                />
+              </ListItem>
+              <Divider variant="inset" component="li" />
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  <Avatar
+                    alt="Remy Sharp"
+                    src="https://cdn.pixabay.com/photo/2015/07/09/00/29/woman-837156__180.jpg"
+                  />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <Tooltip title="View Profile">
+                      <a
+                        href="#"
+                        style={{
+                          fontWeight: "bold",
+                          color: "black",
+                          fontSize: 16,
+                        }}
+                      >
+                        User Name
+                      </a>
+                    </Tooltip>
+                  }
+                  secondary={
+                    <p style={{ color: "black" }}>This is a test comment</p>
+                  }
+                />
+              </ListItem>
+              <Divider variant="inset" component="li" />
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  <Avatar
+                    alt="Remy Sharp"
+                    src="https://cdn.pixabay.com/photo/2015/07/09/00/29/woman-837156__180.jpg"
+                  />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <Tooltip title="View Profile">
+                      <a
+                        href="#"
+                        style={{
+                          fontWeight: "bold",
+                          color: "black",
+                          fontSize: 16,
+                        }}
+                      >
+                        User Name
+                      </a>
+                    </Tooltip>
+                  }
+                  secondary={
+                    <p style={{ color: "black" }}>This is a test comment</p>
+                  }
+                />
+              </ListItem>
+            </List>
+          </div>
+        </DialogContent>
+        <DialogActions sx={{ display: "block" }}>
+          <div
+            className="comment-input"
+            style={{ position: "sticky", bottom: 1 }}
+          >
+            <div className="post-comments flex">
+              {useAvatar(props.profileImg, 39, 39, props.userName, props.color)}
+              <div
+                className="flex w-100"
+                style={{
+                  backgroundColor: "white",
+                  borderRadius: "100px",
+                  marginLeft: "8px",
+                }}
+              >
+                <input
+                  type="text"
+                  style={{
+                    width: "100%",
+                    border: "none",
+                    outline: "none",
+                    padding: "10px",
+                    borderRadius: "20px",
+                  }}
+                  placeholder="What's your comment"
+                />
+                <Button
+                  style={{ borderRadius: "100px" }}
+                  size="small"
+                  variant="contained"
+                >
+                  <SendIcon />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </DialogActions>
+      </Dialog>
       <Card
         sx={{
           width: "100%",
@@ -352,6 +625,7 @@ function Post(props) {
           <Button
             style={{ textTransform: "none" }}
             startIcon={<CommentRoundedIcon />}
+            onClick={() => setOpenComments(true)}
           >
             Comments 1.6K
           </Button>
