@@ -155,6 +155,29 @@ function Post(props) {
     });
   };
 
+  const handleCommentSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const comment = formData.get("comment");
+
+    fetch("/api/comments", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify({
+        comment: comment,
+        post_id: props.id,
+      }),
+    }).then((response) => {
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        alert("Something went wrong :(");
+      }
+    });
+  };
+
   return (
     <React.Fragment>
       <Dialog
@@ -342,173 +365,6 @@ function Post(props) {
                 />
               </ListItem>
               <Divider variant="inset" component="li" />
-              <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                  <Avatar
-                    alt="Remy Sharp"
-                    src="https://cdn.pixabay.com/photo/2015/07/09/00/29/woman-837156__180.jpg"
-                  />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <Tooltip title="View Profile">
-                      <a
-                        href="#"
-                        style={{
-                          fontWeight: "bold",
-                          color: "black",
-                          fontSize: 16,
-                        }}
-                      >
-                        User Name
-                      </a>
-                    </Tooltip>
-                  }
-                  secondary={
-                    <p style={{ color: "black" }}>This is a test comment</p>
-                  }
-                />
-              </ListItem>
-              <Divider variant="inset" component="li" />
-              <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                  <Avatar
-                    alt="Remy Sharp"
-                    src="https://cdn.pixabay.com/photo/2015/07/09/00/29/woman-837156__180.jpg"
-                  />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <Tooltip title="View Profile">
-                      <a
-                        href="#"
-                        style={{
-                          fontWeight: "bold",
-                          color: "black",
-                          fontSize: 16,
-                        }}
-                      >
-                        User Name
-                      </a>
-                    </Tooltip>
-                  }
-                  secondary={
-                    <p style={{ color: "black" }}>This is a test comment</p>
-                  }
-                />
-              </ListItem>
-              <Divider variant="inset" component="li" />
-              <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                  <Avatar
-                    alt="Remy Sharp"
-                    src="https://cdn.pixabay.com/photo/2015/07/09/00/29/woman-837156__180.jpg"
-                  />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <Tooltip title="View Profile">
-                      <a
-                        href="#"
-                        style={{
-                          fontWeight: "bold",
-                          color: "black",
-                          fontSize: 16,
-                        }}
-                      >
-                        User Name
-                      </a>
-                    </Tooltip>
-                  }
-                  secondary={
-                    <p style={{ color: "black" }}>This is a test comment</p>
-                  }
-                />
-              </ListItem>
-              <Divider variant="inset" component="li" />
-              <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                  <Avatar
-                    alt="Remy Sharp"
-                    src="https://cdn.pixabay.com/photo/2015/07/09/00/29/woman-837156__180.jpg"
-                  />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <Tooltip title="View Profile">
-                      <a
-                        href="#"
-                        style={{
-                          fontWeight: "bold",
-                          color: "black",
-                          fontSize: 16,
-                        }}
-                      >
-                        User Name
-                      </a>
-                    </Tooltip>
-                  }
-                  secondary={
-                    <p style={{ color: "black" }}>This is a test comment</p>
-                  }
-                />
-              </ListItem>
-              <Divider variant="inset" component="li" />
-              <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                  <Avatar
-                    alt="Remy Sharp"
-                    src="https://cdn.pixabay.com/photo/2015/07/09/00/29/woman-837156__180.jpg"
-                  />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <Tooltip title="View Profile">
-                      <a
-                        href="#"
-                        style={{
-                          fontWeight: "bold",
-                          color: "black",
-                          fontSize: 16,
-                        }}
-                      >
-                        User Name
-                      </a>
-                    </Tooltip>
-                  }
-                  secondary={
-                    <p style={{ color: "black" }}>This is a test comment</p>
-                  }
-                />
-              </ListItem>
-              <Divider variant="inset" component="li" />
-              <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                  <Avatar
-                    alt="Remy Sharp"
-                    src="https://cdn.pixabay.com/photo/2015/07/09/00/29/woman-837156__180.jpg"
-                  />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <Tooltip title="View Profile">
-                      <a
-                        href="#"
-                        style={{
-                          fontWeight: "bold",
-                          color: "black",
-                          fontSize: 16,
-                        }}
-                      >
-                        User Name
-                      </a>
-                    </Tooltip>
-                  }
-                  secondary={
-                    <p style={{ color: "black" }}>This is a test comment</p>
-                  }
-                />
-              </ListItem>
             </List>
           </div>
         </DialogContent>
@@ -519,33 +375,37 @@ function Post(props) {
           >
             <div className="post-comments flex">
               {useAvatar(props.profileImg, 39, 39, props.userName, props.color)}
-              <div
-                className="flex w-100"
-                style={{
-                  backgroundColor: "white",
-                  borderRadius: "100px",
-                  marginLeft: "8px",
-                }}
-              >
-                <input
-                  type="text"
+              <form class="w-100" onSubmit={handleCommentSubmit}>
+                <div
+                  className="flex w-100"
                   style={{
-                    width: "100%",
-                    border: "none",
-                    outline: "none",
-                    padding: "10px",
-                    borderRadius: "20px",
+                    backgroundColor: "white",
+                    borderRadius: "100px",
+                    marginLeft: "8px",
                   }}
-                  placeholder="What's your comment"
-                />
-                <Button
-                  style={{ borderRadius: "100px" }}
-                  size="small"
-                  variant="contained"
                 >
-                  <SendIcon />
-                </Button>
-              </div>
+                  <input
+                    type="text"
+                    style={{
+                      width: "100%",
+                      border: "none",
+                      outline: "none",
+                      padding: "10px",
+                      borderRadius: "20px",
+                    }}
+                    name="comment"
+                    placeholder="What's your comment"
+                  />
+                  <Button
+                    style={{ borderRadius: "100px" }}
+                    size="small"
+                    variant="contained"
+                    type="submit"
+                  >
+                    <SendIcon />
+                  </Button>
+                </div>
+              </form>
             </div>
           </div>
         </DialogActions>
@@ -636,21 +496,6 @@ function Post(props) {
             Share 200
           </Button>
         </div>
-        {/* <div className="post-comments flex">
-          {useAvatar(props.profileImg, 39, 39, props.userName, props.color)}
-          <input
-            type="text"
-            style={{
-              width: "100%",
-              border: "none",
-              outline: "none",
-              padding: "10px",
-              marginLeft: "8px",
-              borderRadius: "20px",
-            }}
-            placeholder="What's your comment"
-          />
-        </div> */}
       </Card>
       <Menu
         id="edit-post"
