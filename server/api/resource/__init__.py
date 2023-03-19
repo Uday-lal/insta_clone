@@ -2,6 +2,7 @@ from flask_restful import Resource
 from flask_restful import reqparse
 from flask import request
 from ...model.users import UserModel
+from bson.objectid import ObjectId
 from flask import abort
 
 
@@ -17,14 +18,14 @@ class AppResource(Resource):
     def readUserToken(self):
         token = request.cookies.get('token')
         isTokenValid = self.__varifyToken(token)
-        if isTokenValid:
+        if not isTokenValid:
             return None
         return token
 
     @staticmethod
     def __varifyToken(token):
         userModal = UserModel()
-        userData = userModal.read(token)
+        userData = userModal.read({'_id': ObjectId(token)})
         if userData is not None:
             return True
         return False

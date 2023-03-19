@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import useAvatar from "../hooks/useAvatar.jsx";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
@@ -59,11 +59,16 @@ function Post(props) {
   const [loveIcon, setLoveIcon] = isLoved
     ? useState(<FavoriteRoundedIcon />)
     : useState(<FavoriteBorderRoundedIcon />);
+  const [comments, setComments] = useState([]);
 
   const handleClose = () => {
     setMenuOpen(false);
     setAnchorEl(null);
   };
+
+  useEffect(() => {
+    getComments();
+  }, []);
 
   const handleUpdate = (e) => {
     e.preventDefault();
@@ -176,6 +181,25 @@ function Post(props) {
         alert("Something went wrong :(");
       }
     });
+  };
+
+  const getComments = () => {
+    fetch(`/api/comments?post_id=${props.id}`, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json;charset=utf-8",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          alert("Something went wrong :( !! Please reload the page");
+        }
+      })
+      .then((data) => {
+        setComments(data);
+      });
   };
 
   return (
@@ -337,34 +361,73 @@ function Post(props) {
         <DialogContent dividers={scroll === "paper"}>
           <div className="comments">
             <List sx={{ width: "100%" }}>
-              <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                  <Avatar
-                    alt="Remy Sharp"
-                    src="https://cdn.pixabay.com/photo/2015/07/09/00/29/woman-837156__180.jpg"
-                  />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <Tooltip title="View Profile">
-                      <a
-                        href="#"
-                        style={{
-                          fontWeight: "bold",
-                          color: "black",
-                          fontSize: 16,
-                        }}
-                      >
-                        User Name
-                      </a>
-                    </Tooltip>
-                  }
-                  secondary={
-                    <p style={{ color: "black" }}>This is a test comment</p>
-                  }
-                />
-              </ListItem>
-              <Divider variant="inset" component="li" />
+              {comments.map((comment) => (
+                <>
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      {useAvatar(
+                        comment.profile_img,
+                        null,
+                        null,
+                        comment.username,
+                        comment.color,
+                        null
+                      )}
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={
+                        <div
+                          className="flex justify-content-space-between"
+                          style={{ alignItems: "end" }}
+                        >
+                          <div style={{ display: "flex" }}>
+                            <Tooltip title="View Profile">
+                              <a
+                                href={`/profile/${comment.tag_name}`}
+                                style={{
+                                  fontWeight: "bold",
+                                  color: "black",
+                                  fontSize: 16,
+                                }}
+                              >
+                                {comment.username}
+                              </a>
+                            </Tooltip>
+                            <p
+                              className="text-secondary"
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                fontSize: "14px",
+                              }}
+                            >
+                              <AccessTimeRoundedIcon
+                                sx={{ marginLeft: "5px", fontSize: "14px" }}
+                              />
+                              {comment.created_at} ago
+                            </p>
+                          </div>
+                          {comment.is_you && (
+                            <Tooltip title="Edit Comment">
+                              <IconButton
+                                aria-label="more"
+                                aria-haspopup="true"
+                                size="small"
+                              >
+                                <MoreVertRoundedIcon fontSize="small" />
+                              </IconButton>
+                            </Tooltip>
+                          )}
+                        </div>
+                      }
+                      secondary={
+                        <p style={{ color: "black" }}>{comment.comment}</p>
+                      }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                </>
+              ))}
             </List>
           </div>
         </DialogContent>
@@ -394,6 +457,8 @@ function Post(props) {
                       borderRadius: "20px",
                     }}
                     name="comment"
+                    required
+                    autoComplete="off"
                     placeholder="What's your comment"
                   />
                   <Button
@@ -448,7 +513,6 @@ function Post(props) {
           </div>
           <Tooltip title="Edit Post">
             <IconButton
-              id="edit-post"
               aria-controls={menuOpen ? "edit-post" : undefined}
               aria-expanded={menuOpen ? "true" : undefined}
               aria-label="more"
@@ -487,7 +551,7 @@ function Post(props) {
             startIcon={<CommentRoundedIcon />}
             onClick={() => setOpenComments(true)}
           >
-            Comments 1.6K
+            Comments {comments.length}
           </Button>
           <Button
             style={{ textTransform: "none", color: "black" }}

@@ -12,12 +12,12 @@ class CommentModal(Modal):
                 'required': ['user_id', 'post_id', 'comment', 'created_at', 'is_edited'],
                 'properties': {
                     'user_id': {
-                        'bsonType': 'string',
-                        'description': "'user_id' must be a string and is required"
+                        'bsonType': 'objectId',
+                        'description': "'user_id' must be a objectId and is required"
                     },
                     'post_id': {
-                        'bsonType': 'string',
-                        'description': "'post_id' must be a string and is required"
+                        'bsonType': 'objectId',
+                        'description': "'post_id' must be a objectId and is required"
                     },
                     'comment': {
                         'bsonType': 'string',
@@ -79,14 +79,20 @@ class CommentModal(Modal):
                     '_id': {
                         '$toString': '$_id'
                     },
-                    'user_id': '$user_id',
-                    'post_id': '$post_id',
+                    'user_id': {'$toString': '$user_id'},
+                    'post_id': {'$toString': '$post_id'},
                     'comment': '$comment',
                     'created_at': '$created_at',
                     'is_edited': '$is_edited',
-                    'user_name': '$data.name',
-                    'profile_img': '$data.profile_img'
+                    'username': '$data.name',
+                    'tag_name': '$data.tag_name',
+                    'profile_img': '$data.profile_img',
+                    'color': '$data.color',
                 }
-            }
+            },
+            {'$unwind': "$username"},
+            {'$unwind': "$profile_img"},
+            {'$unwind': "$tag_name"},
+            {'$unwind': "$color"},
         ])
         return data

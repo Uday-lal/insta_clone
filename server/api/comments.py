@@ -1,6 +1,7 @@
 from .resource.commentsResource import CommentResource
 from flask import request, abort
 from bson.objectid import ObjectId
+from ..model.posts import PostModel
 from ..helpers.timeFormat import TimeFormat
 import time
 
@@ -17,10 +18,10 @@ class Comments(CommentResource):
             return abort(400, "Bad request")
 
         comments = list(self.commentModal.readAll(
-            postId
-        )) if commentId is None else self.commentModal.read({
+           ObjectId(postId)
+        )) if commentId is None else list(self.commentModal.read({
             '_id': ObjectId(commentId)
-        })
+        }))
 
         if commentId is not None:
             commentData = list(comments)
@@ -28,7 +29,7 @@ class Comments(CommentResource):
                 return {'message': 'Comment not found'}, 404
             commentData = commentData[0]
             timeFormat = TimeFormat(commentData['created_at'])
-            created_at = timeFormat.timeFormat()
+            created_at = timeFormat.getTimeSpan()
             commentData['created_at'] = created_at
             return commentData, 200
         else:
@@ -36,9 +37,10 @@ class Comments(CommentResource):
                 return {'message': 'Comment not found'}, 404
             for comment in comments:
                 timeFormat = TimeFormat(comment['created_at'])
-                created_at = timeFormat.timeFormat()
+                created_at = timeFormat.getTimeSpan()
                 comment['created_at'] = created_at
-
+                comment['is_you'] = comment['user_id'] == self.token
+        
         return comments, 200
 
     def post(self):
@@ -47,13 +49,22 @@ class Comments(CommentResource):
         args = self.parser.parse_args()
         postId = args['post_id']
         comment = args['comment']
+        if comment == '':
+            return {'message': 'Comment should not be empty'}, 204
+        
+        if postId == '':
+            return {'message': 'Post id should not be empty'}, 204
+        
+        if not self.__varifyPostId(postId):
+            return abort('Bad request'), 400
+
         user_id = self.token
         is_edited = False
         created_at = time.time()
         data = {
-            'post_id': postId,
+            'post_id': ObjectId(postId),
             'comment': comment,
-            'user_id': user_id,
+            'user_id': ObjectId(user_id),
             'is_edited': is_edited,
             'created_at': created_at
         }
@@ -61,6 +72,14 @@ class Comments(CommentResource):
         self.commentModal.create(data)
         return {'message': 'Comment created successfully'}, 200
 
+
+    @staticmethod
+    def __varifyPostId(postId):
+        postModal = PostModel()
+        postData = postModal.read({"_id": ObjectId(postId)})
+        if postData is None:
+            return False
+        return True
 
     def put(self):
         self.parser.add_argument('comment_id', type=str, help='comment_id is required', required=True)
