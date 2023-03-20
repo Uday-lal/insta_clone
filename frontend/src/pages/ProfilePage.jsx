@@ -331,6 +331,7 @@ function ProfilePage(props) {
                       id={post._id}
                       key={post._id}
                       userName={props.userName}
+                      tagName={props.tagName}
                       timespan={post.timespan}
                       profileImg={props.profileImg}
                       color={props.color}

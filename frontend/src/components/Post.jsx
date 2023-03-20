@@ -33,7 +33,6 @@ import ListItem from "@mui/material/ListItem";
 import Divider from "@mui/material/Divider";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
 
 const useStyles = makeStyles({
   topScrollPaper: {
@@ -491,7 +490,7 @@ function Post(props) {
             <div style={{ marginLeft: "10px" }}>
               <Tooltip title={`View ${props.userName}'s profile`}>
                 <a
-                  href="#"
+                  href={`/profile/${props.tagName}`}
                   style={{
                     fontWeight: "bold",
                     marginBottom: "2px",

@@ -17,6 +17,9 @@ class Comments(CommentResource):
         if postId is None:
             return abort(400, "Bad request")
 
+        if not self.__varifyPostId(postId):
+            return abort(400, "Bad request")
+
         comments = list(self.commentModal.readAll(
            ObjectId(postId)
         )) if commentId is None else list(self.commentModal.read({
@@ -88,9 +91,11 @@ class Comments(CommentResource):
         comment_id = args['comment_id']
         comment = args['comment']
         is_edited = True
+        created_at = time.time()
         updated_data = {
             'comment': comment,
             'is_edited': is_edited,
+            'created_at': created_at
         }
         isUpdateDone = self.commentModal.update(updated_data, ObjectId(comment_id))
         if isUpdateDone:

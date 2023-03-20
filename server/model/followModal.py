@@ -31,7 +31,7 @@ class FollowModal(Modal):
             {
                 '$lookup': {
                     'from': 'users',
-                    'localField': 'following_id',
+                    'localField': 'user_id',
                     'foreignField': "_id",
                     'as': 'followers'   
                 }
