@@ -359,6 +359,27 @@ function Post(props) {
         <DialogTitle>Comments</DialogTitle>
         <DialogContent dividers={scroll === "paper"}>
           <div className="comments">
+            {comments.length === 0 && (
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <img
+                  style={{ width: "25%", height: "25%" }}
+                  src="/static/img/no_data.svg"
+                  alt="No Data"
+                />
+                <h3 style={{ marginTop: "15px" }}>
+                  No comments are in this post!!
+                </h3>
+              </Box>
+            )}
             <List sx={{ width: "100%" }}>
               {comments.map((comment) => (
                 <>
