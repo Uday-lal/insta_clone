@@ -1,120 +1,156 @@
 import * as React from "react";
-import useAutocomplete from "@mui/material/useAutocomplete";
-import { useRef } from "react";
 import useAvatar from "../hooks/useAvatar.jsx";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItem from "@mui/material/ListItem";
 import Divider from "@mui/material/Divider";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
-import { styled } from "@mui/system";
+import List from "@mui/material/List";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import { makeStyles } from "@mui/styles";
+import Box from "@mui/material/Box";
+import Slide from "@mui/material/Slide";
 
-const Input = styled("input")(({ theme }) => ({
-  width: "100%",
-  border: "none",
-  outline: "none",
-  padding: "10px",
-  borderRadius: "20px",
-  opacity: 0.7,
-  ":focus": {
-    opacity: 1,
+const useStyles = makeStyles({
+  topScrollPaper: {
+    alignItems: "flex-start",
   },
-  ":not(:focus)": {
-    opacity: 0.7,
+  topPaperScrollBody: {
+    verticalAlign: "top",
   },
-}));
+});
 
-const Listbox = styled("ul")(({ theme }) => ({
-  margin: 0,
-  zIndex: 1,
-  position: "absolute",
-  listStyle: "none",
-  backgroundColor: "white",
-  overflow: "auto",
-  color: "black",
-  borderRadius: "10px",
-  maxHeight: "30vh",
-  border: "1px solid rgba(0,0,0,.25)",
-  "::-webkit-scrollbar": {
-    width: "10px",
-  },
-
-  "::-webkit-scrollbar-track": {
-    background: "#f1f1f1",
-    borderRadius: "100px",
-  },
-
-  "::-webkit-scrollbar-thumb": {
-    borderRadius: "100px",
-    background: "#888",
-  },
-
-  "::-webkit-scrollbar-thumb:hover": {
-    background: "#555",
-  },
-}));
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 function Search(props) {
-  const {
-    getRootProps,
-    getInputLabelProps,
-    getInputProps,
-    getListboxProps,
-    getOptionProps,
-    groupedOptions,
-  } = useAutocomplete({
-    id: "use-autocomplete-demo",
-    options: props.options,
-    getOptionLabel: (option) => option.name,
-  });
-  const ref = useRef();
+  const classes = useStyles();
   return (
     <>
-      <div
-        ref={ref}
-        onChange={props.onChange}
-        onBlur={props.onBlur}
-        style={{
-          width: "100%",
+      <Dialog
+        fullWidth={true}
+        maxWidth="lg"
+        TransitionComponent={Transition}
+        sx={{
+          maxHeight: "60vh",
+          height: "60vh",
+        }}
+        scroll="paper"
+        open={props.open}
+        onClose={props.onClose}
+        classes={{
+          scrollPaper: classes.topScrollPaper,
+          paperScrollBody: classes.topPaperScrollBody,
         }}
       >
-        <div {...getRootProps()}>
-          <Input placeholder="Search" {...getInputProps()} />
-          {groupedOptions.length > 0 ? (
-            <Listbox
-              style={{ width: ref.current.offsetWidth }}
-              {...getListboxProps()}
+        <DialogTitle>Search Users</DialogTitle>
+        <DialogContent>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
+          >
+            <Box
+              className="serach-section"
+              sx={{
+                width: "70%",
+              }}
             >
-              {groupedOptions.map((option, index) => (
-                <>
-                  <ListItemButton
-                    onClick={() =>
-                      window.location.replace(`/profile/${option.tag_name}`)
-                    }
-                  >
-                    <ListItem>
-                      <ListItemAvatar>
-                        {useAvatar(
-                          option.profile_img,
-                          null,
-                          null,
-                          option.name,
-                          option.color
-                        )}
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={option.name}
-                        secondary={option.tag_name}
+              <Box className="w-100 urs-input-cover">
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <SearchRoundedIcon className="text-secondary" />
+                </Box>
+                <Box className="w-100">
+                  <input
+                    type="text"
+                    className="urs-input-styles"
+                    placeholder="Search Users"
+                    onChange={props.onChange}
+                  />
+                </Box>
+              </Box>
+            </Box>
+            <Box
+              className="options"
+              sx={{
+                width: "70%",
+              }}
+            >
+              <List>
+                {props.options.length !== 0 &&
+                  props.options.map((option, index) => (
+                    <>
+                      <ListItemButton
+                        component={"a"}
+                        href={`/profile/${option.tag_name}`}
+                        key={index}
+                      >
+                        <ListItem>
+                          <ListItemAvatar>
+                            {useAvatar(
+                              option.profile_img,
+                              null,
+                              null,
+                              option.name,
+                              option.color
+                            )}
+                          </ListItemAvatar>
+                          <ListItemText
+                            primary={option.name}
+                            secondary={option.tag_name}
+                          />
+                        </ListItem>
+                      </ListItemButton>
+                      <Divider variant="inset" component="li" />
+                    </>
+                  ))}
+                {props.options.length === 0 && (
+                  <>
+                    <Box
+                      sx={{
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        marginTop: "20px",
+                      }}
+                    >
+                      <img
+                        src="/static/img/no_user_found.svg"
+                        alt="no_user_found"
+                        style={{
+                          width: "30%",
+                          height: "30%",
+                        }}
                       />
-                    </ListItem>
-                  </ListItemButton>
-                  <Divider variant="inset" component="li" />
-                </>
-              ))}
-            </Listbox>
-          ) : null}
-        </div>
-      </div>
+                      <h2
+                        style={{
+                          marginTop: "20px",
+                        }}
+                      >
+                        No User Found
+                      </h2>
+                    </Box>
+                  </>
+                )}
+              </List>
+            </Box>
+          </Box>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
