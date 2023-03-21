@@ -42,4 +42,3 @@ class TimeFormat:
         if yearsPass != 0:
             timespan = f"{yearsPass}y"
         return timespan
- 

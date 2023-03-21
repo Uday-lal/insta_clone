@@ -2,7 +2,6 @@ import React from "react";
 import Paper from "@mui/material/Paper";
 import Container from "@mui/material/Container";
 import InputBase from "@mui/material/InputBase";
-import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import Dialog from "@mui/material/Dialog";

@@ -26,10 +26,6 @@ const settings = [
     href: "/profile",
   },
   {
-    name: "Account Settings",
-    href: "/setting",
-  },
-  {
     name: "Logout",
     href: "/logout",
   },
@@ -182,13 +178,18 @@ function ResponsiveAppBar(props) {
                 <SearchRoundedIcon sx={{ color: "white" }} />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Suggested Users">
+            <Tooltip title="My Network">
               <IconButton size="small" sx={{ color: "white" }}>
                 <PeopleAltRoundedIcon sx={{ color: "white" }} />
               </IconButton>
             </Tooltip>
             <Tooltip title="Accounts Settings">
-              <IconButton size="small" sx={{ color: "white" }}>
+              <IconButton
+                component="a"
+                href="/setting"
+                size="small"
+                sx={{ color: "white" }}
+              >
                 <SettingsRoundedIcon sx={{ color: "white" }} />
               </IconButton>
             </Tooltip>
@@ -235,20 +236,9 @@ function ResponsiveAppBar(props) {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem
-                  key={setting.name}
-                  component={() => (
-                    <Link underline="none" href={setting.href}>
-                      <Typography
-                        sx={{ padding: "5px 10px" }}
-                        style={{ color: "grey" }}
-                        textAlign="center"
-                      >
-                        {setting.name}
-                      </Typography>
-                    </Link>
-                  )}
-                ></MenuItem>
+                <MenuItem key={setting.name} component="a" href={setting.href}>
+                  {setting.name}
+                </MenuItem>
               ))}
             </Menu>
           </Box>
