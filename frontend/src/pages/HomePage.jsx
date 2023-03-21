@@ -149,6 +149,11 @@ function HomePage(props) {
                 profileImg={props.profileImg}
                 userName={props.userName}
                 about={props.about}
+                tagName={props.tagName}
+                color={props.color}
+                followersCount={props.followersCount}
+                followingsCount={props.followingsCount}
+                postCount={0}
               />
             </Grid>
             <Grid

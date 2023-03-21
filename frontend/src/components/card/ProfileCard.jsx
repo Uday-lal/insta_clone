@@ -1,79 +1,92 @@
 import React from "react";
 import Card from "@mui/material/Card";
-import Avatar from "@mui/material/Avatar";
-import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import useAvatar from "../../hooks/useAvatar.jsx";
 
 function ProfileCard(props) {
-  const returnAvatar = (width, height) => {
-    if (props.profileImg) {
-      return (
-        <Avatar
-          src={`/static/uploads/profile_imgs/${props.profileImg}`}
-          alt="Profile Img"
-          sx={{ width: width, height: height }}
-        />
-      );
-    } else {
-      return (
-        <Avatar
-          sx={{
-            bgcolor: props.color,
-            width: width,
-            height: height,
-            fontSize: 30,
-          }}
-        >
-          {props.userName[0]}
-        </Avatar>
-      );
-    }
-  };
   props.width = 80;
   props.height = 80;
 
   return (
-    <Card>
-      <div
-        style={{
-          padding: "20px 0px",
-        }}
-        className="flex flex-column center"
-      >
-        {returnAvatar(80, 80)}
-        <div className="para-section flex flex-column center">
-          <h3 style={{ margin: "10px 0px" }}>{props.userName}</h3>
-          <p className="text-secondary">{props.about}</p>
-        </div>
-        <Grid
-          container
-          style={{
-            marginTop: "40px",
-            borderTop: "1px solid #D9D9D9",
-            padding: "10px",
-          }}
-          spacing={0}
-        >
-          <Grid
-            item
-            className="flex center"
-            style={{
-              width: "50%",
-              flexDirection: "column",
-              borderRight: "1px solid #D9D9D9",
-            }}
-          >
-            <h4 className="text-primary">100</h4>
-            <p className="text-secondary">Following</p>
-          </Grid>
-          <Grid
-            item
-            className="flex center"
-            style={{ width: "50%", flexDirection: "column" }}
-          >
-            <h4 className="text-primary">100</h4>
-            <p className="text-secondary">Followers</p>
-          </Grid>
-        </Grid>
+    <Card
+      sx={{
+        padding: "30px 14px",
+        position: "sticky",
+        top: 90,
+      }}
+    >
+      <div className="upper-postion flex">
+        <Box>
+          {useAvatar(props.profileImg, 80, 80, props.userName, props.color, 25)}
+        </Box>
+        <Box>
+          <Box className="flex" style={{ marginLeft: 10 }}>
+            <Box>
+              <h3 style={{ fontWeight: "revert" }}>{props.userName}</h3>
+              <p
+                className="text-secondary"
+                style={{ fontSize: 14, marginTop: 3 }}
+              >
+                {props.tagName}
+              </p>
+            </Box>
+            <Box>
+              {props.isNotCurrentUserProfile &&
+                (!props.isYouFollowing ? (
+                  <Button
+                    variant="outlined"
+                    sx={{ textTransform: "none" }}
+                    style={{ marginLeft: 20 }}
+                    startIcon={<PersonAddAltRoundedIcon />}
+                    onClick={props.handleFollowRequest}
+                  >
+                    Follow
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outlined"
+                    sx={{ textTransform: "none" }}
+                    style={{ marginLeft: 20 }}
+                    startIcon={<PersonRemoveAlt1RoundedIcon />}
+                    onClick={props.handleUnfollowRequet}
+                  >
+                    Following
+                  </Button>
+                ))}
+            </Box>
+          </Box>
+          <Box className="flex" style={{ marginLeft: 10, marginTop: 10 }}>
+            <Box className="flex center">
+              <h4>{props.followersCount}</h4>
+              &nbsp;
+              <span style={{ fontSize: 12 }} className="text-secondary">
+                Followers
+              </span>
+            </Box>
+            <Box className="flex center" style={{ marginLeft: 10 }}>
+              <h4>{props.followingsCount}</h4>
+              &nbsp;
+              <span style={{ fontSize: 12 }} className="text-secondary">
+                Following
+              </span>
+            </Box>
+            <Box className="flex center" style={{ marginLeft: 10 }}>
+              <h4>{props.postCount}</h4>
+              &nbsp;
+              <span style={{ fontSize: 12 }} className="text-secondary">
+                Post
+              </span>
+            </Box>
+          </Box>
+          <Box style={{ marginTop: 10, marginLeft: 10 }}>
+            <p
+              className="text-secondary"
+              style={{ fontSize: 15, fontWeight: "600" }}
+            >
+              {props.about}
+            </p>
+          </Box>
+        </Box>
       </div>
     </Card>
   );

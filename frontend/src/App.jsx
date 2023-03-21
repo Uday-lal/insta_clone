@@ -93,6 +93,10 @@ function App() {
                   color={profileColor}
                   about={about}
                   tagName={tagName}
+                  userId={userId}
+                  followersCount={followersCount}
+                  followingsCount={followingsCount}
+                  isNotCurrentUserProfile={false}
                 />
               </div>
             </Route>
