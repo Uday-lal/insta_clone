@@ -9,7 +9,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Search from "./Search.jsx";
 import Container from "@mui/material/Container";
 import Tooltip from "@mui/material/Tooltip";
-import Link from "@mui/material/Link";
 import MenuItem from "@mui/material/MenuItem";
 import useAvatar from "../hooks/useAvatar.jsx";
 import InstagramIcon from "@mui/icons-material/Instagram";

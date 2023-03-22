@@ -1,9 +1,6 @@
 import React from "react";
 import Paper from "@mui/material/Paper";
 import Container from "@mui/material/Container";
-import InputBase from "@mui/material/InputBase";
-import IconButton from "@mui/material/IconButton";
-import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -18,6 +15,7 @@ import InputLabel from "@mui/material/InputLabel";
 import useAvatar from "../hooks/useAvatar.jsx";
 import FormControl from "@mui/material/FormControl";
 import ProfileCard from "../components/card/ProfileCard.jsx";
+import Stories from "../components/Stories.jsx";
 import { useState } from "react";
 
 function HomePage(props) {
@@ -136,14 +134,9 @@ function HomePage(props) {
               width: "100%",
             }}
             container
-            spacing={2}
+            spacing={5}
           >
-            <Grid
-              style={{
-                width: "25%",
-              }}
-              item
-            >
+            <Grid xs={3} item>
               <ProfileCard
                 profileImg={props.profileImg}
                 userName={props.userName}
@@ -155,52 +148,24 @@ function HomePage(props) {
                 postCount={0}
               />
             </Grid>
-            <Grid
-              style={{
-                width: "75%",
-              }}
-              item
-            >
+            <Grid xs={6} item>
+              <Stories
+                profileImg={props.profileImg}
+                userName={props.userName}
+                color={props.color}
+              />
+              <div className="post-container">{/* ... */}</div>
+            </Grid>
+            <Grid xs={3} item>
               <Paper
-                component="form"
                 sx={{
-                  p: "10px",
-                  display: "flex",
-                  alignItems: "center",
                   width: "100%",
-                  marginBottom: "20px",
+                  p: "10px",
+                  position: "sticky",
+                  top: 90,
                 }}
               >
-                {useAvatar(
-                  props.profileImg,
-                  40,
-                  40,
-                  props.userName,
-                  props.color
-                )}
-                <InputBase
-                  sx={{ ml: 1, flex: 1 }}
-                  placeholder="What's on your mind?"
-                  readOnly
-                  onClick={() => {
-                    setPostImage("");
-                    setShowPostImg(false);
-                    setOpenModal(true);
-                  }}
-                  inputProps={{ "aria-label": "what's on your mind" }}
-                />
-                <IconButton aria-label="add photos" component="label">
-                  <input
-                    type="file"
-                    name="contentImg"
-                    hidden
-                    onChange={(e) => {
-                      postContentImg(e.target.files[0]);
-                    }}
-                    accept="image/*"
-                  />
-                  <AddPhotoAlternateRoundedIcon />
-                </IconButton>
+                <h3>People you follow</h3>
               </Paper>
             </Grid>
           </Grid>
