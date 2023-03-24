@@ -16,7 +16,10 @@ import useAvatar from "../hooks/useAvatar.jsx";
 import FormControl from "@mui/material/FormControl";
 import ProfileCard from "../components/card/ProfileCard.jsx";
 import Stories from "../components/Stories.jsx";
+import PrimaryIconButton from "../components/PrimaryIconButton.jsx";
 import { useState } from "react";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import { motion } from "framer-motion";
 
 function HomePage(props) {
   const [openModal, setOpenModal] = useState(false);
@@ -26,6 +29,10 @@ function HomePage(props) {
   const [postText, setPostText] = useState("");
   const [visiblty, setVisiblty] = useState();
   const [postData, setPostData] = useState([]);
+  const [postButtonAnimation, setPostButtonAnimation] = useState({});
+  const [postButtonInitAnimation, setPostButtonInitAnimation] = useState({
+    rotate: 0,
+  });
 
   const handlePostSubmit = function (e) {
     e.preventDefault();
@@ -42,9 +49,20 @@ function HomePage(props) {
       }
     });
   };
+
   const handleClose = () => {
     setOpenModal(false);
   };
+
+  const handlePostButtonClick = () => {
+    if (postButtonAnimation.rotate === 45) {
+      // setPostButtonInitAnimation({ rotate: 45 });
+      setPostButtonAnimation({ rotate: 0 });
+    } else {
+      setPostButtonAnimation({ rotate: 45 });
+    }
+  };
+
   return (
     <React.Fragment>
       <Dialog
@@ -171,6 +189,25 @@ function HomePage(props) {
           </Grid>
         </Container>
       </Container>
+      <motion.div
+        style={{
+          position: "absolute",
+          bottom: 1,
+          right: 1,
+          margin: "30px",
+        }}
+        initial={postButtonInitAnimation}
+        animate={postButtonAnimation}
+      >
+        <PrimaryIconButton
+          onClick={() => setPostButtonAnimation({ rotate: 45 })}
+          sx={{ padding: "20px" }}
+        >
+          <AddRoundedIcon
+            sx={{ color: "white", width: "30px", height: "30px" }}
+          />
+        </PrimaryIconButton>
+      </motion.div>
     </React.Fragment>
   );
 }

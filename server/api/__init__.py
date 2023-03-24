@@ -7,6 +7,7 @@ from .follow import Follow
 from .love import Love
 from .comments import Comments
 from .search import Search
+from .postRecommendations import PostRecommendation
 
 def initializeApis(api: Api):
     api.add_resource(User, "/api/user")
@@ -17,3 +18,4 @@ def initializeApis(api: Api):
     api.add_resource(Follow, "/api/follow")
     api.add_resource(Search, "/api/search")
     api.add_resource(Comments, "/api/comments")
+    api.add_resource(PostRecommendation, "/api/post_recommendation")

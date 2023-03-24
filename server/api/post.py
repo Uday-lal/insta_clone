@@ -60,7 +60,7 @@ class Post(PostResource):
         token = self.readUserToken()
         createdTime = time.time()
         data = {
-            "user_id": token,
+            "user_id": ObjectId(token),
             "post": post,
             "visibility": visibility,
             "img_content": img_name,

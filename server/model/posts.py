@@ -11,8 +11,8 @@ class PostModel(Modal):
                 'required': ['user_id', 'post', 'visibility', 'img_content', 'created_at'],
                 'properties': {
                     'user_id': {
-                        'bsonType': 'string',
-                        'description': "'user_id' must be a string and is required"
+                        'bsonType': 'objectId',
+                        'description': "'user_id' must be a objectId and is required"
                     },
                     'post': {
                         'bsonType': 'string',
