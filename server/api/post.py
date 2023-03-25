@@ -23,7 +23,10 @@ class Post(PostResource):
                 return postData, 200
             except Exception:
                 return {'message': "Bad request"}, 400
-        return self.__getAllTheUserPost(), 200
+        try:
+            return self.__getAllTheUserPost(), 200
+        except Exception:
+            return {'message': "Bad request"}, 400
 
     def __getAllTheUserPost(self):
         userId = request.args.get('user_id')

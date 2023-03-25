@@ -38,20 +38,22 @@ function ProfilePage(props) {
     : "/api/post";
 
   useEffect(() => {
-    fetch(url, {
-      method: "GET",
-      headers: {
-        "content-type": "application/json;charset=UTF-8",
-      },
-    })
-      .then((responce) => {
-        if (responce.ok) {
-          return responce.json();
-        }
+    if (props.userId) {
+      fetch(url, {
+        method: "GET",
+        headers: {
+          "content-type": "application/json;charset=UTF-8",
+        },
       })
-      .then((data) => {
-        setPostData(data);
-      });
+        .then((responce) => {
+          if (responce.ok) {
+            return responce.json();
+          }
+        })
+        .then((data) => {
+          setPostData(data);
+        });
+    }
   }, [props.userId]);
 
   const handleClose = () => {
