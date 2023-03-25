@@ -16,10 +16,12 @@ import useAvatar from "../hooks/useAvatar.jsx";
 import FormControl from "@mui/material/FormControl";
 import ProfileCard from "../components/card/ProfileCard.jsx";
 import Stories from "../components/Stories.jsx";
-import PrimaryIconButton from "../components/PrimaryIconButton.jsx";
+import IconButtons from "../components/UrsIconButtons.jsx";
 import { useState } from "react";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { motion } from "framer-motion";
+import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
+import TextSnippetRoundedIcon from "@mui/icons-material/TextSnippetRounded";
 
 function HomePage(props) {
   const [openModal, setOpenModal] = useState(false);
@@ -30,6 +32,11 @@ function HomePage(props) {
   const [visiblty, setVisiblty] = useState();
   const [postData, setPostData] = useState([]);
   const [postButtonAnimation, setPostButtonAnimation] = useState({});
+  const [imageButtonAnimation, setImageButtonAnimation] = useState({});
+  const [textButtonAnimation, setTextButtonAnimation] = useState({});
+  // Initial animation state
+  const [imageButtonInitAnimation, setImageButtonInitAnimation] = useState({});
+  const [textButtonInitAnimation, setTextButtonInitAnimation] = useState({});
   const [postButtonInitAnimation, setPostButtonInitAnimation] = useState({
     rotate: 0,
   });
@@ -56,10 +63,14 @@ function HomePage(props) {
 
   const handlePostButtonClick = () => {
     if (postButtonAnimation.rotate === 45) {
-      // setPostButtonInitAnimation({ rotate: 45 });
+      setPostButtonInitAnimation({ rotate: 45 });
       setPostButtonAnimation({ rotate: 0 });
     } else {
       setPostButtonAnimation({ rotate: 45 });
+      setImageButtonInitAnimation({ y: 0 });
+      setTextButtonInitAnimation({ y: 0 });
+      imageButtonAnimation({ y: -20 });
+      textButtonAnimation({ y: -40 });
     }
   };
 
@@ -195,18 +206,49 @@ function HomePage(props) {
           bottom: 1,
           right: 1,
           margin: "30px",
+          zIndex: 5,
         }}
         initial={postButtonInitAnimation}
         animate={postButtonAnimation}
       >
-        <PrimaryIconButton
-          onClick={() => setPostButtonAnimation({ rotate: 45 })}
+        <IconButtons.PrimaryIconButton
+          onClick={handlePostButtonClick}
           sx={{ padding: "20px" }}
         >
           <AddRoundedIcon
             sx={{ color: "white", width: "30px", height: "30px" }}
           />
-        </PrimaryIconButton>
+        </IconButtons.PrimaryIconButton>
+      </motion.div>
+      <motion.div
+        style={{
+          position: "absolute",
+          bottom: 1,
+          right: 1,
+          margin: "30px",
+          zIndex: 1,
+        }}
+        initial={{ y: 0 }}
+        animate={imageButtonAnimation}
+      >
+        <IconButtons.DangerIconButton sx={{ padding: "20px", zIndex: 1 }}>
+          <AddPhotoAlternateRoundedIcon sx={{ color: "white" }} />
+        </IconButtons.DangerIconButton>
+      </motion.div>
+      <motion.div
+        style={{
+          position: "absolute",
+          bottom: 1,
+          right: 1,
+          margin: "30px",
+          zIndex: 1,
+        }}
+        initial={{ y: 0 }}
+        animate={textButtonAnimation}
+      >
+        <IconButtons.SuccessIconButton sx={{ padding: "20px" }}>
+          <TextSnippetRoundedIcon sx={{ color: "white" }} />
+        </IconButtons.SuccessIconButton>
       </motion.div>
     </React.Fragment>
   );
