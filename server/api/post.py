@@ -18,14 +18,17 @@ class Post(PostResource):
     def get(self):
         postId = request.args.get('id')
         if postId is not None:
-            postData = self.postModal.read({'_id': ObjectId(str(postId))})
-            return postData, 200
+            try:
+                postData = self.postModal.read({'_id': ObjectId(str(postId))})
+                return postData, 200
+            except Exception:
+                return {'message': "Bad request"}, 400
         return self.__getAllTheUserPost(), 200
 
     def __getAllTheUserPost(self):
         userId = request.args.get('user_id')
         token = self.readUserToken() if userId is None else userId
-        posts_cursor = self.postModal.readAll(token)
+        posts_cursor = self.postModal.readAll(ObjectId(token))
         loveModal = LoveModal()
         posts = []
         for post in posts_cursor:
@@ -34,6 +37,7 @@ class Post(PostResource):
             loveCount = loveModal.getDataCount({'post_id': str(post['_id'])})
             isLoved = loveModal.isUserLovedPost(self.token, str(post['_id']))
             post["_id"] = str(post['_id'])
+            post["user_id"] = str(post['user_id'])
             post['timespan'] = timespan
             post['loves'] = loveCount
             post['is_loved'] = isLoved

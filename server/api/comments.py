@@ -18,7 +18,7 @@ class Comments(CommentResource):
             return abort(400, "Bad request")
 
         if not self.__varifyPostId(postId):
-            return abort(400, "Bad request")
+            return abort(404, "Not found")
 
         comments = list(self.commentModal.readAll(
            ObjectId(postId)

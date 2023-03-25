@@ -19,7 +19,7 @@ const AddImageIconButton = styled(IconButton)({
 
 function Stories(props) {
   return (
-    <Card className="flex p-15 w-100">
+    <Card className="flex p-15 w-100" sx={{ marginBottom: "20px" }}>
       <Badge
         overlap="circular"
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}

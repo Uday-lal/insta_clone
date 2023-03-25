@@ -17,9 +17,10 @@ import FormControl from "@mui/material/FormControl";
 import ProfileCard from "../components/card/ProfileCard.jsx";
 import Stories from "../components/Stories.jsx";
 import IconButtons from "../components/UrsIconButtons.jsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { motion } from "framer-motion";
+import Post from "../components/Post.jsx";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import TextSnippetRoundedIcon from "@mui/icons-material/TextSnippetRounded";
 
@@ -41,13 +42,30 @@ function HomePage(props) {
     rotate: 0,
   });
 
+  useEffect(() => {
+    fetch("/api/post_recommendation", {
+      method: "GET",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+      },
+    })
+      .then((responce) => {
+        if (responce.ok) {
+          return responce.json();
+        }
+      })
+      .then((data) => {
+        setPostData(data);
+      });
+  }, [props.userId]);
+
   const handlePostSubmit = function (e) {
     e.preventDefault();
     const formData = new FormData();
     formData.append("post", postText);
     formData.append("visibility", visiblty);
     formData.append("img_content", postImgData);
-    fetch(url, {
+    fetch("/api/post", {
       method: "POST",
       body: formData,
     }).then((responce) => {
@@ -61,16 +79,33 @@ function HomePage(props) {
     setOpenModal(false);
   };
 
+  const postContentImg = (img) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(img);
+    setPostImgData(img);
+    reader.onload = () => {
+      setPostImage(reader.result);
+      setShowPostImg(true);
+      setOpenModal(true);
+      handlePostButtonClick();
+    };
+  };
+
   const handlePostButtonClick = () => {
     if (postButtonAnimation.rotate === 45) {
       setPostButtonInitAnimation({ rotate: 45 });
       setPostButtonAnimation({ rotate: 0 });
+
+      setImageButtonInitAnimation({ y: -160 });
+      setTextButtonInitAnimation({ y: -80 });
+      setImageButtonAnimation({ y: 0 });
+      setTextButtonAnimation({ y: 0 });
     } else {
       setPostButtonAnimation({ rotate: 45 });
       setImageButtonInitAnimation({ y: 0 });
       setTextButtonInitAnimation({ y: 0 });
-      imageButtonAnimation({ y: -20 });
-      textButtonAnimation({ y: -40 });
+      setImageButtonAnimation({ y: -160 });
+      setTextButtonAnimation({ y: -80 });
     }
   };
 
@@ -83,7 +118,7 @@ function HomePage(props) {
         onClose={handleClose}
       >
         <DialogTitle>Post</DialogTitle>
-        <form onSubmit={handlePostSubmit} method="POST">
+        <form onSubmit={handlePostSubmit}>
           <DialogContent>
             <Box
               sx={{
@@ -183,7 +218,28 @@ function HomePage(props) {
                 userName={props.userName}
                 color={props.color}
               />
-              <div className="post-container">{/* ... */}</div>
+              <div className="post-container">
+                {postData.map((post) => {
+                  return (
+                    <Post
+                      id={post._id}
+                      key={post._id}
+                      userName={post.username}
+                      tagName={post.tag_name}
+                      timespan={post.timespan}
+                      profileImg={post.profile_img}
+                      color={post.color}
+                      imageContent={post.img_content}
+                      textContent={post.post}
+                      loves={post.loves}
+                      isLoved={post.is_loved}
+                      style={{
+                        marginBottom: "20px",
+                      }}
+                    />
+                  );
+                })}
+              </div>
             </Grid>
             <Grid xs={3} item>
               <Paper
@@ -228,10 +284,24 @@ function HomePage(props) {
           margin: "30px",
           zIndex: 1,
         }}
-        initial={{ y: 0 }}
+        transition={{ type: "tween" }}
+        initial={imageButtonInitAnimation}
         animate={imageButtonAnimation}
       >
-        <IconButtons.DangerIconButton sx={{ padding: "20px", zIndex: 1 }}>
+        <IconButtons.DangerIconButton
+          aria-label="add photos"
+          component="label"
+          sx={{ padding: "20px", zIndex: 1 }}
+        >
+          <input
+            type="file"
+            name="contentImg"
+            hidden
+            onChange={(e) => {
+              postContentImg(e.target.files[0]);
+            }}
+            accept="image/*"
+          />
           <AddPhotoAlternateRoundedIcon sx={{ color: "white" }} />
         </IconButtons.DangerIconButton>
       </motion.div>
@@ -243,10 +313,17 @@ function HomePage(props) {
           margin: "30px",
           zIndex: 1,
         }}
-        initial={{ y: 0 }}
+        transition={{ type: "tween" }}
+        initial={textButtonInitAnimation}
         animate={textButtonAnimation}
       >
-        <IconButtons.SuccessIconButton sx={{ padding: "20px" }}>
+        <IconButtons.SuccessIconButton
+          onClick={() => {
+            setOpenModal(true);
+            handlePostButtonClick();
+          }}
+          sx={{ padding: "20px" }}
+        >
           <TextSnippetRoundedIcon sx={{ color: "white" }} />
         </IconButtons.SuccessIconButton>
       </motion.div>

@@ -258,7 +258,7 @@ function ProfilePage(props) {
                         </span>
                       </Box>
                       <Box className="flex center" style={{ marginLeft: 10 }}>
-                        <h4>{postData.length}</h4>
+                        <h4>{postData && postData.length}</h4>
                         &nbsp;
                         <span
                           style={{ fontSize: 12 }}
@@ -325,26 +325,27 @@ function ProfilePage(props) {
                 </Paper>
               )}
               <div className="post-container">
-                {postData.map((post) => {
-                  return (
-                    <Post
-                      id={post._id}
-                      key={post._id}
-                      userName={props.userName}
-                      tagName={props.tagName}
-                      timespan={post.timespan}
-                      profileImg={props.profileImg}
-                      color={props.color}
-                      imageContent={post.img_content}
-                      textContent={post.post}
-                      loves={post.loves}
-                      isLoved={post.is_loved}
-                      style={{
-                        marginBottom: "20px",
-                      }}
-                    />
-                  );
-                })}
+                {postData &&
+                  postData.map((post) => {
+                    return (
+                      <Post
+                        id={post._id}
+                        key={post._id}
+                        userName={props.userName}
+                        tagName={props.tagName}
+                        timespan={post.timespan}
+                        profileImg={props.profileImg}
+                        color={props.color}
+                        imageContent={post.img_content}
+                        textContent={post.post}
+                        loves={post.loves}
+                        isLoved={post.is_loved}
+                        style={{
+                          marginBottom: "20px",
+                        }}
+                      />
+                    );
+                  })}
               </div>
             </Grid>
             <Grid xs={3} item>
