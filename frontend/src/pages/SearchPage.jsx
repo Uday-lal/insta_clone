@@ -111,6 +111,7 @@ function SearchPage(props) {
       }
     });
   };
+  console.log(props);
 
   return (
     <>
@@ -129,6 +130,9 @@ function SearchPage(props) {
         followingsCount={followingsCount}
         handleFollowRequest={handleFollowRequest}
         handleUnfollowRequet={handleUnfollowRequet}
+        currentUserProfile={props.profileImg}
+        currentUserName={props.userName}
+        currentUserColor={props.color}
       />
       <Collapse
         style={{

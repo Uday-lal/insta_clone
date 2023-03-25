@@ -1,6 +1,7 @@
 from .resource.followResource import FollowResource
 from bson.objectid import ObjectId
 from ..helpers.timeFormat import TimeFormat
+from ..model.loveModal import LoveModal
 
 
 class PostRecommendation(FollowResource):
@@ -57,11 +58,16 @@ class PostRecommendation(FollowResource):
             {'$unwind': '$color'},
         ])
         postData = []
+        loveModal = LoveModal()
         for data in postCousor:
             timeFormat = TimeFormat(data['created_at'])
             data['timespan'] = timeFormat.getTimeSpan()
             data['_id'] = str(data['post_id'])
             data['user_id'] = str(data['user_id'])
+            loveCount = loveModal.getDataCount({'post_id': str(data['_id'])})
+            isLoved = loveModal.isUserLovedPost(self.token, str(data['_id']))
+            data['loves'] = loveCount
+            data['is_loved'] = isLoved
             del data['post_id']
             postData.append(data)
         

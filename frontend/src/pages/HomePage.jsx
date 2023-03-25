@@ -233,6 +233,10 @@ function HomePage(props) {
                       textContent={post.post}
                       loves={post.loves}
                       isLoved={post.is_loved}
+                      showEdit={post.user_id == props.userId}
+                      currentUserProfile={props.profileImg}
+                      currentUserName={props.userName}
+                      currentUserColor={props.color}
                       style={{
                         marginBottom: "20px",
                       }}
@@ -258,7 +262,7 @@ function HomePage(props) {
       </Container>
       <motion.div
         style={{
-          position: "absolute",
+          position: "fixed",
           bottom: 1,
           right: 1,
           margin: "30px",
@@ -278,7 +282,7 @@ function HomePage(props) {
       </motion.div>
       <motion.div
         style={{
-          position: "absolute",
+          position: "fixed",
           bottom: 1,
           right: 1,
           margin: "30px",
@@ -307,7 +311,7 @@ function HomePage(props) {
       </motion.div>
       <motion.div
         style={{
-          position: "absolute",
+          position: "fixed",
           bottom: 1,
           right: 1,
           margin: "30px",

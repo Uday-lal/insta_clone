@@ -52,7 +52,9 @@ function Post(props) {
   const [postImgData, setPostImgData] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [openComments, setOpenComments] = useState(false);
-  const [loveCount, setLoveCount] = useState(props.loves);
+  const [loveCount, setLoveCount] = props.loves
+    ? useState(props.loves)
+    : useState(0);
   const classes = useStyles();
   const [isLoved, setIsLoved] = useState(props.isLoved);
   const [loveIcon, setLoveIcon] = isLoved
@@ -457,7 +459,13 @@ function Post(props) {
             style={{ position: "sticky", bottom: 1 }}
           >
             <div className="post-comments flex">
-              {useAvatar(props.profileImg, 39, 39, props.userName, props.color)}
+              {useAvatar(
+                props.currentUserProfile,
+                39,
+                39,
+                props.currentUserName,
+                props.currentUserColor
+              )}
               <form class="w-100" onSubmit={handleCommentSubmit}>
                 <div
                   className="flex w-100"
@@ -531,20 +539,22 @@ function Post(props) {
               </p>
             </div>
           </div>
-          <Tooltip title="Edit Post">
-            <IconButton
-              aria-controls={menuOpen ? "edit-post" : undefined}
-              aria-expanded={menuOpen ? "true" : undefined}
-              aria-label="more"
-              aria-haspopup="true"
-              onClick={(e) => {
-                setMenuOpen(true);
-                setAnchorEl(e.currentTarget);
-              }}
-            >
-              <MoreVertRoundedIcon />
-            </IconButton>
-          </Tooltip>
+          {props.showEdit && (
+            <Tooltip title="Edit Post">
+              <IconButton
+                aria-controls={menuOpen ? "edit-post" : undefined}
+                aria-expanded={menuOpen ? "true" : undefined}
+                aria-label="more"
+                aria-haspopup="true"
+                onClick={(e) => {
+                  setMenuOpen(true);
+                  setAnchorEl(e.currentTarget);
+                }}
+              >
+                <MoreVertRoundedIcon />
+              </IconButton>
+            </Tooltip>
+          )}
         </div>
         <div className="post-content">
           <p style={{ marginTop: "20px" }}>{props.textContent}</p>

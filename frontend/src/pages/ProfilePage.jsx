@@ -342,6 +342,10 @@ function ProfilePage(props) {
                         textContent={post.post}
                         loves={post.loves}
                         isLoved={post.is_loved}
+                        showEdit={!props.isNotCurrentUserProfile}
+                        currentUserProfile={props.currentUserProfile}
+                        currentUserName={props.currentUserName}
+                        currentUserColor={props.currentUserColor}
                         style={{
                           marginBottom: "20px",
                         }}

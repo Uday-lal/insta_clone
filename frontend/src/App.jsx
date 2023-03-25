@@ -125,7 +125,11 @@ function App() {
                   profileImg={profileImg}
                   color={profileColor}
                 />
-                <SearchPage />
+                <SearchPage
+                  userName={username}
+                  profileImg={profileImg}
+                  color={profileColor}
+                />
               </div>
             </Route>
             <Route path="/profile">
@@ -148,6 +152,9 @@ function App() {
                   followersCount={followersCount}
                   followingsCount={followingsCount}
                   postUrl={"/api/post"}
+                  currentUserProfile={profileImg}
+                  currentUserName={username}
+                  currentUserColor={profileColor}
                 />
               </div>
             </Route>
