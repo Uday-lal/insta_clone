@@ -77,6 +77,8 @@ function HomePage(props) {
 
   const handleClose = () => {
     setOpenModal(false);
+    setPostImage(null);
+    setShowPostImg(false);
   };
 
   const postContentImg = (img) => {

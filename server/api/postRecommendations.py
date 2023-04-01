@@ -2,6 +2,8 @@ from .resource.followResource import FollowResource
 from bson.objectid import ObjectId
 from ..helpers.timeFormat import TimeFormat
 from ..model.loveModal import LoveModal
+from pprint import pprint
+from ..model.posts import PostModel
 
 
 class PostRecommendation(FollowResource):
@@ -57,9 +59,45 @@ class PostRecommendation(FollowResource):
             {'$unwind': '$user_id'},
             {'$unwind': '$color'},
         ])
-        postData = []
         loveModal = LoveModal()
-        for data in postCousor:
+        postModal = PostModel()
+        userPostData = list(
+            postModal.collection.aggregate([
+                {'$match': {'user_id': ObjectId(self.token)}},
+                {'$sort': {'created_at': -1}},
+                {
+                    '$lookup': {
+                        'from': 'users',
+                        'localField': 'user_id',
+                        'foreignField': '_id',
+                        'as': 'users'
+                    }
+                },
+                {
+                    '$project': {
+                        '_id': {
+                            '$toString': '$_id'
+                        },
+                        'username': '$users.name',
+                        'tag_name': '$users.tag_name',
+                        'profile_img': '$users.profile_img',
+                        'user_id': '$users._id',
+                        'color': '$users.color',
+                        'post': '$post',
+                        'img_content': '$img_content',
+                        'visibility': '$visibility',
+                        'created_at': '$created_at',
+                    }
+                },
+                {'$unwind': '$username'},
+                {'$unwind': '$tag_name'},
+                {'$unwind': '$profile_img'},
+                {'$unwind': '$color'},
+                {'$unwind': '$user_id'},
+            ])
+        )
+        postData = list(postCousor)
+        for data in postData:
             timeFormat = TimeFormat(data['created_at'])
             data['timespan'] = timeFormat.getTimeSpan()
             data['_id'] = str(data['post_id'])
@@ -69,6 +107,10 @@ class PostRecommendation(FollowResource):
             data['loves'] = loveCount
             data['is_loved'] = isLoved
             del data['post_id']
-            postData.append(data)
-        
+        if len(userPostData) != 0:
+            userPostData[0]['user_id'] = str(userPostData[0]['user_id'])
+            timeFormat = TimeFormat(userPostData[0]['created_at'])
+            userPostData[0]['timespan'] = timeFormat.getTimeSpan()
+            postData.insert(0, userPostData[0])
+
         return postData

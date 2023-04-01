@@ -20,6 +20,7 @@ class Post(PostResource):
         if postId is not None:
             try:
                 postData = self.postModal.read({'_id': ObjectId(str(postId))})
+                postData['user_id'] = str(postData['user_id'])
                 return postData, 200
             except Exception:
                 return {'message': "Bad request"}, 400
