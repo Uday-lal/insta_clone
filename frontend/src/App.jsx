@@ -26,6 +26,7 @@ function App() {
   const [tagName, setTagName] = useState("");
   const [followersCount, setFollowersCount] = useState();
   const [followingsCount, setFollowingsCount] = useState();
+  const [postCount, setPostCount] = useState();
   const [connectionData, setConnectionData] = useState();
 
   useEffect(() => {
@@ -45,6 +46,7 @@ function App() {
           setAbout(data.about);
           setEmail(data.email);
           setTagName(data.tag_name);
+          setPostCount(data.post_count);
           getFollowData(data.id);
         });
       } else {
@@ -97,6 +99,7 @@ function App() {
                   followersCount={followersCount}
                   followingsCount={followingsCount}
                   isNotCurrentUserProfile={false}
+                  postCount={postCount}
                 />
               </div>
             </Route>

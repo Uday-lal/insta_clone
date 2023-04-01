@@ -211,7 +211,7 @@ function HomePage(props) {
                 color={props.color}
                 followersCount={props.followersCount}
                 followingsCount={props.followingsCount}
-                postCount={0}
+                postCount={props.postCount}
               />
             </Grid>
             <Grid xs={6} item>

@@ -61,6 +61,7 @@ function Post(props) {
     ? useState(<FavoriteRoundedIcon />)
     : useState(<FavoriteBorderRoundedIcon />);
   const [comments, setComments] = useState([]);
+  const [deletePostImg, setDeletePostImg] = useState(false);
 
   const handleClose = () => {
     setMenuOpen(false);
@@ -77,6 +78,7 @@ function Post(props) {
     formData.append("post", postText);
     formData.append("visibility", visiblty);
     formData.append("img_content", postImgData);
+    formData.append("delete_post_img", deletePostImg);
     fetch(`/api/post?id=${props.id}`, {
       method: "PUT",
       body: formData,
@@ -92,6 +94,7 @@ function Post(props) {
   const removePhoto = () => {
     setPostImg(null);
     setPostImgData(null);
+    setDeletePostImg(true);
   };
 
   const getPostData = (id) => {
