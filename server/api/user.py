@@ -2,6 +2,7 @@ from .resource.usersResource import UserResource
 from flask import abort, request
 from bson.objectid import ObjectId
 from ..model.followModal import FollowModal
+from ..model.posts import PostModel
 
 class User(UserResource):
     def __init__(self, *args, **kwargs):
@@ -14,6 +15,8 @@ class User(UserResource):
         userData = self.userModel.read(query)
         if userData is not None:
             followModal = FollowModal()
+            postModal = PostModel()
+            postCount = postModal.getDataCount({'user_id': ObjectId(userData["_id"])})
             followData = followModal.read({
                 'user_id': ObjectId(token), 
                 'following_id': ObjectId(userData["_id"])
@@ -25,6 +28,7 @@ class User(UserResource):
                 "profile_img": userData["profile_img"],
                 "profile_color": userData["color"],
                 "about": userData["about"],
+                'post_count': postCount,
                 "tag_name": userData["tag_name"],
                 'is_you_following': followData is not None,
             }

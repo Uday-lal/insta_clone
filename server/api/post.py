@@ -92,29 +92,38 @@ class Post(PostResource):
             filePath = os.path.join(os.getcwd(), 'server', 'static', 'uploads', 'posts', imgContent)
             if os.path.exists(filePath):
                 os.remove(filePath)
-
+    
+    def __varifyPostId(self, postId: ObjectId) -> bool:
+        postData = self.postModal.read({'_id': postId})
+        return postData is not None
 
     def put(self):
         self.parser.add_argument('post', type=str, help="post has to string", location="form")
         self.parser.add_argument('visibility', type=str, help="visibility has to be string", location="form")
+        self.parser.add_argument('delete_post_img', type=bool, help="delete_post_img has to be bool", location="form")
         self.parser.add_argument(
             "img_content", 
             type=werkzeug.datastructures.FileStorage,
             location="files"
         )
         postId = request.args.get('id')
-        if postId is None:
+        if postId is None and self.__varifyPostId(ObjectId(postId)):
             return abort(400, "Post id is required")
         args = self.parser.parse_args()
         post = args['post']
         visibility = args['visibility']
+        delete_post_img = args['delete_post_img']
         img_content = args['img_content']
         if img_content is not None:
             self.__deleteOldPostImg(postId)
             img_name = self.__savePostImg(img_content)
         else:
-            self.__deleteOldPostImg(postId)
-            img_name = None
+            if delete_post_img:
+                self.__deleteOldPostImg(postId)
+                img_name = None
+            else:
+                post_data = self.postModal.read({'_id': ObjectId(postId)})
+                img_name = post_data['img_content']
 
         updateData = {
             'post': post, 

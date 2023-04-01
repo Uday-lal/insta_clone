@@ -110,6 +110,10 @@ class PostRecommendation(FollowResource):
         if len(userPostData) != 0:
             userPostData[0]['user_id'] = str(userPostData[0]['user_id'])
             timeFormat = TimeFormat(userPostData[0]['created_at'])
+            loveCount = loveModal.getDataCount({'post_id': str(userPostData[0]['_id'])})
+            isLoved = loveModal.isUserLovedPost(self.token, str(userPostData[0]['_id']))
+            userPostData[0]['loves'] = loveCount
+            userPostData[0]['is_loved'] = isLoved
             userPostData[0]['timespan'] = timeFormat.getTimeSpan()
             postData.insert(0, userPostData[0])
 
