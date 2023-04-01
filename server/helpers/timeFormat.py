@@ -24,6 +24,7 @@ class TimeFormat:
         daysPass = delta.days
         monthsPass = daysPass // 30
         yearsPass = monthsPass // 12
+        weeksPass = daysPass // 7
 
         if minutesPass < 1:
             timespan = "Less than a minute"
@@ -35,6 +36,9 @@ class TimeFormat:
         
         if daysPass != 0:
             timespan = f"{daysPass}d"
+
+        if weeksPass != 0:
+            timespan = f"{weeksPass}w"
         
         if monthsPass != 0:
             timespan = f"{monthsPass}m"
