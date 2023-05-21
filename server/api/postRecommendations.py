@@ -23,14 +23,14 @@ class PostRecommendation(FollowResource):
                     'as': 'posts'
                 }
             },
-            {
-                '$lookup': {
-                    'from': 'users',
-                    'localField': 'following_id',
-                    'foreignField': '_id',
-                    'as': 'users'
-                }
-            },
+            # {
+            #     '$lookup': {
+            #         'from': 'users',
+            #         'localField': 'following_id',
+            #         'foreignField': '_id',
+            #         'as': 'users'
+            #     }
+            # },
             {
                 '$project': {
                     '_id': {
